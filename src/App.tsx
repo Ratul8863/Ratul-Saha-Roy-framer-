@@ -18,8 +18,6 @@ import {
   GraduationCap,
   Award,
   Download,
-  Menu,
-  X,
   Server,
   Flame,
   Braces,
@@ -27,16 +25,14 @@ import {
   Layers
 } from "lucide-react";
 import { useState, useEffect } from "react";
+import { Link, Routes, Route, useLocation } from "react-router-dom";
+import type { Project } from "./data/projects";
+import { PROJECTS } from "./data/projects";
+import { Navbar } from "./components/Navbar";
+import { BackToTop } from "./components/BackToTop";
+import ProjectsPage from "./pages/ProjectsPage";
 
 // --- Types ---
-interface Project {
-  title: string;
-  description: string;
-  tags: string[];
-  link: string;
-  image: string;
-  category: string;
-}
 
 interface Experience {
   role: string;
@@ -53,45 +49,6 @@ const RESUME_HREF = "/doc/RATUL%20SAHA%20ROY_New_FS.pdf";
 const LINKEDIN_HREF = "https://www.linkedin.com/in/ratulroy8863";
 
 // --- Data ---
-const PROJECTS: Project[] = [
-  {
-    title: "Assubah",
-    description:
-      "Developed a modern, responsive marketing and platform experience for Assubah—structured layout, clear information hierarchy, and attention to performance. Focused on clean UI, smooth interactions, and a maintainable front-end so the site stays fast and easy to extend.",
-    tags: ["React", "Tailwind CSS", "Responsive UI", "Performance"],
-    link: "https://www.assubah.com/",
-    image: "https://picsum.photos/seed/assubah/800/600",
-    category: "Live site"
-  },
-  {
-    title: "As-Subah Outreach",
-    description:
-      "Charity website for sustainable support across multiple countries—donations, appeals, and impact storytelling for As-Subah Outreach. Emphasis on readable content, responsive sections, and reliable structure so donors can explore appeals and trust how the organization presents its work online.",
-    tags: ["React", "Express", "MongoDB", "REST APIs"],
-    link: "https://www.assubahoutreach.com/",
-    image: "https://picsum.photos/seed/outreach/800/600",
-    category: "Live site"
-  },
-  {
-    title: "Hostel Meals",
-    description:
-      "Full stack app for hostel meal management: role-based access, orders, and secure flows. Sharpens my MERN patterns—REST APIs, auth-minded design, and dashboards that stay usable on mobile.",
-    tags: ["React", "Node.js", "Stripe", "JWT"],
-    link: "#",
-    image: "https://picsum.photos/seed/hostel/800/600",
-    category: "Full stack"
-  },
-  {
-    title: "HobbyHub",
-    description:
-      "Community product for discovering and joining local hobby groups—real-time friendly features with Firebase plus Express APIs. Practice in list/detail UX, forms, and collaborative data.",
-    tags: ["React", "Firebase", "Express"],
-    link: "#",
-    image: "https://picsum.photos/seed/hobby/800/600",
-    category: "Community"
-  }
-];
-
 const EXPERIENCES: Experience[] = [
   {
     role: "Web Developer Intern",
@@ -111,119 +68,25 @@ const EXPERIENCES: Experience[] = [
 
 // --- Components ---
 
-type NavLinkItem = { href: string; label: string; cta?: boolean };
-
-const navLinks: NavLinkItem[] = [
-  { href: "#home", label: "Home" },
-  { href: "#about", label: "About" },
-  { href: "#services", label: "Services" },
-  { href: "#projects", label: "Projects" },
-  { href: "#contact", label: "Contact", cta: true },
-];
-
-const Navbar = () => {
-  const [mobileOpen, setMobileOpen] = useState(false);
-
+function ScrollToTop() {
+  const { pathname, hash } = useLocation();
   useEffect(() => {
-    if (!mobileOpen) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMobileOpen(false);
-    };
-    document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", onKey);
-    };
-  }, [mobileOpen]);
-
-  return (
-    <motion.nav 
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      className="fixed top-3 left-3 right-3 sm:top-6 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 z-50 sm:w-fit sm:max-w-none max-w-none"
-    >
-      <div className="glass-pill px-3 py-2.5 sm:px-6 sm:py-3 flex items-center justify-between gap-3 sm:gap-8 sm:justify-start">
-        <div className="flex items-center gap-2 min-w-0">
-          <div className="w-8 h-8 shrink-0 rounded-full bg-accent flex items-center justify-center text-white font-bold text-xs">R</div>
-          <span className="text-[10px] sm:text-xs font-semibold tracking-widest uppercase hidden sm:block truncate max-w-[9rem] sm:max-w-none">MERN · Sylhet</span>
-          <div className="w-2 h-2 shrink-0 rounded-full bg-green-500 animate-pulse" aria-hidden />
-        </div>
-        <div className="hidden lg:flex items-center gap-4 xl:gap-6 text-[10px] xl:text-[11px] font-bold uppercase tracking-widest text-black/60 flex-wrap justify-end">
-          {navLinks.map(({ href, label, cta }) =>
-            cta ? (
-              <a key={href} href={href} className="px-4 py-2 bg-black text-white rounded-full hover:opacity-90 transition-opacity">
-                {label}
-              </a>
-            ) : (
-              <a key={href} href={href} className="hover:text-black transition-colors">
-                {label}
-              </a>
-            )
-          )}
-        </div>
-        <button
-          type="button"
-          className="lg:hidden flex items-center justify-center w-10 h-10 rounded-full border border-black/10 bg-white/80 text-black"
-          aria-expanded={mobileOpen}
-          aria-controls="mobile-nav"
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
-          onClick={() => setMobileOpen((o) => !o)}
-        >
-          {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
-      </div>
-
-      <AnimatePresence>
-        {mobileOpen && (
-          <>
-            <motion.button
-              type="button"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="lg:hidden fixed inset-0 top-0 z-40 bg-black/40 backdrop-blur-sm"
-              aria-label="Close menu"
-              onClick={() => setMobileOpen(false)}
-            />
-            <motion.div
-              id="mobile-nav"
-              role="dialog"
-              aria-modal="true"
-              aria-label="Site navigation"
-              initial={{ opacity: 0, y: -12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.2 }}
-              className="lg:hidden absolute left-0 right-0 top-[calc(100%+0.5rem)] z-50 rounded-3xl border border-black/10 bg-white/95 backdrop-blur-md shadow-xl p-4 max-h-[min(70vh,28rem)] overflow-y-auto"
-            >
-              <div className="flex flex-col gap-1">
-                {navLinks.map(({ href, label, cta }) => (
-                  <a
-                    key={href}
-                    href={href}
-                    className={
-                      cta
-                        ? "mt-2 text-center py-3.5 rounded-full bg-black text-white text-xs font-bold uppercase tracking-widest"
-                        : "py-3.5 px-4 rounded-2xl text-sm font-bold uppercase tracking-widest text-black/70 hover:bg-muted hover:text-black transition-colors"
-                    }
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    {label}
-                  </a>
-                ))}
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-    </motion.nav>
-  );
-};
+    if (hash) {
+      const id = hash.replace("#", "");
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+    }
+    window.scrollTo(0, 0);
+  }, [pathname, hash]);
+  return null;
+}
 
 const Hero = () => {
   return (
-    <section id="home" className="min-h-dvh flex flex-col items-center justify-center pt-28 pb-12 sm:pt-32 sm:pb-16 px-4 sm:px-6 overflow-x-hidden">
+    <section id="home" className="flex min-h-dvh flex-col items-center justify-center overflow-x-hidden px-5 pb-12 pt-28 sm:px-8 sm:pb-16 sm:pt-32 lg:px-10 xl:px-12">
       <div className="max-w-6xl w-full min-w-0 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-10 xl:gap-12 items-center">
         <div className="lg:col-span-7 min-w-0 max-w-full space-y-6 sm:space-y-8 order-2 lg:order-1 text-center lg:text-left lg:pr-2 xl:pr-6">
           <motion.div
@@ -266,10 +129,9 @@ const Hero = () => {
             className="relative z-10 isolate aspect-[4/5] rounded-[28px] sm:rounded-[36px] lg:rounded-[40px] overflow-hidden shadow-2xl"
           >
             <img 
-              src="https://picsum.photos/seed/ratul/800/1000" 
+              src="/profileimage.png" 
               alt="Ratul Saha Roy" 
-              className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
-              referrerPolicy="no-referrer"
+              className="w-full h-full object-cover object-top grayscale hover:grayscale-0 transition-all duration-700"
             />
             <div className="absolute bottom-4 left-4 right-4 sm:bottom-8 sm:left-8 sm:right-8 p-4 sm:p-6 glass-pill flex items-center justify-between gap-3">
               <div className="min-w-0">
@@ -310,7 +172,7 @@ const Hero = () => {
 
 const About = () => {
   return (
-    <section id="about" className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6 bg-muted">
+    <section id="about" className="bg-muted px-5 py-16 sm:px-8 sm:py-24 lg:px-10 lg:py-32 xl:px-12">
       <div className="max-w-6xl mx-auto w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
           <div className="space-y-8 sm:space-y-12">
@@ -459,7 +321,7 @@ const ProjectCard = ({ project, index }: ProjectCardProps) => {
 
 const Projects = () => {
   return (
-    <section id="projects" className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6">
+    <section id="projects" className="px-5 py-16 sm:px-8 sm:py-24 lg:px-10 lg:py-32 xl:px-12">
       <div className="max-w-6xl mx-auto w-full">
         <div className="flex flex-col md:flex-row md:justify-between md:items-end mb-12 sm:mb-16 lg:mb-20 gap-6 sm:gap-8">
           <motion.div
@@ -482,6 +344,22 @@ const Projects = () => {
             <ProjectCard key={i} project={project} index={i} />
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.15, duration: 0.5 }}
+          className="mt-12 flex justify-center sm:mt-16"
+        >
+          <Link
+            to="/projects"
+            className="glass-pill group inline-flex items-center gap-3 px-8 py-4 text-[10px] font-bold uppercase tracking-[0.25em] text-black/70 transition-all hover:border-black/15 hover:text-black"
+          >
+            View all projects
+            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:rotate-45" />
+          </Link>
+        </motion.div>
       </div>
     </section>
   );
@@ -504,7 +382,7 @@ const TechStack = () => {
   ];
 
   return (
-    <section className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6 bg-black text-white overflow-hidden">
+    <section className="overflow-hidden bg-black px-5 py-16 text-white sm:px-8 sm:py-24 lg:px-10 lg:py-32 xl:px-12">
       <div className="max-w-6xl mx-auto w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 xl:gap-20 items-center">
           <div className="lg:col-span-5 text-center lg:text-left">
@@ -542,7 +420,7 @@ const TechStack = () => {
 
 const Contact = () => {
   return (
-    <section id="contact" className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6">
+    <section id="contact" className="px-5 py-16 sm:px-8 sm:py-24 lg:px-10 lg:py-32 xl:px-12">
       <div className="max-w-6xl mx-auto w-full">
         <div className="bg-muted rounded-[28px] sm:rounded-[40px] lg:rounded-[60px] p-6 sm:p-12 md:p-16 lg:p-24 overflow-hidden relative">
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 xl:gap-20">
@@ -617,7 +495,7 @@ const Contact = () => {
 
 const Footer = () => {
   return (
-    <footer className="py-8 sm:py-12 px-4 sm:px-6 border-t border-black/5 bg-white">
+    <footer className="border-t border-black/5 bg-white px-5 py-8 sm:px-8 sm:py-12 lg:px-10 xl:px-12">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-8 text-center md:text-left">
         <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
           <div className="w-10 h-10 shrink-0 rounded-full bg-black flex items-center justify-center text-white font-bold">R</div>
@@ -633,38 +511,6 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-  );
-};
-
-const BackToTop = () => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const toggleVisibility = () => {
-      if (window.pageYOffset > 500) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
-    };
-    window.addEventListener("scroll", toggleVisibility);
-    return () => window.removeEventListener("scroll", toggleVisibility);
-  }, []);
-
-  return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.button
-          initial={{ opacity: 0, scale: 0.8, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.8, y: 20 }}
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-40 w-12 h-12 sm:w-14 sm:h-14 bg-black text-white rounded-full flex items-center justify-center shadow-2xl hover:bg-accent transition-colors"
-        >
-          <ArrowUpRight className="w-6 h-6 -rotate-45" />
-        </motion.button>
-      )}
-    </AnimatePresence>
   );
 };
 
@@ -692,6 +538,12 @@ const SERVICES = [
   }
 ];
 
+const SERVICE_IMAGE_BY_ID: Record<string, string> = {
+  "01": "/service-01.png",
+  "02": "/service-02.png",
+  "03": "/service-03.png",
+};
+
 const TESTIMONIALS = [
   {
     name: "Team feedback",
@@ -709,17 +561,21 @@ const TESTIMONIALS = [
 
 const Services = () => {
   const [activeTab, setActiveTab] = useState("01");
+  const serviceImageSrc =
+    SERVICE_IMAGE_BY_ID[activeTab] ?? SERVICE_IMAGE_BY_ID["01"];
 
   return (
-    <section id="services" className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6 bg-white">
-      <div className="max-w-6xl mx-auto w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 xl:gap-20">
-          <div className="space-y-8 sm:space-y-12 order-2 lg:order-1">
+    <section id="services" className="bg-white py-16 sm:py-24 lg:py-32 px-5 sm:px-8 lg:px-10 xl:px-12">
+      <div className="mx-auto w-full max-w-6xl">
+        <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:gap-10 xl:gap-12">
+          <div className="min-w-0 space-y-8 sm:space-y-12 lg:col-span-5 xl:col-span-5 2xl:col-span-6">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
             >
-              <h2 className="text-[clamp(2.25rem,min(10vw,14dvh),5.5rem)] lg:text-[clamp(2.5rem,min(8vw,12dvh),6rem)] leading-none mb-6 sm:mb-8">What I <br /> Can Do</h2>
+              <h2 className="mb-6 text-[clamp(2.25rem,min(10vw,14dvh),5.5rem)] leading-none sm:mb-8 lg:mb-8 lg:text-[clamp(2.25rem,min(7vw,11dvh),5.25rem)] lg:whitespace-nowrap xl:text-[clamp(2.5rem,min(6.5vw,12dvh),5.75rem)]">
+                What I Can Do
+              </h2>
               <p className="text-base sm:text-lg lg:text-xl text-black/60 font-light leading-relaxed">
                 Three ways I help teams and my own projects: solid front-end implementation, MERN-style full stack delivery, and clean integration between apps, APIs, and data stores.
               </p>
@@ -758,7 +614,22 @@ const Services = () => {
                         exit={{ height: 0, opacity: 0 }}
                         className="overflow-hidden"
                       >
-                        <p className="mt-4 sm:mt-6 text-sm sm:text-base lg:text-lg opacity-60 font-light leading-relaxed">
+                        {/* Mobile: same language as project cards — neutral, no glow */}
+                        <div className="relative mt-4 overflow-hidden rounded-2xl border border-white/15 bg-white/[0.06] sm:rounded-[24px] lg:hidden">
+                          <div className="flex min-h-[200px] items-center justify-center p-4 sm:min-h-[220px] sm:p-5">
+                            <motion.img
+                              key={activeTab}
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              transition={{ duration: 0.35 }}
+                              src={serviceImageSrc}
+                              alt=""
+                              className="max-h-[min(52vw,280px)] w-full object-contain object-center sm:max-h-[min(48vw,300px)]"
+                              referrerPolicy="no-referrer"
+                            />
+                          </div>
+                        </div>
+                        <p className="mt-4 text-sm font-light leading-relaxed opacity-60 sm:mt-5 sm:text-base lg:mt-6 lg:text-lg">
                           {service.description}
                         </p>
                       </motion.div>
@@ -769,18 +640,34 @@ const Services = () => {
             </div>
           </div>
 
-          <div className="relative w-full aspect-[4/3] sm:aspect-square mx-auto lg:mx-0 rounded-[32px] sm:rounded-[48px] lg:rounded-[60px] overflow-hidden order-1 lg:order-2 max-w-lg lg:max-w-none">
-            <motion.img
-              key={activeTab}
-              initial={{ scale: 1.2, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 1 }}
-              src={`https://picsum.photos/seed/service-${activeTab}/1000/1000`}
-              alt="Service"
-              className="w-full h-full object-cover grayscale"
-              referrerPolicy="no-referrer"
-            />
-            <div className="absolute inset-0 bg-accent/10 mix-blend-overlay" />
+          <div className="relative hidden lg:col-span-7 lg:mt-20 lg:block xl:col-span-7 xl:mt-24 2xl:col-span-6">
+            <div className="overflow-hidden rounded-[28px] border border-black/5 bg-white sm:rounded-[32px] lg:rounded-[36px] xl:rounded-[40px]">
+              <div className="flex items-center justify-between gap-4 border-b border-black/5 px-5 py-3.5 sm:px-6">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-black/40">
+                  Preview
+                </span>
+                <motion.span
+                  key={activeTab}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="rounded-full bg-muted px-3 py-1 text-[10px] font-bold tabular-nums text-black/55"
+                >
+                  {activeTab}
+                </motion.span>
+              </div>
+              <div className="flex min-h-[min(48vh,440px)] items-center justify-center bg-muted p-6 sm:min-h-[min(50vh,480px)] sm:p-8 xl:min-h-[min(52vh,520px)]">
+                <motion.img
+                  key={activeTab}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.4 }}
+                  src={serviceImageSrc}
+                  alt=""
+                  className="h-auto max-h-[min(52vh,500px)] w-full object-contain object-center xl:max-h-[min(54vh,540px)]"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -790,7 +677,7 @@ const Services = () => {
 
 const Testimonials = () => {
   return (
-    <section className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6 bg-muted">
+    <section className="bg-muted px-5 py-16 sm:px-8 sm:py-24 lg:px-10 lg:py-32 xl:px-12">
       <div className="max-w-6xl mx-auto w-full">
         <div className="text-center mb-12 sm:mb-16 lg:mb-20">
           <h2 className="text-[clamp(2.25rem,min(10vw,14dvh),5.5rem)] lg:text-[clamp(2.5rem,min(8vw,12dvh),6rem)] leading-none mb-4 sm:mb-6">Client <br /> Voices</h2>
@@ -825,7 +712,7 @@ const Testimonials = () => {
   );
 };
 
-export default function App() {
+function HomePage() {
   return (
     <div className="relative">
       <Navbar />
@@ -838,11 +725,22 @@ export default function App() {
       <Contact />
       <Footer />
       <BackToTop />
-      
-      {/* Global background elements */}
-      <div className="fixed inset-0 -z-50 pointer-events-none">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(93,95,239,0.03),transparent_70%)]" />
+
+      <div className="pointer-events-none fixed inset-0 -z-50">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(93,95,239,0.03),transparent_70%)]" />
       </div>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <>
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/projects" element={<ProjectsPage />} />
+      </Routes>
+    </>
   );
 }
