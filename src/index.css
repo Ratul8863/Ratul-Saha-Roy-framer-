@@ -12,8 +12,12 @@
 }
 
 @layer base {
+  html {
+    overflow-x: hidden;
+  }
+
   body {
-    @apply font-sans bg-bg text-ink selection:bg-accent selection:text-white;
+    @apply font-sans bg-bg text-ink selection:bg-accent selection:text-white overflow-x-hidden;
   }
   
   h1, h2, h3 {
