@@ -328,7 +328,7 @@ const Projects = () => {
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
           >
-            <h2 className="text-[clamp(2.25rem,min(10vw,14dvh),5.5rem)] lg:text-[clamp(2.5rem,min(8vw,12dvh),6rem)] leading-none">Featured <br /> Projects</h2>
+            <h2 className="text-[clamp(2.25rem,min(10vw,14dvh),5.5rem)] lg:text-[clamp(2.5rem,min(8vw,12dvh),6rem)] leading-none text-nowrap">Featured Projects</h2>
           </motion.div>
           <motion.p 
             initial={{ opacity: 0, x: 30 }}
@@ -680,7 +680,7 @@ const Testimonials = () => {
     <section className="bg-muted px-5 py-16 sm:px-8 sm:py-24 lg:px-10 lg:py-32 xl:px-12">
       <div className="max-w-6xl mx-auto w-full">
         <div className="text-center mb-12 sm:mb-16 lg:mb-20">
-          <h2 className="text-[clamp(2.25rem,min(10vw,14dvh),5.5rem)] lg:text-[clamp(2.5rem,min(8vw,12dvh),6rem)] leading-none mb-4 sm:mb-6">Client <br /> Voices</h2>
+          <h2 className="text-[clamp(2.25rem,min(10vw,14dvh),5.5rem)] lg:text-[clamp(2.5rem,min(8vw,12dvh),6rem)] leading-none mb-4 sm:mb-6 text-nowrap">Client Voices</h2>
           <p className="text-black/40 font-light italic text-sm sm:text-base px-2">"Trust is the foundation of every great project."</p>
         </div>
 
