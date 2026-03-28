@@ -24,7 +24,7 @@ import {
   Link2,
   Layers
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, Routes, Route, useLocation } from "react-router-dom";
 import type { Project } from "./data/projects";
 import { PROJECTS } from "./data/projects";
@@ -181,7 +181,9 @@ const About = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
             >
-              <h2 className="text-[clamp(2.25rem,min(10vw,14dvh),5.5rem)] lg:text-[clamp(2.5rem,min(8vw,12dvh),6rem)] leading-none mb-6 sm:mb-8">My <br /> Journey</h2>
+              <h2 className="whitespace-nowrap text-[clamp(2.25rem,min(10vw,14dvh),5.5rem)] lg:text-[clamp(2.5rem,min(8vw,12dvh),6rem)] leading-none mb-6 sm:mb-8 [text-wrap:normal]">
+                My Journey
+              </h2>
               <div className="text-base sm:text-lg lg:text-xl text-black/60 font-light leading-relaxed space-y-4">
                 <p>
                   I am a passionate and dedicated web developer with a strong focus on building modern, responsive, and user-friendly web applications. I enjoy the MERN stack and love crafting interfaces with smooth animations and interactions—as a developer who cares about UX, not as a separate UI/UX designer role.
@@ -549,29 +551,38 @@ const SERVICES = [
     title: "Responsive UI (front-end)",
     description:
       "I turn layouts into fast, responsive React and Tailwind interfaces—clear structure, thoughtful spacing, and motion where it helps. I am a developer who cares about usability and polish; I do not position myself as a dedicated UI/UX designer, but I ship interfaces that feel intentional.",
-    icon: <Layout className="w-6 h-6" />
+    bullets: [
+      "Component-driven React and Tailwind UI",
+      "Responsive layouts, spacing, and readable structure",
+      "Motion only where it supports usability and polish"
+    ],
+    imageSrc: "/service-01.png"
   },
   {
     id: "02",
     title: "Full stack (MERN)",
     description:
       "End-to-end features with MongoDB, Express, React, and Node—REST APIs, auth-aware flows, and dashboards that stay maintainable. Same mindset I use on internships and personal builds: real data, real constraints, real users.",
-    icon: <Code2 className="w-6 h-6" />
+    bullets: [
+      "MERN features from database to dashboard",
+      "REST APIs and auth-aware product flows",
+      "Maintainable code under real data and constraints"
+    ],
+    imageSrc: "/service-02.png"
   },
   {
     id: "03",
     title: "APIs, data & integrations",
     description:
       "REST APIs, Firebase when the product needs realtime or auth helpers, and sensible database choices (MongoDB or MySQL). I focus on predictable contracts between client and server so features are easier to test and extend.",
-    icon: <Link2 className="w-6 h-6" />
+    bullets: [
+      "REST APIs with clear, predictable contracts",
+      "Firebase when realtime or auth helpers fit the product",
+      "MongoDB or MySQL chosen to match the problem"
+    ],
+    imageSrc: "/service-03.png"
   }
-];
-
-const SERVICE_IMAGE_BY_ID: Record<string, string> = {
-  "01": "/service-01.png",
-  "02": "/service-02.png",
-  "03": "/service-03.png",
-};
+] as const;
 
 const TESTIMONIALS = [
   {
@@ -588,117 +599,135 @@ const TESTIMONIALS = [
   }
 ];
 
+function useFinePointerHover(): boolean {
+  const [match, setMatch] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const apply = () => setMatch(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+  return match;
+}
+
 const Services = () => {
-  const [activeTab, setActiveTab] = useState("01");
-  const serviceImageSrc =
-    SERVICE_IMAGE_BY_ID[activeTab] ?? SERVICE_IMAGE_BY_ID["01"];
+  const hasFineHover = useFinePointerHover();
+  const [hoverId, setHoverId] = useState<string | null>(null);
+  const [focusId, setFocusId] = useState<string | null>(null);
+  const [mobileOpenId, setMobileOpenId] = useState<string | null>(null);
+  const expandedId = hasFineHover ? hoverId ?? focusId : mobileOpenId;
 
   return (
-    <section id="services" className="bg-white py-16 sm:py-24 lg:py-32 px-5 sm:px-8 lg:px-10 xl:px-12">
-      <div className="mx-auto w-full max-w-6xl">
-        <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:gap-10 xl:gap-12">
-          <div className="min-w-0 space-y-8 sm:space-y-12 lg:col-span-5 xl:col-span-5 2xl:col-span-6">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-            >
-              <h2 className="mb-6 text-[clamp(2.25rem,min(10vw,14dvh),5.5rem)] leading-none sm:mb-8 lg:mb-8 lg:text-[clamp(2.25rem,min(7vw,11dvh),5.25rem)] lg:whitespace-nowrap xl:text-[clamp(2.5rem,min(6.5vw,12dvh),5.75rem)]">
-                What I Can Do
-              </h2>
-              <p className="text-base sm:text-lg lg:text-xl text-black/60 font-light leading-relaxed">
-                Three ways I help teams and my own projects: solid front-end implementation, MERN-style full stack delivery, and clean integration between apps, APIs, and data stores.
-              </p>
-            </motion.div>
+    <section
+      id="services"
+      className="bg-white px-5 py-16 text-black sm:px-8 sm:py-24 lg:px-10 lg:py-32 xl:px-12"
+    >
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 sm:gap-12 lg:gap-14">
+        <motion.header
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.4 }}
+          className="max-w-3xl"
+        >
+          <h2 className="font-display text-[80px] font-extrabold uppercase leading-[1.08] tracking-tight">
+            What I Can Do
+          </h2>
+          <p className="mt-5 text-base font-normal leading-relaxed text-[#4B5563] sm:mt-6 sm:text-lg">
+            Three ways I help teams and my own projects: solid front-end implementation, MERN-style full stack delivery, and clean integration between apps, APIs, and data stores.
+          </p>
+        </motion.header>
 
-            <div className="space-y-3 sm:space-y-4">
-              {SERVICES.map((service) => (
-                <motion.div
-                  key={service.id}
-                  layout
-                  onClick={() => setActiveTab(service.id)}
-                  className={`p-5 sm:p-6 lg:p-8 rounded-2xl sm:rounded-[28px] lg:rounded-[32px] cursor-pointer transition-all duration-500 border ${
-                    activeTab === service.id 
-                    ? "bg-black text-white border-black" 
-                    : "bg-muted text-black border-transparent hover:border-black/10"
-                  }`}
+        <ul
+          role="list"
+          className="divide-y divide-neutral-200 border-y border-neutral-200"
+        >
+          {SERVICES.map((service) => {
+            const isOpen = expandedId === service.id;
+            return (
+              <li
+                key={service.id}
+                className="cursor-default"
+                onMouseEnter={() => {
+                  if (hasFineHover) setHoverId(service.id);
+                }}
+                onMouseLeave={() => {
+                  if (hasFineHover) setHoverId(null);
+                }}
+                onFocusCapture={() => {
+                  if (hasFineHover) setFocusId(service.id);
+                }}
+                onBlurCapture={(e) => {
+                  if (
+                    hasFineHover &&
+                    !e.currentTarget.contains(e.relatedTarget as Node | null)
+                  ) {
+                    setFocusId(null);
+                  }
+                }}
+              >
+                <button
+                  type="button"
+                  id={`service-trigger-${service.id}`}
+                  aria-expanded={isOpen}
+                  aria-controls={`service-panel-${service.id}`}
+                  className="flex w-full cursor-default items-center py-6 text-left font-display text-base font-bold uppercase tracking-wide text-black transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black/20 sm:py-7 sm:text-lg lg:text-xl"
+                  onClick={() => {
+                    if (!hasFineHover) {
+                      setMobileOpenId((prev) =>
+                        prev === service.id ? null : service.id
+                      );
+                    }
+                  }}
                 >
-                  <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
-                    <div className="flex items-center gap-3 sm:gap-4 lg:gap-6 min-w-0">
-                      <span className="text-xl sm:text-2xl font-display opacity-40 shrink-0">{service.id}</span>
-                      <h3 className="text-lg sm:text-2xl lg:text-3xl font-display leading-tight">{service.title}</h3>
-                    </div>
+                  {service.title}
+                </button>
+                <AnimatePresence initial={false}>
+                  {isOpen && (
                     <motion.div
-                      animate={{ rotate: activeTab === service.id ? 45 : 0 }}
-                      className="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-full border border-current flex items-center justify-center self-end sm:self-auto"
+                      id={`service-panel-${service.id}`}
+                      role="region"
+                      aria-labelledby={`service-trigger-${service.id}`}
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{
+                        duration: 0.38,
+                        ease: [0.25, 0.1, 0.25, 1]
+                      }}
+                      className="overflow-hidden"
                     >
-                      <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5" />
-                    </motion.div>
-                  </div>
-                  
-                  <AnimatePresence>
-                    {activeTab === service.id && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        className="overflow-hidden"
-                      >
-                        {/* Mobile: same language as project cards — neutral, no glow */}
-                        <div className="relative mt-4 overflow-hidden rounded-2xl border border-white/15 bg-white/[0.06] sm:rounded-[24px] lg:hidden">
-                          <div className="flex min-h-[200px] items-center justify-center p-4 sm:min-h-[220px] sm:p-5">
-                            <motion.img
-                              key={activeTab}
-                              initial={{ opacity: 0 }}
-                              animate={{ opacity: 1 }}
-                              transition={{ duration: 0.35 }}
-                              src={serviceImageSrc}
+                      <div className="grid grid-cols-1 gap-8 pb-8 pt-1 lg:grid-cols-2 lg:gap-14 lg:pb-10 lg:pt-0">
+                        <div className="min-w-0 space-y-5">
+                          <p className="text-sm leading-relaxed text-[#4B5563] sm:text-base">
+                            {service.description}
+                          </p>
+                          <ul className="list-disc space-y-2.5 pl-5 text-sm leading-relaxed text-[#4B5563] marker:text-black/35 sm:text-base">
+                            {service.bullets.map((line) => (
+                              <li key={line}>{line}</li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div className="relative min-h-[12rem] lg:min-h-[14rem]">
+                          <div className="relative overflow-hidden rounded-[28px] border border-black/5 bg-muted sm:rounded-[32px] lg:rounded-[36px]">
+                            <img
+                              src={service.imageSrc}
                               alt=""
-                              className="max-h-[min(52vw,280px)] w-full object-contain object-center sm:max-h-[min(48vw,300px)]"
-                              referrerPolicy="no-referrer"
+                              className="block max-h-[min(52vw,320px)] w-full object-cover object-center lg:max-h-[min(40vw,360px)]"
+                              loading="lazy"
+                              decoding="async"
                             />
                           </div>
                         </div>
-                        <p className="mt-4 text-sm font-light leading-relaxed opacity-60 sm:mt-5 sm:text-base lg:mt-6 lg:text-lg">
-                          {service.description}
-                        </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          <div className="relative hidden lg:col-span-7 lg:mt-20 lg:block xl:col-span-7 xl:mt-24 2xl:col-span-6">
-            <div className="overflow-hidden rounded-[28px] border border-black/5 bg-white sm:rounded-[32px] lg:rounded-[36px] xl:rounded-[40px]">
-              <div className="flex items-center justify-between gap-4 border-b border-black/5 px-5 py-3.5 sm:px-6">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-black/40">
-                  Preview
-                </span>
-                <motion.span
-                  key={activeTab}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="rounded-full bg-muted px-3 py-1 text-[10px] font-bold tabular-nums text-black/55"
-                >
-                  {activeTab}
-                </motion.span>
-              </div>
-              <div className="flex min-h-[min(48vh,440px)] items-center justify-center bg-muted p-6 sm:min-h-[min(50vh,480px)] sm:p-8 xl:min-h-[min(52vh,520px)]">
-                <motion.img
-                  key={activeTab}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.4 }}
-                  src={serviceImageSrc}
-                  alt=""
-                  className="h-auto max-h-[min(52vh,500px)] w-full object-contain object-center xl:max-h-[min(54vh,540px)]"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </section>
   );

@@ -4,24 +4,16 @@
  */
 
 import { Link, useParams } from "react-router-dom";
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, type ReactNode } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   ArrowLeft,
   ArrowRight,
   ArrowUpRight,
-  Calendar,
   ExternalLink,
-  LayoutGrid,
-  Layers2,
   Mail,
-  Target,
-  TrendingUp,
-  User,
   Download,
-  Github,
-  Linkedin,
 } from "lucide-react";
 import { Navbar } from "../components/Navbar";
 import { BackToTop } from "../components/BackToTop";
@@ -117,6 +109,57 @@ function DetailFooter() {
 }
 
 /* ------------------------------------------------------------------ */
+/*  Case study layout helpers                                          */
+/* ------------------------------------------------------------------ */
+
+function DetailMetaRow({
+  label,
+  children,
+}: {
+  label: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="grid grid-cols-1 gap-1 border-b border-neutral-200 py-4 sm:grid-cols-[minmax(0,9rem)_1fr] sm:items-start sm:gap-12 sm:py-5 lg:grid-cols-[minmax(0,11rem)_1fr]">
+      <div className="text-[10px] font-bold uppercase tracking-widest text-black/45">
+        {label}
+      </div>
+      <div className="min-w-0 text-sm font-normal leading-relaxed text-black/75 sm:text-base">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function SectionTwoCol({
+  id,
+  label,
+  labelClassName,
+  children,
+}: {
+  id?: string;
+  label: string;
+  labelClassName?: string;
+  children: ReactNode;
+}) {
+  return (
+    <div
+      id={id}
+      className="grid grid-cols-1 gap-8 sm:gap-10 lg:grid-cols-12 lg:gap-14 xl:gap-16"
+    >
+      <div className="lg:col-span-3 lg:pt-1">
+        <p
+          className={`text-[10px] font-bold uppercase tracking-[0.2em] text-black/45 ${labelClassName ?? ""}`}
+        >
+          {label}
+        </p>
+      </div>
+      <div className="min-w-0 lg:col-span-9">{children}</div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /*  Main content                                                       */
 /* ------------------------------------------------------------------ */
 
@@ -138,6 +181,10 @@ function ProjectDetailContent({
   const imgWrapRef = useRef<HTMLDivElement>(null);
   const canVisit = project.link && project.link !== "#";
 
+  const galleryAll = project.gallery ?? [];
+  const galleryForGrid =
+    galleryAll.length > 1 ? galleryAll.slice(1) : [];
+
   /* ── GSAP animations ── */
   useLayoutEffect(() => {
     const root = rootRef.current;
@@ -157,8 +204,8 @@ function ProjectDetailContent({
         stagger: 0.06,
       })
         .from(
-          ".pd-meta > *",
-          { opacity: 0, y: 14, scale: 0.96, duration: 0.45, stagger: 0.07 },
+          ".pd-meta",
+          { opacity: 0, y: 14, duration: 0.45 },
           "-=0.35"
         )
         .from(
@@ -305,28 +352,19 @@ function ProjectDetailContent({
       );
 
       /* --- Sidebar --- */
-      scrollReveal(".pd-aside", {
+      scrollReveal(".pd-meta-table", {
         opacity: 0,
-        y: 32,
-        duration: 0.85,
+        y: 24,
+        duration: 0.75,
         ease: "power3.out",
       });
 
-      scrollReveal(
-        ".pd-tag",
-        {
-          opacity: 0,
-          y: 14,
-          rotateZ: -3,
-          duration: 0.45,
-          stagger: {
-            each: 0.05,
-            from: "random",
-          },
-          ease: "power2.out",
-        },
-        ".pd-tag-wrap"
-      );
+      scrollReveal(".pd-visit-inline", {
+        opacity: 0,
+        y: 16,
+        duration: 0.55,
+        ease: "power2.out",
+      });
 
       /* --- Case study --- */
       scrollReveal(
@@ -335,20 +373,32 @@ function ProjectDetailContent({
           opacity: 0,
           y: 20,
           duration: 0.55,
+          stagger: 0.08,
         },
         ".pd-case-section"
       );
 
       scrollReveal(
-        ".pd-case-card",
+        ".pd-case-block",
         {
           opacity: 0,
           y: 28,
           duration: 0.65,
-          stagger: 0.14,
+          stagger: 0.12,
           ease: "power2.out",
         },
-        ".pd-case-grid"
+        ".pd-case-section"
+      );
+
+      scrollReveal(
+        ".pd-break-figure",
+        {
+          opacity: 0,
+          y: 32,
+          duration: 0.7,
+          ease: "power2.out",
+        },
+        ".pd-break-section"
       );
 
       /* --- Gallery --- */
@@ -507,298 +557,300 @@ function ProjectDetailContent({
       <main className="px-5 pb-16 pt-28 sm:px-8 sm:pb-20 sm:pt-32 lg:px-10 xl:px-12">
         <div ref={rootRef} className="mx-auto max-w-6xl">
 
-          {/* ============================================================ */}
-          {/*  SECTION 1 — HEADER BLOCK                                    */}
-          {/* ============================================================ */}
-          <header className="mb-10 sm:mb-14 lg:mb-16">
-            {/* Breadcrumbs */}
-            <div className="mb-8 flex flex-wrap items-center gap-3">
-              <Link
-                to="/projects"
-                className="pd-back glass-pill inline-flex items-center gap-2 px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] text-black/55 transition-colors hover:text-black"
-              >
-                <ArrowLeft className="h-4 w-4" aria-hidden />
-                All projects
-              </Link>
-              <Link
-                to="/"
-                className="pd-back text-[10px] font-bold uppercase tracking-[0.2em] text-black/35 transition-colors hover:text-black/60"
-              >
-                Home
-              </Link>
-            </div>
+          {/* Breadcrumbs */}
+          <div className="mb-8 flex flex-wrap items-center gap-3 sm:mb-10">
+            <Link
+              to="/projects"
+              className="pd-back glass-pill inline-flex items-center gap-2 px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] text-black/55 transition-colors hover:text-black"
+            >
+              <ArrowLeft className="h-4 w-4" aria-hidden />
+              All projects
+            </Link>
+            <Link
+              to="/"
+              className="pd-back text-[10px] font-bold uppercase tracking-[0.2em] text-black/35 transition-colors hover:text-black/60"
+            >
+              Home
+            </Link>
+          </div>
 
-            {/* Meta strip */}
-            <div className="pd-meta mb-6 flex flex-wrap items-center gap-4">
-              <span className="inline-block rounded-full bg-muted px-3 py-1 text-[9px] font-bold uppercase tracking-widest text-black/50 ring-1 ring-black/5">
-                {project.category}
-              </span>
-              {project.year && project.year !== "—" && (
-                <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-black/40">
-                  <Calendar className="h-3.5 w-3.5" aria-hidden />
-                  {project.year}
-                </span>
-              )}
-              {project.role && (
-                <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-black/40">
-                  <User className="h-3.5 w-3.5" aria-hidden />
-                  {project.role}
-                </span>
-              )}
-            </div>
-
-            {/* Title */}
-            <h1 className="mb-6 max-w-4xl font-display text-[clamp(2.25rem,min(8vw,12dvh),4.5rem)] font-extrabold leading-[0.95] tracking-tight [text-wrap:normal] sm:text-[clamp(2.5rem,min(7vw,11dvh),5rem)]">
-              {titleWords.map((word, i) => (
-                <span
-                  key={`${slug}-w-${i}`}
-                  className="inline-block overflow-hidden align-bottom"
-                >
-                  <span className="pd-title-word inline-block will-change-transform">
-                    {word}
-                    {i < titleWords.length - 1 ? "\u00A0" : ""}
-                  </span>
-                </span>
-              ))}
-            </h1>
-
-            {/* Description */}
-            <p className="pd-lead max-w-2xl text-base font-light leading-relaxed text-black/55 sm:text-lg">
-              {project.description}
-            </p>
-
-            {/* CTA */}
-            {canVisit && (
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="pd-cta relative z-[1] mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-black px-7 py-3.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white opacity-100 transition-opacity hover:opacity-90 sm:mt-8 sm:inline-flex sm:w-auto"
-              >
-                Visit live site
-                <ArrowUpRight className="h-4 w-4" aria-hidden />
-              </a>
-            )}
-          </header>
-
-          {/* ============================================================ */}
-          {/*  SECTION 2 — HERO IMAGE                                      */}
-          {/* ============================================================ */}
+          {/* Hero — full-width image + title overlay (theme: scrim + white type) */}
           <figure
             ref={figureRef}
-            className="pd-figure mb-16 overflow-hidden rounded-[24px] border border-black/5 bg-muted sm:mb-20 sm:rounded-[32px] lg:mb-24 lg:rounded-[36px]"
+            className="pd-figure relative mb-12 overflow-hidden rounded-[24px] border border-black/5 bg-black sm:mb-14 sm:rounded-[28px] lg:mb-16 lg:rounded-[32px]"
           >
             <div
               ref={imgWrapRef}
-              className="aspect-[16/10] w-full will-change-transform sm:aspect-[16/9]"
+              className="aspect-[16/11] w-full will-change-transform sm:aspect-[21/9] lg:aspect-[2.2/1]"
             >
               <img
                 src={project.image}
                 alt={project.title}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover opacity-90"
                 referrerPolicy="no-referrer"
                 onLoad={() => ScrollTrigger.refresh()}
               />
             </div>
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/20" />
+            <figcaption className="absolute inset-x-0 bottom-0 p-6 sm:p-8 lg:p-10">
+              <p className="pd-meta mb-3 text-[10px] font-bold uppercase tracking-[0.25em] text-white/60">
+                {project.category}
+                {project.year && project.year !== "—" ? ` · ${project.year}` : ""}
+              </p>
+              <h1 className="max-w-4xl font-display text-[clamp(2rem,min(7vw,10dvh),4rem)] font-extrabold leading-[0.98] tracking-tight text-white [text-wrap:normal] sm:text-[clamp(2.25rem,min(6vw,9dvh),4.5rem)]">
+                {titleWords.map((word, i) => (
+                  <span
+                    key={`${slug}-w-${i}`}
+                    className="inline-block overflow-hidden align-bottom"
+                  >
+                    <span className="pd-title-word inline-block will-change-transform">
+                      {word}
+                      {i < titleWords.length - 1 ? "\u00A0" : ""}
+                    </span>
+                  </span>
+                ))}
+              </h1>
+            </figcaption>
           </figure>
 
-          {/* ============================================================ */}
-          {/*  SECTION 3 — OVERVIEW + SIDEBAR                              */}
-          {/*  Mobile: overview first, sidebar second                       */}
-          {/*  Desktop (lg+): side-by-side 7/5 split                       */}
-          {/* ============================================================ */}
-          <div className="grid grid-cols-1 gap-10 border-t border-black/[0.06] pt-16 sm:gap-12 sm:pt-20 lg:grid-cols-12 lg:gap-14 lg:pt-24 xl:gap-16">
-            {/* LEFT — Overview + Highlights */}
-            <div
-              id="overview"
-              className="pd-copy min-w-0 lg:col-span-7 xl:col-span-8"
+          <p className="pd-lead mb-10 max-w-3xl text-base font-light leading-relaxed text-[#4B5563] sm:mb-12 sm:text-lg">
+            {project.description}
+          </p>
+
+          {/* Overview — narrow label / wide content + meta table */}
+          <section
+            id="overview"
+            className="border-t border-black/[0.06] pt-14 sm:pt-16 lg:pt-20"
+          >
+            <SectionTwoCol
+              label="Overview"
+              labelClassName="pd-overview-head"
             >
-              <h2 className="pd-overview-head mb-6 font-display text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">
-                Overview
-              </h2>
-              <div className="space-y-5 text-base font-light leading-relaxed text-black/60 sm:text-lg">
-                {project.overview.map((para, i) => (
-                  <p key={i} className="pd-para">
-                    {para}
-                  </p>
-                ))}
-              </div>
-
-              {project.highlights && project.highlights.length > 0 && (
-                <>
-                  <h3 className="pd-high-head mb-4 mt-10 font-display text-xl font-extrabold tracking-tight sm:text-2xl">
-                    Highlights
-                  </h3>
-                  <ul className="pd-high-list space-y-3 text-base font-light leading-relaxed text-black/60 sm:text-lg">
-                    {project.highlights.map((line, i) => (
-                      <li key={i} className="pd-high-item flex gap-3">
-                        <span
-                          className="pd-high-dot mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
-                          aria-hidden
-                        />
-                        <span>{line}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              )}
-            </div>
-
-            {/* RIGHT — Stack & Tools sidebar */}
-            <aside className="min-w-0 lg:col-span-5 xl:col-span-4">
-              <div className="pd-aside top-24 space-y-6 rounded-[24px] border border-black/5 bg-white p-6 sm:top-28 sm:rounded-[28px] sm:p-8 lg:sticky">
-                <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-black/40">
-                  <LayoutGrid className="h-4 w-4" aria-hidden />
-                  Stack & tools
-                </div>
-                <div className="pd-tag-wrap flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="pd-tag rounded-full border border-black/8 px-3 py-1.5 text-[9px] font-bold uppercase tracking-widest text-black/50"
-                    >
-                      {tag}
-                    </span>
+              <div className="pd-copy space-y-8">
+                <div className="space-y-5 text-base font-light leading-relaxed text-[#4B5563] sm:text-lg">
+                  {project.overview.map((para, i) => (
+                    <p key={i} className="pd-para">
+                      {para}
+                    </p>
                   ))}
                 </div>
+
+                <div className="pd-meta-table border-t border-neutral-200">
+                  <DetailMetaRow label="Project">{project.title}</DetailMetaRow>
+                  {project.year && project.year !== "—" && (
+                    <DetailMetaRow label="Year">{project.year}</DetailMetaRow>
+                  )}
+                  {project.role && (
+                    <DetailMetaRow label="Role">{project.role}</DetailMetaRow>
+                  )}
+                  <DetailMetaRow label="Category">{project.category}</DetailMetaRow>
+                  <DetailMetaRow label="Services">
+                    {project.tags.join(" · ")}
+                  </DetailMetaRow>
+                  <DetailMetaRow label="Website">
+                    {canVisit ? (
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 font-medium text-ink underline decoration-black/20 underline-offset-4 transition-colors hover:decoration-black/50"
+                      >
+                        {project.link.replace(/^https?:\/\//, "")}
+                        <ArrowUpRight className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                      </a>
+                    ) : (
+                      <span className="text-black/40">—</span>
+                    )}
+                  </DetailMetaRow>
+                </div>
+
+                {canVisit && (
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="pd-visit-inline pd-cta inline-flex w-full items-center justify-center gap-2 rounded-full bg-black px-8 py-3.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white transition-opacity hover:opacity-90 sm:w-auto"
+                  >
+                    Visit live site
+                    <ArrowUpRight className="h-4 w-4" aria-hidden />
+                  </a>
+                )}
               </div>
-            </aside>
-          </div>
+            </SectionTwoCol>
+          </section>
+
+          {/* Full-width visual break */}
+          <section className="pd-break-section mt-14 sm:mt-16 lg:mt-20">
+            <figure className="pd-break-figure overflow-hidden rounded-[20px] border border-black/5 bg-muted sm:rounded-[24px] lg:rounded-[28px]">
+              <div className="aspect-[21/9] w-full min-h-[12rem] sm:min-h-[14rem]">
+                <img
+                  src={
+                    project.gallery && project.gallery.length > 0
+                      ? project.gallery[0].src
+                      : project.image
+                  }
+                  alt=""
+                  className="h-full w-full object-cover"
+                  referrerPolicy="no-referrer"
+                  onLoad={() => ScrollTrigger.refresh()}
+                />
+              </div>
+            </figure>
+          </section>
 
           {/* ============================================================ */}
           {/*  SECTION 4 — CASE STUDY                                      */}
           {/* ============================================================ */}
           {project.caseStudy && (
             <section
-              className="pd-case-section mt-16 border-t border-black/[0.06] pt-16 sm:mt-20 sm:pt-20 lg:mt-24 lg:pt-24"
-              aria-labelledby={`${slug}-case-heading`}
+              className="pd-case-section mt-14 space-y-14 border-t border-black/[0.06] pt-14 sm:mt-16 sm:space-y-16 sm:pt-16 lg:mt-20 lg:space-y-20 lg:pt-20"
+              aria-label="Strategy and solution"
             >
-              <h2
-                id={`${slug}-case-heading`}
-                className="pd-case-title mb-8 font-display text-2xl font-extrabold tracking-tight text-ink sm:mb-10 sm:text-3xl"
+              <SectionTwoCol
+                label="The strategy"
+                labelClassName="pd-case-title pd-high-head"
               >
-                Challenge, approach & outcome
-              </h2>
-              <div className="pd-case-grid grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-3 md:gap-5 lg:gap-8">
-                <article className="pd-case-card flex flex-col rounded-[20px] border border-black/5 bg-white p-6 transition-all duration-300 hover:shadow-[0_16px_48px_-20px_rgba(0,0,0,0.12)] hover:scale-[1.02] sm:rounded-[24px] sm:p-8">
-                  <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-accent/10 text-accent">
-                    <Target className="h-5 w-5" aria-hidden />
-                  </div>
-                  <h3 className="mb-3 font-display text-lg font-extrabold tracking-tight sm:text-xl">
-                    Challenge
-                  </h3>
-                  <p className="text-sm font-light leading-relaxed text-black/60 sm:text-base">
+                <div className="pd-case-block space-y-6">
+                  <p className="text-base font-light leading-relaxed text-[#4B5563] sm:text-lg">
                     {project.caseStudy.problem}
                   </p>
-                </article>
-                <article className="pd-case-card flex flex-col rounded-[20px] border border-black/5 bg-white p-6 transition-all duration-300 hover:shadow-[0_16px_48px_-20px_rgba(0,0,0,0.12)] hover:scale-[1.02] sm:rounded-[24px] sm:p-8">
-                  <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-black/[0.06] text-ink">
-                    <Layers2 className="h-5 w-5" aria-hidden />
-                  </div>
-                  <h3 className="mb-3 font-display text-lg font-extrabold tracking-tight sm:text-xl">
-                    Approach
-                  </h3>
-                  <p className="text-sm font-light leading-relaxed text-black/60 sm:text-base">
-                    {project.caseStudy.approach}
-                  </p>
-                </article>
-                <article className="pd-case-card flex flex-col rounded-[20px] border border-black/5 bg-white p-6 transition-all duration-300 hover:shadow-[0_16px_48px_-20px_rgba(0,0,0,0.12)] hover:scale-[1.02] sm:rounded-[24px] sm:p-8">
-                  <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-accent/10 text-accent">
-                    <TrendingUp className="h-5 w-5" aria-hidden />
-                  </div>
-                  <h3 className="mb-3 font-display text-lg font-extrabold tracking-tight sm:text-xl">
-                    Outcome
-                  </h3>
-                  <p className="text-sm font-light leading-relaxed text-black/60 sm:text-base">
-                    {project.caseStudy.outcome}
-                  </p>
-                </article>
-              </div>
+                  {project.highlights && project.highlights.length > 0 && (
+                    <ul className="pd-high-list space-y-3 text-base font-light leading-relaxed text-[#4B5563] sm:text-lg">
+                      {project.highlights.map((line, i) => (
+                        <li key={i} className="pd-high-item flex gap-3">
+                          <span
+                            className="pd-high-dot mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
+                            aria-hidden
+                          />
+                          <span>{line}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </SectionTwoCol>
+
+              <SectionTwoCol label="The solution" labelClassName="pd-case-title">
+                <div className="pd-case-block space-y-5 text-base font-light leading-relaxed text-[#4B5563] sm:text-lg">
+                  <p>{project.caseStudy.approach}</p>
+                  <p>{project.caseStudy.outcome}</p>
+                </div>
+              </SectionTwoCol>
             </section>
           )}
 
           {/* ============================================================ */}
-          {/*  SECTION 5 — GALLERY                                         */}
+          {/*  SECTION 5 — GALLERY (commented out)                         */}
           {/* ============================================================ */}
-          {project.gallery && project.gallery.length > 0 && (
+          {/*
+          {galleryForGrid.length > 0 && (
             <section
-              className="pd-gallery-section mt-16 border-t border-black/[0.06] pt-16 sm:mt-20 sm:pt-20 lg:mt-24 lg:pt-24"
+              className="pd-gallery-section mt-14 border-t border-black/[0.06] pt-14 sm:mt-16 sm:pt-16 lg:mt-20 lg:pt-20"
               aria-labelledby={`${slug}-gallery-heading`}
             >
-              <h2
+              <SectionTwoCol
                 id={`${slug}-gallery-heading`}
-                className="pd-gallery-title mb-8 font-display text-2xl font-extrabold tracking-tight sm:mb-10 sm:text-3xl"
+                label="Gallery"
+                labelClassName="pd-gallery-title"
               >
-                Gallery
-              </h2>
-              <div className="pd-gallery-grid grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8">
-                {project.gallery.map((item, gi) => (
-                  <figure
-                    key={`${slug}-g-${gi}`}
-                    className="pd-gallery-item group overflow-hidden rounded-[20px] border border-black/5 bg-muted sm:rounded-[24px]"
-                  >
-                    <div className="aspect-[16/10] w-full overflow-hidden">
-                      <img
-                        src={item.src}
-                        alt={item.alt ?? ""}
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        referrerPolicy="no-referrer"
-                        onLoad={() => ScrollTrigger.refresh()}
-                      />
-                    </div>
-                    {item.caption && (
-                      <figcaption className="border-t border-black/5 px-5 py-4 text-sm font-light text-black/50">
-                        {item.caption}
-                      </figcaption>
-                    )}
-                  </figure>
-                ))}
-              </div>
+                <div className="pd-gallery-grid space-y-4 sm:space-y-5">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
+                    {galleryForGrid.slice(0, 2).map((item, gi) => (
+                      <figure
+                        key={`${slug}-g-${gi}`}
+                        className="pd-gallery-item group overflow-hidden rounded-[18px] border border-black/5 bg-muted sm:rounded-[22px]"
+                      >
+                        <div className="aspect-[16/10] w-full overflow-hidden">
+                          <img
+                            src={item.src}
+                            alt={item.alt ?? ""}
+                            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                            referrerPolicy="no-referrer"
+                            onLoad={() => ScrollTrigger.refresh()}
+                          />
+                        </div>
+                        {item.caption && (
+                          <figcaption className="border-t border-black/5 px-4 py-3 text-xs font-light text-black/50 sm:text-sm">
+                            {item.caption}
+                          </figcaption>
+                        )}
+                      </figure>
+                    ))}
+                  </div>
+                  {galleryForGrid.slice(2).map((item, gi) => (
+                    <figure
+                      key={`${slug}-g-rest-${gi}`}
+                      className="pd-gallery-item group overflow-hidden rounded-[18px] border border-black/5 bg-muted sm:rounded-[22px]"
+                    >
+                      <div className="aspect-[21/10] w-full min-h-[10rem] overflow-hidden sm:min-h-[12rem]">
+                        <img
+                          src={item.src}
+                          alt={item.alt ?? ""}
+                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                          referrerPolicy="no-referrer"
+                          onLoad={() => ScrollTrigger.refresh()}
+                        />
+                      </div>
+                      {item.caption && (
+                        <figcaption className="border-t border-black/5 px-4 py-3 text-xs font-light text-black/50 sm:text-sm">
+                          {item.caption}
+                        </figcaption>
+                      )}
+                    </figure>
+                  ))}
+                </div>
+              </SectionTwoCol>
             </section>
           )}
+          */}
 
           {/* ============================================================ */}
-          {/*  SECTION 6 — LINKS                                           */}
+          {/*  SECTION 6 — LINKS (commented out)                           */}
           {/* ============================================================ */}
+          {/*
           {project.extraLinks && project.extraLinks.length > 0 && (
             <section
-              className="pd-links-section mt-16 border-t border-black/[0.06] pt-16 sm:mt-20 sm:pt-20 lg:mt-24 lg:pt-24"
+              className="pd-links-section mt-14 border-t border-black/[0.06] pt-14 sm:mt-16 sm:pt-16 lg:mt-20 lg:pt-20"
               aria-labelledby={`${slug}-links-heading`}
             >
-              <h2
+              <SectionTwoCol
                 id={`${slug}-links-heading`}
-                className="pd-links-title mb-6 font-display text-2xl font-extrabold tracking-tight sm:text-3xl"
+                label="Links"
+                labelClassName="pd-links-title"
               >
-                Links
-              </h2>
-              <ul className="pd-links-list flex max-w-full flex-col gap-3 sm:max-w-xl">
-                {project.extraLinks.map((item) => (
-                  <li key={`${item.label}-${item.href}`}>
-                    <a
-                      href={item.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="pd-link-row glass-pill flex items-center justify-between gap-4 px-5 py-4 text-sm font-medium text-ink transition-all hover:border-black/15 hover:shadow-sm"
+                <ul className="pd-links-list flex max-w-full flex-col gap-0 sm:max-w-2xl">
+                  {project.extraLinks.map((item) => (
+                    <li
+                      key={`${item.label}-${item.href}`}
+                      className="border-b border-neutral-200 last:border-b-0"
                     >
-                      <span>{item.label}</span>
-                      <ExternalLink
-                        className="h-4 w-4 shrink-0 text-black/40"
-                        aria-hidden
-                      />
-                    </a>
-                  </li>
-                ))}
-              </ul>
+                      <a
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="pd-link-row flex items-center justify-between gap-4 py-4 text-sm font-medium text-ink transition-colors hover:text-black/70"
+                      >
+                        <span>{item.label}</span>
+                        <ExternalLink
+                          className="h-4 w-4 shrink-0 text-black/35"
+                          aria-hidden
+                        />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </SectionTwoCol>
             </section>
           )}
+          */}
 
           {/* ============================================================ */}
-          {/*  SECTION 7 — PREV / NEXT NAVIGATION                         */}
-          {/*  Full-width card when only one direction available            */}
+          {/*  SECTION 7 — PREV / NEXT NAVIGATION (commented out)          */}
           {/* ============================================================ */}
+          {/*
           {hasAnyNav && (
             <nav
-              className="pd-prevnext mt-16 border-t border-black/[0.06] pt-16 sm:mt-20 sm:pt-20 lg:mt-24 lg:pt-24"
+              className="pd-prevnext mt-14 border-t border-black/[0.06] pt-14 sm:mt-16 sm:pt-16 lg:mt-20 lg:pt-20"
               aria-label="Previous and next project"
             >
               <h2 className="mb-6 font-display text-xs font-extrabold uppercase tracking-[0.2em] text-black/40 sm:mb-8">
@@ -848,18 +900,19 @@ function ProjectDetailContent({
               </div>
             </nav>
           )}
+          */}
 
           {/* ============================================================ */}
           {/*  SECTION 8 — MORE WORK (max 2 projects, 2-col)              */}
           {/* ============================================================ */}
           {others.length > 0 && (
             <section
-              className="pd-more-section mt-16 border-t border-black/[0.06] pt-16 sm:mt-20 sm:pt-20 lg:mt-24 lg:pt-24"
+              className="pd-more-section mt-14 border-t border-black/[0.06] pt-14 sm:mt-16 sm:pt-16 lg:mt-20 lg:pt-20"
               aria-labelledby={`${slug}-more-heading`}
             >
               <h2
                 id={`${slug}-more-heading`}
-                className="pd-more-title mb-8 font-display text-2xl font-extrabold tracking-tight sm:mb-10 sm:text-3xl"
+                className="pd-more-title mb-10 text-center font-display text-[clamp(1.75rem,4vw,2.75rem)] font-extrabold tracking-tight sm:mb-12"
               >
                 More work
               </h2>
@@ -900,7 +953,7 @@ function ProjectDetailContent({
           {/* ============================================================ */}
           {/*  SECTION 9 — CONTACT CTA                                     */}
           {/* ============================================================ */}
-          <section className="pd-contact-section mt-16 border-t border-black/[0.06] pt-16 sm:mt-20 sm:pt-20 lg:mt-24 lg:pt-24">
+          <section className="pd-contact-section mt-14 border-t border-black/[0.06] pt-14 sm:mt-16 sm:pt-16 lg:mt-20 lg:pt-20">
             <div className="pd-contact-block relative overflow-hidden rounded-[24px] border border-black/5 bg-black px-8 py-12 text-white sm:rounded-[32px] sm:px-12 sm:py-14">
               <div
                 className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-accent/25 blur-3xl"
