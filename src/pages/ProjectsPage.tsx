@@ -68,8 +68,13 @@ function TiltProjectCard({
           transformStyle: "preserve-3d",
         }}
         transition={{ type: "spring", stiffness: 400, damping: 32 }}
-        className="relative h-full rounded-[28px] sm:rounded-[36px] border border-black/10 bg-white overflow-hidden shadow-[0_28px_90px_-32px_rgba(0,0,0,0.18)] group/card"
+        className="group/card relative h-full overflow-hidden rounded-[28px] border border-black/10 bg-white shadow-[0_28px_90px_-32px_rgba(0,0,0,0.18)] sm:rounded-[36px]"
       >
+        <Link
+          to={`/projects/${project.slug}`}
+          className="absolute inset-0 z-[5]"
+          aria-label={`View ${project.title} case study`}
+        />
         <div
           className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-500 group-hover/card:opacity-100"
           style={{
@@ -80,7 +85,7 @@ function TiltProjectCard({
         />
 
         <div
-          className="aspect-[16/10] overflow-hidden bg-muted"
+          className="pointer-events-none aspect-[16/10] overflow-hidden bg-muted"
           style={{
             transform: "translateZ(42px)",
             transformStyle: "preserve-3d",
@@ -101,7 +106,7 @@ function TiltProjectCard({
         </div>
 
         <div
-          className="relative space-y-4 p-6 sm:p-8"
+          className="pointer-events-none relative space-y-4 p-6 sm:p-8"
           style={{
             transform: "translateZ(56px)",
             transformStyle: "preserve-3d",
@@ -121,13 +126,13 @@ function TiltProjectCard({
                 href={project.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-black/10 text-ink transition-colors hover:bg-black hover:text-white"
+                className="pointer-events-auto relative z-[6] mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-black/10 text-ink transition-colors hover:bg-black hover:text-white"
                 aria-label={`Open ${project.title}`}
               >
                 <ArrowUpRight className="h-5 w-5 transition-transform group-hover/card:rotate-45" />
               </a>
             ) : (
-              <span className="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-dashed border-black/15 text-black/30">
+              <span className="relative z-[6] mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-dashed border-black/15 text-black/30">
                 <ArrowUpRight className="h-5 w-5" />
               </span>
             )}
@@ -145,6 +150,9 @@ function TiltProjectCard({
               </span>
             ))}
           </div>
+          <p className="text-[9px] font-bold uppercase tracking-widest text-black/35">
+            Case study →
+          </p>
         </div>
 
         <div
@@ -188,7 +196,7 @@ export default function ProjectsPage() {
 
           <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-8 lg:gap-12">
             {PROJECTS.map((project, i) => (
-              <div key={project.title} className="min-h-0">
+              <div key={project.slug} className="min-h-0">
                 <TiltProjectCard project={project} index={i} />
               </div>
             ))}

@@ -31,6 +31,7 @@ import { PROJECTS } from "./data/projects";
 import { Navbar } from "./components/Navbar";
 import { BackToTop } from "./components/BackToTop";
 import ProjectsPage from "./pages/ProjectsPage";
+import ProjectDetailPage from "./pages/ProjectDetailPage";
 
 // --- Types ---
 
@@ -274,45 +275,70 @@ interface ProjectCardProps {
 }
 
 const ProjectCard = ({ project, index }: ProjectCardProps) => {
+  const canVisit = project.link && project.link !== "#";
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
-      className="group relative bg-white rounded-[24px] sm:rounded-[32px] lg:rounded-[40px] overflow-hidden border border-black/5 hover:shadow-2xl transition-all duration-700"
+      className="group relative overflow-hidden rounded-[24px] border border-black/5 bg-white transition-all duration-700 hover:shadow-2xl sm:rounded-[32px] lg:rounded-[40px]"
     >
-      <div className="aspect-[16/11] sm:aspect-[16/10] overflow-hidden">
-        <img 
-          src={project.image} 
-          alt={project.title} 
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
-          referrerPolicy="no-referrer"
-        />
-      </div>
-      <div className="p-5 sm:p-8 lg:p-10 space-y-4 sm:space-y-6">
-        <div className="flex justify-between items-start gap-4">
-          <div className="min-w-0">
-            <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-accent px-2.5 sm:px-3 py-1 bg-accent/10 rounded-full mb-3 sm:mb-4 inline-block">
-              {project.category}
-            </span>
-            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-display leading-tight sm:leading-none">{project.title}</h3>
-          </div>
-          <a 
-            href={project.link} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="w-11 h-11 sm:w-14 sm:h-14 rounded-full border border-black/10 flex items-center justify-center hover:bg-black hover:text-white transition-all group/btn shrink-0 mt-1"
-          >
-            <ArrowUpRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover/btn:rotate-45 transition-transform" />
-          </a>
+      <Link
+        to={`/projects/${project.slug}`}
+        className="absolute inset-0 z-[1]"
+        aria-label={`View ${project.title} case study`}
+      />
+      <div className="pointer-events-none relative z-0">
+        <div className="aspect-[16/11] overflow-hidden sm:aspect-[16/10]">
+          <img
+            src={project.image}
+            alt=""
+            className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
+            referrerPolicy="no-referrer"
+          />
         </div>
-        <p className="text-sm sm:text-base text-black/60 font-light leading-relaxed">{project.description}</p>
-        <div className="flex flex-wrap gap-2">
-          {project.tags.map((tag, i) => (
-            <span key={i} className="text-[10px] font-bold uppercase tracking-widest text-black/40 border border-black/5 px-3 py-1 rounded-full">
-              {tag}
-            </span>
-          ))}
+        <div className="space-y-4 p-5 sm:space-y-6 sm:p-8 lg:p-10">
+          <div className="flex items-start justify-between gap-4">
+            <div className="min-w-0">
+              <span className="mb-3 inline-block rounded-full bg-accent/10 px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest text-accent sm:mb-4 sm:px-3 sm:text-[10px]">
+                {project.category}
+              </span>
+              <h3 className="font-display text-2xl leading-tight sm:text-3xl sm:leading-none lg:text-4xl">
+                {project.title}
+              </h3>
+            </div>
+            {canVisit ? (
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pointer-events-auto relative z-[2] mt-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-black/10 transition-all hover:bg-black hover:text-white sm:h-14 sm:w-14 group/btn"
+                aria-label={`Open ${project.title} live site`}
+              >
+                <ArrowUpRight className="h-5 w-5 transition-transform group-hover/btn:rotate-45 sm:h-6 sm:w-6" />
+              </a>
+            ) : (
+              <span className="relative z-[2] mt-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-dashed border-black/15 text-black/30 sm:h-14 sm:w-14">
+                <ArrowUpRight className="h-5 w-5 sm:h-6 sm:w-6" />
+              </span>
+            )}
+          </div>
+          <p className="text-sm font-light leading-relaxed text-black/60 sm:text-base">
+            {project.description}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {project.tags.map((tag, i) => (
+              <span
+                key={i}
+                className="rounded-full border border-black/5 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-black/40"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-black/35">
+            Case study →
+          </p>
         </div>
       </div>
     </motion.div>
@@ -323,17 +349,20 @@ const Projects = () => {
   return (
     <section id="projects" className="px-5 py-16 sm:px-8 sm:py-24 lg:px-10 lg:py-32 xl:px-12">
       <div className="max-w-6xl mx-auto w-full">
-        <div className="flex flex-col md:flex-row md:justify-between md:items-end mb-12 sm:mb-16 lg:mb-20 gap-6 sm:gap-8">
+        <div className="mb-12 flex flex-col gap-6 sm:mb-16 sm:gap-8 lg:mb-20 xl:flex-row xl:items-end xl:justify-between">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
+            className="min-w-0"
           >
-            <h2 className="text-[clamp(2.25rem,min(10vw,14dvh),5.5rem)] lg:text-[clamp(2.5rem,min(8vw,12dvh),6rem)] leading-none">Featured <br /> Projects</h2>
+            <h2 className="whitespace-nowrap text-[clamp(2rem,min(8vw,12dvh),5.5rem)] leading-none [text-wrap:normal] lg:text-[clamp(2.25rem,min(7vw,11dvh),5.75rem)]">
+              Featured Projects
+            </h2>
           </motion.div>
           <motion.p 
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            className="text-black/40 max-w-sm text-left md:text-right font-light italic text-sm sm:text-base"
+            className="max-w-sm text-left font-light italic text-black/40 text-sm sm:text-base xl:text-right xl:shrink-0"
           >
             &ldquo;First make it work, then make it right, then make it fast.&rdquo; — Kent Beck
           </motion.p>
@@ -341,7 +370,7 @@ const Projects = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
           {PROJECTS.map((project, i) => (
-            <ProjectCard key={i} project={project} index={i} />
+            <ProjectCard key={project.slug} project={project} index={i} />
           ))}
         </div>
 
@@ -680,7 +709,9 @@ const Testimonials = () => {
     <section className="bg-muted px-5 py-16 sm:px-8 sm:py-24 lg:px-10 lg:py-32 xl:px-12">
       <div className="max-w-6xl mx-auto w-full">
         <div className="text-center mb-12 sm:mb-16 lg:mb-20">
-          <h2 className="text-[clamp(2.25rem,min(10vw,14dvh),5.5rem)] lg:text-[clamp(2.5rem,min(8vw,12dvh),6rem)] leading-none mb-4 sm:mb-6">Client <br /> Voices</h2>
+          <h2 className="mb-4 whitespace-nowrap text-[clamp(2rem,min(8vw,12dvh),5.5rem)] leading-none [text-wrap:normal] sm:mb-6 lg:text-[clamp(2.25rem,min(7vw,11dvh),5.75rem)]">
+            Client Voices
+          </h2>
           <p className="text-black/40 font-light italic text-sm sm:text-base px-2">"Trust is the foundation of every great project."</p>
         </div>
 
@@ -740,6 +771,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/projects" element={<ProjectsPage />} />
+        <Route path="/projects/:slug" element={<ProjectDetailPage />} />
       </Routes>
     </>
   );
