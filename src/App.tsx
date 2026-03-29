@@ -599,24 +599,8 @@ const TESTIMONIALS = [
   }
 ];
 
-function useFinePointerHover(): boolean {
-  const [match, setMatch] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
-    const apply = () => setMatch(mq.matches);
-    apply();
-    mq.addEventListener("change", apply);
-    return () => mq.removeEventListener("change", apply);
-  }, []);
-  return match;
-}
-
 const Services = () => {
-  const hasFineHover = useFinePointerHover();
-  const [hoverId, setHoverId] = useState<string | null>(null);
-  const [focusId, setFocusId] = useState<string | null>(null);
-  const [mobileOpenId, setMobileOpenId] = useState<string | null>(null);
-  const expandedId = hasFineHover ? hoverId ?? focusId : mobileOpenId;
+  const [openId, setOpenId] = useState<string | null>(SERVICES[0].id);
 
   return (
     <section
@@ -644,44 +628,31 @@ const Services = () => {
           className="divide-y divide-neutral-200 border-y border-neutral-200"
         >
           {SERVICES.map((service) => {
-            const isOpen = expandedId === service.id;
+            const isOpen = openId === service.id;
             return (
-              <li
-                key={service.id}
-                className="cursor-default"
-                onMouseEnter={() => {
-                  if (hasFineHover) setHoverId(service.id);
-                }}
-                onMouseLeave={() => {
-                  if (hasFineHover) setHoverId(null);
-                }}
-                onFocusCapture={() => {
-                  if (hasFineHover) setFocusId(service.id);
-                }}
-                onBlurCapture={(e) => {
-                  if (
-                    hasFineHover &&
-                    !e.currentTarget.contains(e.relatedTarget as Node | null)
-                  ) {
-                    setFocusId(null);
-                  }
-                }}
-              >
+              <li key={service.id}>
                 <button
                   type="button"
                   id={`service-trigger-${service.id}`}
                   aria-expanded={isOpen}
                   aria-controls={`service-panel-${service.id}`}
-                  className="flex w-full cursor-default items-center py-6 text-left font-display text-base font-bold uppercase tracking-wide text-black transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black/20 sm:py-7 sm:text-lg lg:text-xl"
-                  onClick={() => {
-                    if (!hasFineHover) {
-                      setMobileOpenId((prev) =>
-                        prev === service.id ? null : service.id
-                      );
-                    }
-                  }}
+                  className="flex w-full cursor-pointer items-center justify-between gap-4 py-6 text-left font-display text-base font-bold uppercase tracking-wide text-black transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black/20 sm:py-7 sm:text-lg lg:text-xl"
+                  onClick={() =>
+                    setOpenId((prev) =>
+                      prev === service.id ? null : service.id
+                    )
+                  }
                 >
-                  {service.title}
+                  <span className="min-w-0">{service.title}</span>
+                  <span
+                    className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-neutral-200 bg-white text-black shadow-none transition-transform duration-300 ease-out sm:h-11 sm:w-11 ${isOpen ? "rotate-90" : "rotate-0"}`}
+                    aria-hidden
+                  >
+                    <ArrowUpRight
+                      className="h-4 w-4 sm:h-[18px] sm:w-[18px]"
+                      strokeWidth={1.75}
+                    />
+                  </span>
                 </button>
                 <AnimatePresence initial={false}>
                   {isOpen && (

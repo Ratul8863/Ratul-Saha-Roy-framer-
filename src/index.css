@@ -28,6 +28,10 @@
   @apply bg-white/70 backdrop-blur-md border border-black/5 rounded-full shadow-sm;
 }
 
+.nav-pill {
+  @apply rounded-full border border-black/[0.06] bg-white/[0.78] shadow-[0_8px_32px_-8px_rgba(0,0,0,0.1),0_2px_8px_-2px_rgba(0,0,0,0.06)] backdrop-blur-xl backdrop-saturate-150;
+}
+
 .perspective-1000 {
   perspective: 1000px;
 }
