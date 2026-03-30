@@ -124,6 +124,111 @@ export const PROJECTS: Project[] = [
     ],
   },
   {
+    slug: "mugas-platform",
+    title: "MUGAS - University Astronomy Society Platform",
+    description:
+      "Developed a comprehensive MERN stack platform for Mawlana Bhashani Science and Technology University Astronomy Society (MUGAS). Features member management, research project tracking, event coordination, blog publishing, and interactive community tools to support astronomical research and education.",
+    tags: ["React", "TypeScript", "Node.js", "Express", "MongoDB", "Tailwind CSS", "MERN Stack"],
+    link: "https://mugas.vercel.app/",
+    image: "/mugas.png",
+    category: "Web Application",
+    role: "Full-stack Developer",
+    year: "2024",
+    overview: [
+      "MUGAS needed a centralized platform to manage their growing astronomy community, research initiatives, and educational outreach programs. The platform serves as a hub for members, researchers, and the public to engage with astronomical content and activities.",
+      "Built with modern web technologies focusing on scalability, user experience, and maintainability. Includes admin dashboard for content management, member verification system, research publication tools, and interactive features like event registration and blog commenting.",
+    ],
+    highlights: [
+      "Complete member management system with verification and profile customization",
+      "Research project tracking and publication system with co-authorship credits",
+      "Event management with registration and attendance tracking",
+      "Blog platform for astronomical content and educational materials",
+      "Admin dashboard for comprehensive content and user management",
+      "Responsive design optimized for desktop and mobile astronomy enthusiasts",
+    ],
+    caseStudy: {
+      problem:
+        "MUGAS lacked a centralized digital platform to coordinate their activities, manage membership, showcase research, and engage with the broader astronomy community. Members were using disparate tools for communication and content sharing, leading to fragmented experiences and difficulty in tracking contributions.",
+      approach:
+        "Designed a comprehensive MERN stack application with modular architecture. Implemented secure authentication, role-based access control, and RESTful APIs. Created intuitive user interfaces with consistent design patterns and optimized database schemas for research and member data.",
+      outcome:
+        "Delivered a robust platform that streamlines MUGAS operations, enhances member engagement, and provides a professional showcase for their astronomical research and educational initiatives. The platform has improved collaboration and made astronomical knowledge more accessible to the university community.",
+    },
+    gallery: [
+      {
+        src: "/mugas-dashboard.png",
+        alt: "MUGAS Admin Dashboard",
+        caption: "Administrative interface for content management",
+      },
+      {
+        src: "/mugas-research.png",
+        alt: "Research Section",
+        caption: "Research projects and publications showcase",
+      },
+      {
+        src: "/mugas-events.png",
+        alt: "Events Page",
+        caption: "Event registration and community activities",
+      },
+      {
+        src: "/mugas-team.png",
+        alt: "Team Section",
+        caption: "Member profiles and leadership showcase",
+      },
+    ],
+    extraLinks: [
+      {
+        label: "MUGAS Official Website",
+        href: "https://mugas.vercel.app/",
+      },
+    ],
+  },
+  {
+    slug: "ecoscrap",
+    title: "EcoScrap",
+    description:
+      "Built a comprehensive MERN stack platform for digital scrap collection and recycling, enabling users to sell or donate e-waste while empowering agents and partners. Focused on role-based access, secure transactions, and a responsive UI to promote sustainable waste management through technology.",
+    tags: ["React", "Node.js", "MongoDB", "Firebase Auth", "Express", "MERN Stack", "Responsive Design"],
+    link: "https://ecoscrap-solution.vercel.app",
+    image: "/ecoscrap.png",
+    category: "Web Application",
+    role: "Full-stack development",
+    year: "2024",
+    overview: [
+      "EcoScrap addresses the need for a digital marketplace in waste recycling, allowing users to request pickups for scrap items, track orders, and manage wallets—all with role-based permissions for users, agents, and admins.",
+      "The platform integrates Firebase authentication for secure login, MongoDB for data persistence, and a React frontend for seamless user experiences across devices, ensuring scalability and maintainability as the user base grows.",
+    ],
+    highlights: [
+      "Role-based authentication and authorization (User, Agent, Partner) with Firebase",
+      "Real-time pickup requests, order tracking, and wallet transactions for fair compensation",
+      "Responsive design with i18n support (English/Bengali) for broader accessibility",
+      "Admin dashboards for managing categories, prices, donation projects, and user data",
+    ],
+    caseStudy: {
+      problem:
+        "Traditional scrap collection is inefficient, cash-based, and lacks transparency. Users needed a digital way to sell/donate waste securely, while agents required tools to manage pickups and ensure fair payouts.",
+      approach:
+        "Developed a full-stack solution with clear API endpoints for CRUD operations, integrated Firebase for auth and real-time updates, and built reusable React components for consistent UI. Prioritized security (e.g., token-based auth) and performance (e.g., pagination for large datasets).",
+      outcome:
+        "A functional marketplace that digitizes waste recycling, reduces cash transactions, and promotes environmental sustainability. The app supports ongoing growth with modular code and easy deployment via Vercel.",
+    },
+    gallery: [
+      { src: "/ecoscrap.png", alt: "EcoScrap Dashboard", caption: "User dashboard for managing pickups and wallet" },
+      { src: "/ecoscrap-pickup.png", alt: "Pickup Request Flow", caption: "Agent interface for handling pickup requests" },
+      {
+        src: "https://picsum.photos/seed/ecoscrap-mobile/1200/750",
+        alt: "Mobile View",
+        caption: "Responsive design on mobile devices",
+      },
+    ],
+    extraLinks: [
+      {
+        label: "API Documentation",
+        href: "https://ecoscrap-solution.vercel.app/",
+      },
+    ],
+  },
+  {
     slug: "jubileean-football-fest",
     title: "Jubileean Football Fest",
     description:
@@ -176,11 +281,11 @@ export const PROJECTS: Project[] = [
     description:
       "Full stack app for hostel meal management: role-based access, orders, and secure flows. Sharpens my MERN patterns—REST APIs, auth-minded design, and dashboards that stay usable on mobile.",
     tags: ["React", "Node.js", "Stripe", "JWT"],
-    link: "#",
-    image: "https://picsum.photos/seed/hostel/800/600",
-    category: "Full stack",
-    role: "Full stack (MERN-style)",
-    year: "—",
+    link: "https://hostel-management-by-ratul.web.app/",
+    image: "/hostel-meals.png",
+    category: "Live site",
+    role: "Full stack · real-time features",
+    year: "2024",
     overview: [
       "A product-shaped exercise in meal ordering and operations for a hostel context: roles, orders, and flows that need to stay understandable on small screens.",
       "The focus is on predictable REST contracts, JWT-oriented access patterns, and dashboards that do not overwhelm—so the same codebase can grow toward production hardening.",
@@ -200,55 +305,9 @@ export const PROJECTS: Project[] = [
     },
     gallery: [
       {
-        src: "https://picsum.photos/seed/hostel-a/1200/750",
-        alt: "",
+        src: "/hostel-meals.png",
+        alt: "Hostel Meals orders overview",
         caption: "Orders overview",
-      },
-      {
-        src: "https://picsum.photos/seed/hostel-b/1200/750",
-        alt: "",
-        caption: "Role-based views",
-      },
-    ],
-  },
-  {
-    slug: "hobbyhub",
-    title: "HobbyHub",
-    description:
-      "Community product for discovering and joining local hobby groups—real-time friendly features with Firebase plus Express APIs. Practice in list/detail UX, forms, and collaborative data.",
-    tags: ["React", "Firebase", "Express"],
-    link: "#",
-    image: "https://picsum.photos/seed/hobby/800/600",
-    category: "Community",
-    role: "Full stack · realtime data",
-    year: "—",
-    overview: [
-      "HobbyHub explores how people discover groups and join activities nearby. Firebase handles auth and realtime-friendly data; Express fills in API-shaped workflows where a traditional backend fits better.",
-      "List and detail UX, forms, and collaborative updates are the core practice surface—keeping states clear when multiple people touch the same group data.",
-    ],
-    highlights: [
-      "Firebase-backed auth and live-friendly reads/writes",
-      "Express APIs for structured server-side logic",
-      "List/detail and form flows tuned for clarity",
-    ],
-    caseStudy: {
-      problem:
-        "People discover hobbies through browsing and trust—listings need to feel fresh, forms need to be forgiving, and updates should propagate when multiple members interact.",
-      approach:
-        "Firebase covers auth and collaborative-friendly data; Express fills gaps where server validation and aggregation fit better. List/detail patterns keep navigation shallow and predictable.",
-      outcome:
-        "A community-shaped prototype that shows how I combine realtime client state with traditional API boundaries for a balanced architecture.",
-    },
-    gallery: [
-      {
-        src: "https://picsum.photos/seed/hobby-a/1200/750",
-        alt: "",
-        caption: "Discover & browse",
-      },
-      {
-        src: "https://picsum.photos/seed/hobby-b/1200/750",
-        alt: "",
-        caption: "Group detail & join flow",
       },
     ],
   },

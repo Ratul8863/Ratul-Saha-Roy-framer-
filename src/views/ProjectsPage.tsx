@@ -218,19 +218,14 @@ export default function ProjectsPage() {
 
       <BackToTop />
 
-      <div className="pointer-events-none fixed inset-0 -z-50">
+      <div
+        className="pointer-events-none fixed inset-0 -z-50 isolate"
+        aria-hidden
+      >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_40%_20%,rgba(93,95,239,0.07),transparent_55%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(0,0,0,0.04),transparent_50%)]" />
-        <motion.div
-          className="absolute left-[-20%] top-[15%] h-[min(70vw,480px)] w-[min(70vw,480px)] rounded-full bg-accent/[0.09] blur-[100px]"
-          animate={{ x: [0, 24, 0], y: [0, -18, 0] }}
-          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute bottom-[-10%] right-[-15%] h-[min(60vw,420px)] w-[min(60vw,420px)] rounded-full bg-black/[0.04] blur-[90px]"
-          animate={{ x: [0, -20, 0], y: [0, 14, 0] }}
-          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-        />
+        <div className="absolute left-[-20%] top-[15%] h-[min(70vw,480px)] w-[min(70vw,480px)] rounded-full bg-accent/[0.09] blur-[100px]" />
+        <div className="absolute bottom-[-10%] right-[-15%] h-[min(60vw,420px)] w-[min(60vw,420px)] rounded-full bg-black/[0.04] blur-[90px]" />
       </div>
     </div>
   );

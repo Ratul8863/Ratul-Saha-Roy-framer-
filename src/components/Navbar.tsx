@@ -8,9 +8,13 @@
 import { motion, AnimatePresence } from "motion/react";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
+import { getProjectBySlug } from "@/lib/projects";
+import { siteName } from "@/lib/site";
 import { useHash } from "@/hooks/useHash";
+import { useHomeScrollSection } from "@/hooks/useHomeScrollSection";
 
 export type AppNavLink = { href: string; label: string; cta?: boolean };
 
@@ -53,10 +57,45 @@ function isNavActive(
   }
 }
 
+function useMobileCenterLabel(
+  activeHomeHash: string
+): { primary: string; secondary: string } {
+  const pathname = usePathname();
+  const params = useParams();
+  const slug = params?.slug;
+
+  if (pathname?.startsWith("/projects/") && typeof slug === "string") {
+    const project = getProjectBySlug(slug);
+    return {
+      primary: project?.title ?? "Case study",
+      secondary: "Case study",
+    };
+  }
+  if (pathname === "/projects") {
+    return { primary: "Projects", secondary: "Archive" };
+  }
+
+  const sectionByHash: Record<string, string> = {
+    "#home": "Home",
+    "#about": "About",
+    "#services": "Services",
+    "#projects": "Projects",
+    "#contact": "Contact",
+  };
+  return {
+    primary: siteName,
+    secondary: sectionByHash[activeHomeHash] ?? "Portfolio",
+  };
+}
+
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
   const hash = useHash();
+  const scrollSection = useHomeScrollSection();
+  const navHash =
+    pathname === "/" || pathname === "" ? scrollSection : hash;
+  const mobileCenter = useMobileCenterLabel(scrollSection);
 
   useEffect(() => {
     if (!mobileOpen) return;
@@ -84,9 +123,16 @@ export function Navbar() {
           className="group/brand flex min-w-0 items-center gap-2 rounded-full outline-none transition-transform duration-300 hover:opacity-95 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent/45"
           aria-label="Home"
         >
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-bold text-white shadow-[0_4px_14px_-4px_rgba(93,95,239,0.65)] transition-transform duration-300 group-hover/brand:scale-105">
-            R
-          </div>
+          <span className="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-full shadow-[0_4px_14px_-4px_rgba(93,95,239,0.65)] ring-2 ring-white transition-transform duration-300 group-hover/brand:scale-105">
+            <Image
+              src="/profileimage.png"
+              alt="Ratul Saha Roy"
+              width={32}
+              height={32}
+              className="object-cover object-top"
+              priority
+            />
+          </span>
           <span
             className="relative flex h-2 w-2 shrink-0"
             aria-hidden
@@ -96,9 +142,23 @@ export function Navbar() {
             <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_0_2px_rgba(255,255,255,0.95),0_0_12px_rgba(16,185,129,0.45)]" />
           </span>
         </Link>
+
+        <Link
+          href="/"
+          className="flex min-w-0 max-w-[min(52vw,14rem)] flex-1 flex-col items-center justify-center px-1 text-center no-underline outline-none focus-visible:ring-2 focus-visible:ring-accent/45 focus-visible:ring-offset-2 focus-visible:ring-offset-white rounded-xl lg:hidden"
+          aria-label={`${siteName}, go to home`}
+        >
+          <span className="w-full truncate text-[10px] font-bold uppercase tracking-[0.14em] text-black sm:text-[11px]">
+            {mobileCenter.primary}
+          </span>
+          <span className="w-full truncate text-[8px] font-bold uppercase tracking-[0.18em] text-black/45 sm:text-[9px]">
+            {mobileCenter.secondary}
+          </span>
+        </Link>
+
         <div className="hidden items-center gap-1 text-[10px] font-bold uppercase tracking-[0.18em] text-black/50 lg:flex xl:gap-2 xl:text-[11px] xl:tracking-[0.2em]">
           {APP_NAV_LINKS.map(({ href, label, cta }) => {
-            const active = isNavActive(pathname, hash, label, cta);
+            const active = isNavActive(pathname, navHash, label, cta);
             return cta ? (
               <Link
                 key={label}
@@ -141,7 +201,7 @@ export function Navbar() {
         </div>
         <button
           type="button"
-          className="flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/90 text-black shadow-sm transition-all duration-200 hover:border-black/18 hover:bg-white active:scale-95 lg:hidden"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-black/10 bg-white/90 text-black shadow-sm transition-all duration-200 hover:border-black/18 hover:bg-white active:scale-95 lg:hidden"
           aria-expanded={mobileOpen}
           aria-controls="mobile-nav"
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
@@ -176,7 +236,7 @@ export function Navbar() {
             >
               <div className="flex flex-col gap-1">
                 {APP_NAV_LINKS.map(({ href, label, cta }) => {
-                  const active = isNavActive(pathname, hash, label, cta);
+                  const active = isNavActive(pathname, navHash, label, cta);
                   return (
                     <Link
                       key={label}

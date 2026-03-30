@@ -46,7 +46,7 @@ const EXPERIENCES: Experience[] = [
   {
     role: "Web Developer Intern",
     company: "KodeByKraft",
-    period: "Internship · ~3 months · ongoing",
+    period: "Internship ┬╖ ~3 months ┬╖ ongoing",
     description:
       "Hands-on internship shipping features on real-world web applications alongside the team at KodeByKraft.",
     highlights: [
@@ -178,12 +178,12 @@ const About = () => {
                       Bachelor&apos;s in CSE
                     </h4>
                     <p className="text-sm opacity-60">
-                      Metropolitan University, Bangladesh · Sylhet
+                      Metropolitan University, Bangladesh ┬╖ Sylhet
                     </p>
                   </div>
                 </div>
                 <p className="text-xs font-bold uppercase tracking-widest text-black/40">
-                  Ongoing · Bachelor&apos;s degree
+                  Ongoing ┬╖ Bachelor&apos;s degree
                 </p>
               </motion.div>
             </div>
@@ -545,7 +545,7 @@ const Footer = () => {
             R
           </div>
           <p className="text-xs sm:text-sm font-medium max-w-xs sm:max-w-none">
-            © 2026 Ratul Saha Roy. All rights reserved.
+            ┬⌐ 2026 Ratul Saha Roy. All rights reserved.
           </p>
         </div>
         <div className="flex flex-wrap justify-center gap-x-6 gap-y-3 text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-black/40">

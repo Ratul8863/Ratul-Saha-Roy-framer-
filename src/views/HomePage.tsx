@@ -14,6 +14,8 @@ import { BackToTop } from "../components/BackToTop";
 
 const RESUME_HREF = "/doc/RATUL%20SAHA%20ROY_New_FS.pdf";
 
+const VIEWPORT_ONCE = { once: true, margin: "0px 0px -12% 0px" } as const;
+
 const HomeBelowFold = dynamic(() => import("./HomeBelowFold"), {
   loading: () => <div className="min-h-[40vh] bg-bg" aria-hidden />,
 });
@@ -29,6 +31,7 @@ const Hero = () => {
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
+            viewport={VIEWPORT_ONCE}
             transition={{ duration: 0.8 }}
             className="min-w-0 max-w-full"
           >
@@ -50,6 +53,7 @@ const Hero = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={VIEWPORT_ONCE}
             transition={{ delay: 0.3 }}
             className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start w-full sm:w-auto"
           >
@@ -76,6 +80,7 @@ const Hero = () => {
           <motion.div
             initial={{ opacity: 0, rotateY: 20, scale: 0.8 }}
             whileInView={{ opacity: 1, rotateY: 0, scale: 1 }}
+            viewport={VIEWPORT_ONCE}
             transition={{ duration: 1, ease: "easeOut" }}
             className="relative z-10 isolate aspect-[4/5] rounded-[28px] sm:rounded-[36px] lg:rounded-[40px] overflow-hidden shadow-2xl"
           >
@@ -101,29 +106,26 @@ const Hero = () => {
             </div>
           </motion.div>
 
-          <motion.div
-            animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
-            transition={{ duration: 5, repeat: Infinity }}
-            className="absolute -top-10 -right-10 w-32 h-32 bg-accent/10 rounded-full blur-3xl"
+          <div
+            className="pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full bg-accent/10 blur-3xl"
+            aria-hidden
           />
-          <motion.div
-            animate={{ y: [0, 20, 0], rotate: [0, -5, 0] }}
-            transition={{ duration: 7, repeat: Infinity }}
-            className="absolute -bottom-10 -left-10 w-40 h-40 bg-black/5 rounded-full blur-3xl"
+          <div
+            className="pointer-events-none absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-black/5 blur-3xl"
+            aria-hidden
           />
         </div>
       </div>
 
-      <motion.div
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-        className="mt-12 sm:mt-20 flex flex-col items-center gap-2 opacity-30"
-      >
+      <div className="mt-12 sm:mt-20 flex flex-col items-center gap-2 opacity-30">
         <span className="text-[10px] uppercase tracking-[0.3em] font-bold">
           Scroll to explore
         </span>
-        <ChevronDown className="w-4 h-4" />
-      </motion.div>
+        <ChevronDown
+          className="h-4 w-4 motion-safe:animate-bounce"
+          aria-hidden
+        />
+      </div>
     </section>
   );
 };
@@ -138,7 +140,10 @@ export default function HomePage() {
       </main>
       <BackToTop />
 
-      <div className="pointer-events-none fixed inset-0 -z-50">
+      <div
+        className="pointer-events-none fixed inset-0 -z-50 isolate"
+        aria-hidden
+      >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(93,95,239,0.03),transparent_70%)]" />
       </div>
     </div>

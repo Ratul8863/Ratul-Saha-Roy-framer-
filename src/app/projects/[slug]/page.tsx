@@ -1,7 +1,7 @@
-import dynamic from "next/dynamic";
 import type { Metadata } from "next";
 import { getProjectBySlug, PROJECTS } from "@/lib/projects";
 import { getSiteUrl, siteName } from "@/lib/site";
+import ProjectDetailPage from "@/views/ProjectDetailPage";
 
 export function generateStaticParams() {
   return PROJECTS.map((p) => ({ slug: p.slug }));
@@ -66,12 +66,6 @@ export async function generateMetadata({
     },
   };
 }
-
-const ProjectDetailPage = dynamic(() => import("@/views/ProjectDetailPage"), {
-  loading: () => (
-    <div className="min-h-dvh bg-bg" aria-hidden />
-  ),
-});
 
 /**
  * SSG via generateStaticParams. Data is static (TypeScript module), not ISR —
