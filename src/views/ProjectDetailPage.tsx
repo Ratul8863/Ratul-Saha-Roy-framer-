@@ -3,31 +3,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Link, useParams } from "react-router-dom";
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
 import { useLayoutEffect, useRef, type ReactNode } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-  ArrowLeft,
-  ArrowRight,
-  ArrowUpRight,
-  ExternalLink,
-  Mail,
-  Download,
-} from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Mail, Download } from "lucide-react";
 import { Navbar } from "../components/Navbar";
 import { BackToTop } from "../components/BackToTop";
-import {
-  PROJECTS,
-  getProjectBySlug,
-  getProjectNeighbors,
-  type Project,
-} from "../data/projects";
+import { PROJECTS, getProjectBySlug, type Project } from "../data/projects";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const RESUME_HREF = "/doc/RATUL%20SAHA%20ROY_New_FS.pdf";
-const LINKEDIN_HREF = "https://www.linkedin.com/in/ratulroy8863";
 
 function prefersReducedMotion() {
   return (
@@ -44,7 +34,10 @@ function ProjectNotFound() {
   return (
     <div className="relative min-h-dvh overflow-x-hidden bg-bg text-ink">
       <Navbar />
-      <main className="px-5 pb-28 pt-28 sm:px-8 sm:pb-32 sm:pt-32 lg:px-10 xl:px-12">
+      <main
+        id="main-content"
+        className="px-5 pb-28 pt-28 sm:px-8 sm:pb-32 sm:pt-32 lg:px-10 xl:px-12"
+      >
         <div className="mx-auto max-w-2xl text-center">
           <p className="mb-6 text-sm font-bold uppercase tracking-widest text-black/40">
             404
@@ -56,7 +49,7 @@ function ProjectNotFound() {
             This case study does not exist or the link is outdated.
           </p>
           <Link
-            to="/projects"
+            href="/projects"
             className="glass-pill inline-flex items-center gap-2 px-6 py-3 text-[10px] font-bold uppercase tracking-[0.2em] text-black/70 transition-colors hover:text-black"
           >
             <ArrowLeft className="h-4 w-4" aria-hidden />
@@ -167,28 +160,23 @@ function ProjectDetailContent({
   project,
   slug,
   others,
-  prevProject,
-  nextProject,
 }: {
   project: Project;
   slug: string;
   others: Project[];
-  prevProject: Project | undefined;
-  nextProject: Project | undefined;
 }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const figureRef = useRef<HTMLElement>(null);
   const imgWrapRef = useRef<HTMLDivElement>(null);
   const canVisit = project.link && project.link !== "#";
 
-  const galleryAll = project.gallery ?? [];
-  const galleryForGrid =
-    galleryAll.length > 1 ? galleryAll.slice(1) : [];
-
   /* ── GSAP animations ── */
   useLayoutEffect(() => {
     const root = rootRef.current;
     if (!root || prefersReducedMotion()) return;
+
+    const rootEl = root;
+    let safetyTimer: ReturnType<typeof setTimeout> | undefined;
 
     const ctx = gsap.context(() => {
       /* --- Entrance timeline --- */
@@ -272,8 +260,8 @@ function ProjectDetailContent({
         triggerSelector?: string
       ) {
         const triggerSel = triggerSelector || selector;
-        const triggerEl = root.querySelector(triggerSel);
-        const targets = root.querySelectorAll(selector);
+        const triggerEl = rootEl.querySelector(triggerSel);
+        const targets = rootEl.querySelectorAll(selector);
         if (!triggerEl || targets.length === 0) return;
 
         animatedSelectors.push(selector);
@@ -518,9 +506,9 @@ function ProjectDetailContent({
        * This guarantees that no content stays hidden even if ScrollTrigger
        * misbehaves due to programmatic scrolling, viewport issues, etc.
        */
-      const safetyTimer = setTimeout(() => {
+      safetyTimer = setTimeout(() => {
         animatedSelectors.forEach((sel) => {
-          const els = root.querySelectorAll(sel);
+          const els = rootEl.querySelectorAll(sel);
           els.forEach((el) => {
             gsap.set(el, { clearProps: "all" });
           });
@@ -529,17 +517,12 @@ function ProjectDetailContent({
     }, root);
 
     return () => {
+      if (safetyTimer !== undefined) clearTimeout(safetyTimer);
       ctx.revert();
     };
   }, [project.slug]);
 
   const titleWords = project.title.split(" ");
-
-  /* Determine prev/next layout */
-  const hasPrev = !!prevProject;
-  const hasNext = !!nextProject;
-  const hasBothNav = hasPrev && hasNext;
-  const hasAnyNav = hasPrev || hasNext;
 
   return (
     <div className="relative min-h-dvh overflow-x-hidden bg-bg text-ink">
@@ -554,20 +537,23 @@ function ProjectDetailContent({
         <div className="pd-orbit-b absolute bottom-[8%] right-[5%] h-[min(48vw,360px)] w-[min(48vw,360px)] rounded-full bg-black/[0.045] blur-[90px]" />
       </div>
 
-      <main className="px-5 pb-16 pt-28 sm:px-8 sm:pb-20 sm:pt-32 lg:px-10 xl:px-12">
+      <main
+        id="main-content"
+        className="px-5 pb-16 pt-28 sm:px-8 sm:pb-20 sm:pt-32 lg:px-10 xl:px-12"
+      >
         <div ref={rootRef} className="mx-auto max-w-6xl">
 
           {/* Breadcrumbs */}
           <div className="mb-8 flex flex-wrap items-center gap-3 sm:mb-10">
             <Link
-              to="/projects"
+              href="/projects"
               className="pd-back glass-pill inline-flex items-center gap-2 px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] text-black/55 transition-colors hover:text-black"
             >
               <ArrowLeft className="h-4 w-4" aria-hidden />
               All projects
             </Link>
             <Link
-              to="/"
+              href="/"
               className="pd-back text-[10px] font-bold uppercase tracking-[0.2em] text-black/35 transition-colors hover:text-black/60"
             >
               Home
@@ -581,12 +567,15 @@ function ProjectDetailContent({
           >
             <div
               ref={imgWrapRef}
-              className="aspect-[16/11] w-full will-change-transform sm:aspect-[21/9] lg:aspect-[2.2/1]"
+              className="relative aspect-[16/11] w-full will-change-transform sm:aspect-[21/9] lg:aspect-[2.2/1]"
             >
-              <img
+              <Image
                 src={project.image}
                 alt={project.title}
-                className="h-full w-full object-cover opacity-90"
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover opacity-90"
                 referrerPolicy="no-referrer"
                 onLoad={() => ScrollTrigger.refresh()}
               />
@@ -682,15 +671,21 @@ function ProjectDetailContent({
           {/* Full-width visual break */}
           <section className="pd-break-section mt-14 sm:mt-16 lg:mt-20">
             <figure className="pd-break-figure overflow-hidden rounded-[20px] border border-black/5 bg-muted sm:rounded-[24px] lg:rounded-[28px]">
-              <div className="aspect-[21/9] w-full min-h-[12rem] sm:min-h-[14rem]">
-                <img
+              <div className="relative aspect-[21/9] w-full min-h-[12rem] sm:min-h-[14rem]">
+                <Image
                   src={
                     project.gallery && project.gallery.length > 0
                       ? project.gallery[0].src
                       : project.image
                   }
-                  alt=""
-                  className="h-full w-full object-cover"
+                  alt={
+                    project.gallery?.[0]?.alt
+                      ? `${project.title}: ${project.gallery[0].alt}`
+                      : `${project.title} case study visual`
+                  }
+                  fill
+                  sizes="100vw"
+                  className="object-cover"
                   referrerPolicy="no-referrer"
                   onLoad={() => ScrollTrigger.refresh()}
                 />
@@ -920,14 +915,16 @@ function ProjectDetailContent({
                 {others.map((p) => (
                   <div key={p.slug} className="pd-more-card min-h-0">
                     <Link
-                      to={`/projects/${p.slug}`}
+                      href={`/projects/${p.slug}`}
                       className="group block overflow-hidden rounded-[20px] border border-black/5 bg-white transition-all duration-500 hover:shadow-[0_24px_80px_-40px_rgba(0,0,0,0.2)] sm:rounded-[24px]"
                     >
-                      <div className="aspect-[16/10] overflow-hidden bg-muted">
-                        <img
+                      <div className="relative aspect-[16/10] overflow-hidden bg-muted">
+                        <Image
                           src={p.image}
-                          alt=""
-                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          alt={`${p.title} project preview`}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                          className="object-cover transition-transform duration-700 group-hover:scale-105"
                           referrerPolicy="no-referrer"
                         />
                       </div>
@@ -971,7 +968,7 @@ function ProjectDetailContent({
                   a focused product slice, reach out from the contact section.
                 </p>
                 <Link
-                  to="/#contact"
+                  href="/#contact"
                   className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-7 py-3.5 text-[10px] font-bold uppercase tracking-[0.2em] text-black transition-opacity hover:opacity-90 sm:w-auto"
                 >
                   <Mail className="h-4 w-4" aria-hidden />
@@ -1003,28 +1000,15 @@ function ProjectDetailContent({
 /*  Page wrapper                                                       */
 /* ------------------------------------------------------------------ */
 
-export default function ProjectDetailPage() {
-  const { slug } = useParams<{ slug: string }>();
+export default function ProjectDetailPage({ slug }: { slug: string }) {
   const project = slug ? getProjectBySlug(slug) : undefined;
-  const { prev, next } = slug ? getProjectNeighbors(slug) : { prev: undefined, next: undefined };
-  const others = PROJECTS.filter(
-    (p) =>
-      p.slug !== slug &&
-      p.slug !== prev?.slug &&
-      p.slug !== next?.slug
-  ).slice(0, 2);
+  const others = PROJECTS.filter((p) => p.slug !== slug).slice(0, 2);
 
   if (!project || !slug) {
     return <ProjectNotFound />;
   }
 
   return (
-    <ProjectDetailContent
-      project={project}
-      slug={slug}
-      others={others}
-      prevProject={prev}
-      nextProject={next}
-    />
+    <ProjectDetailContent project={project} slug={slug} others={others} />
   );
 }

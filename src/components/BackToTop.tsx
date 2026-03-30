@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+"use client";
+
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -23,13 +25,14 @@ export function BackToTop() {
       {isVisible && (
         <motion.button
           type="button"
+          aria-label="Back to top"
           initial={{ opacity: 0, scale: 0.8, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.8, y: 20 }}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-40 w-12 h-12 sm:w-14 sm:h-14 bg-black text-white rounded-full flex items-center justify-center shadow-2xl hover:bg-accent transition-colors"
         >
-          <ArrowUpRight className="w-6 h-6 -rotate-45" />
+          <ArrowUpRight className="w-6 h-6 -rotate-45" aria-hidden />
         </motion.button>
       )}
     </AnimatePresence>

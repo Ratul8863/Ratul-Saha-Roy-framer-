@@ -3,7 +3,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Link } from "react-router-dom";
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
 import {
   motion,
   useMotionValue,
@@ -71,7 +74,7 @@ function TiltProjectCard({
         className="group/card relative h-full overflow-hidden rounded-[28px] border border-black/10 bg-white shadow-[0_28px_90px_-32px_rgba(0,0,0,0.18)] sm:rounded-[36px]"
       >
         <Link
-          to={`/projects/${project.slug}`}
+          href={`/projects/${project.slug}`}
           className="absolute inset-0 z-[5]"
           aria-label={`View ${project.title} case study`}
         />
@@ -85,20 +88,26 @@ function TiltProjectCard({
         />
 
         <div
-          className="pointer-events-none aspect-[16/10] overflow-hidden bg-muted"
+          className="pointer-events-none relative aspect-[16/10] overflow-hidden bg-muted"
           style={{
             transform: "translateZ(42px)",
             transformStyle: "preserve-3d",
           }}
         >
-          <motion.img
-            src={project.image}
-            alt={project.title}
-            className="h-full w-full object-cover grayscale group-hover/card:grayscale-0"
-            referrerPolicy="no-referrer"
+          <motion.div
+            className="absolute inset-0 h-full w-full"
             whileHover={{ scale: 1.07 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          />
+          >
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover grayscale group-hover/card:grayscale-0"
+              referrerPolicy="no-referrer"
+            />
+          </motion.div>
           <div
             className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-70"
             style={{ transform: "translateZ(2px)" }}
@@ -169,7 +178,10 @@ export default function ProjectsPage() {
     <div className="relative min-h-dvh overflow-x-hidden bg-bg text-ink">
       <Navbar />
 
-      <main className="px-5 pb-24 pt-28 sm:px-8 sm:pt-32 lg:px-10 xl:px-12">
+      <main
+        id="main-content"
+        className="px-5 pb-24 pt-28 sm:px-8 sm:pt-32 lg:px-10 xl:px-12"
+      >
         <div className="mx-auto max-w-6xl">
           <motion.header
             className="mb-14 sm:mb-20 lg:mb-24"
@@ -178,7 +190,7 @@ export default function ProjectsPage() {
             transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           >
             <Link
-              to="/"
+              href="/"
               className="glass-pill mb-8 inline-flex items-center gap-2 px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] text-black/55 transition-colors hover:text-black"
             >
               <ArrowLeft className="h-4 w-4" aria-hidden />

@@ -3,26 +3,36 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+"use client";
+
 import { motion, AnimatePresence } from "motion/react";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
-import { Link, useLocation, type To } from "react-router-dom";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useHash } from "@/hooks/useHash";
 
-export type AppNavLink = { to: To; label: string; cta?: boolean };
+export type AppNavLink = { href: string; label: string; cta?: boolean };
 
 export const APP_NAV_LINKS: AppNavLink[] = [
-  { to: { pathname: "/", hash: "home" }, label: "Home" },
-  { to: { pathname: "/", hash: "about" }, label: "About" },
-  { to: { pathname: "/", hash: "services" }, label: "Services" },
-  { to: { pathname: "/", hash: "projects" }, label: "Projects" },
-  { to: { pathname: "/", hash: "contact" }, label: "Contact", cta: true },
+  { href: "/#home", label: "Home" },
+  { href: "/#about", label: "About" },
+  { href: "/#services", label: "Services" },
+  { href: "/#projects", label: "Projects" },
+  { href: "/#contact", label: "Contact", cta: true },
 ];
 
-function isNavActive(pathname: string, hash: string, label: string, cta?: boolean): boolean {
-  if (pathname.startsWith("/projects")) {
+function isNavActive(
+  pathname: string | null,
+  hash: string,
+  label: string,
+  cta?: boolean
+): boolean {
+  const path = pathname ?? "";
+  if (path.startsWith("/projects")) {
     return label === "Projects";
   }
-  if (pathname !== "/") {
+  if (path !== "/") {
     return false;
   }
   const h = hash === "" ? "#home" : hash;
@@ -45,7 +55,8 @@ function isNavActive(pathname: string, hash: string, label: string, cta?: boolea
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { pathname, hash } = useLocation();
+  const pathname = usePathname();
+  const hash = useHash();
 
   useEffect(() => {
     if (!mobileOpen) return;
@@ -69,7 +80,7 @@ export function Navbar() {
     >
       <div className="nav-pill flex items-center justify-between gap-3 px-3 py-2.5 sm:gap-8 sm:px-6 sm:py-3 sm:justify-start">
         <Link
-          to="/"
+          href="/"
           className="group/brand flex min-w-0 items-center gap-2 rounded-full outline-none transition-transform duration-300 hover:opacity-95 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent/45"
           aria-label="Home"
         >
@@ -86,12 +97,12 @@ export function Navbar() {
           </span>
         </Link>
         <div className="hidden items-center gap-1 text-[10px] font-bold uppercase tracking-[0.18em] text-black/50 lg:flex xl:gap-2 xl:text-[11px] xl:tracking-[0.2em]">
-          {APP_NAV_LINKS.map(({ to, label, cta }) => {
+          {APP_NAV_LINKS.map(({ href, label, cta }) => {
             const active = isNavActive(pathname, hash, label, cta);
             return cta ? (
               <Link
                 key={label}
-                to={to}
+                href={href}
                 aria-current={active ? "page" : undefined}
                 className={`rounded-full px-4 py-2.5 transition-all duration-300 ${
                   active
@@ -104,7 +115,7 @@ export function Navbar() {
             ) : (
               <Link
                 key={label}
-                to={to}
+                href={href}
                 aria-current={active ? "page" : undefined}
                 className={`relative rounded-full px-3 py-2 transition-colors duration-200 xl:px-3.5 ${
                   active
@@ -164,12 +175,12 @@ export function Navbar() {
               className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-50 max-h-[min(70vh,28rem)] overflow-y-auto rounded-3xl border border-black/10 bg-white/95 p-4 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.2)] backdrop-blur-xl lg:hidden"
             >
               <div className="flex flex-col gap-1">
-                {APP_NAV_LINKS.map(({ to, label, cta }) => {
+                {APP_NAV_LINKS.map(({ href, label, cta }) => {
                   const active = isNavActive(pathname, hash, label, cta);
                   return (
                     <Link
                       key={label}
-                      to={to}
+                      href={href}
                       aria-current={active ? "page" : undefined}
                       className={
                         cta

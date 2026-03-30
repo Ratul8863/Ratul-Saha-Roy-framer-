@@ -3,18 +3,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+"use client";
+
+import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
-import { 
-  Github, 
-  Linkedin, 
-  Mail, 
-  Code2, 
-  Layout, 
-  Database, 
+import {
+  Github,
+  Linkedin,
+  Mail,
+  Code2,
+  Layout,
+  Database,
   Smartphone,
   ArrowUpRight,
-  ChevronDown,
-  Globe,
   GraduationCap,
   Award,
   Download,
@@ -22,18 +23,15 @@ import {
   Flame,
   Braces,
   Link2,
-  Layers
+  Layers,
 } from "lucide-react";
-import { useEffect, useState } from "react";
-import { Link, Routes, Route, useLocation } from "react-router-dom";
-import type { Project } from "./data/projects";
-import { PROJECTS } from "./data/projects";
-import { Navbar } from "./components/Navbar";
-import { BackToTop } from "./components/BackToTop";
-import ProjectsPage from "./pages/ProjectsPage";
-import ProjectDetailPage from "./pages/ProjectDetailPage";
+import { useState } from "react";
+import Link from "next/link";
+import type { Project } from "../data/projects";
+import { PROJECTS } from "../data/projects";
 
-// --- Types ---
+const RESUME_HREF = "/doc/RATUL%20SAHA%20ROY_New_FS.pdf";
+const LINKEDIN_HREF = "https://www.linkedin.com/in/ratulroy8863";
 
 interface Experience {
   role: string;
@@ -44,12 +42,6 @@ interface Experience {
   link?: string;
 }
 
-/** Place your PDF at public/doc/RATUL SAHA ROY_New_FS.pdf (same filename as your resume). */
-const RESUME_HREF = "/doc/RATUL%20SAHA%20ROY_New_FS.pdf";
-
-const LINKEDIN_HREF = "https://www.linkedin.com/in/ratulroy8863";
-
-// --- Data ---
 const EXPERIENCES: Experience[] = [
   {
     role: "Web Developer Intern",
@@ -67,113 +59,12 @@ const EXPERIENCES: Experience[] = [
   },
 ];
 
-// --- Components ---
-
-function ScrollToTop() {
-  const { pathname, hash } = useLocation();
-  useEffect(() => {
-    if (hash) {
-      const id = hash.replace("#", "");
-      const el = document.getElementById(id);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-        return;
-      }
-    }
-    window.scrollTo(0, 0);
-  }, [pathname, hash]);
-  return null;
-}
-
-const Hero = () => {
-  return (
-    <section id="home" className="flex min-h-dvh flex-col items-center justify-center overflow-x-hidden px-5 pb-12 pt-28 sm:px-8 sm:pb-16 sm:pt-32 lg:px-10 xl:px-12">
-      <div className="max-w-6xl w-full min-w-0 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-10 xl:gap-12 items-center">
-        <div className="lg:col-span-7 min-w-0 max-w-full space-y-6 sm:space-y-8 order-2 lg:order-1 text-center lg:text-left lg:pr-2 xl:pr-6">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="min-w-0 max-w-full"
-          >
-            <p className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.12em] sm:tracking-[0.2em] text-black/45 mb-3 sm:mb-4 text-pretty max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-              Ratul Saha Roy · Full Stack Web Developer (MERN)
-            </p>
-            <h1 className="max-w-full min-w-0 text-[clamp(2.25rem,9.5vw,4.25rem)] sm:text-[clamp(2.5rem,8vw,5rem)] lg:text-[clamp(2.75rem,6.5vw,5.25rem)] xl:text-[clamp(3rem,5.8vw,6.25rem)] 2xl:text-[clamp(3.25rem,5vw,7.25rem)] leading-[0.92] sm:leading-[0.88] mb-4 sm:mb-6 [overflow-wrap:anywhere]">
-              Full Stack <br />
-              <span className="text-accent">Developer</span>
-            </h1>
-            <p className="text-base sm:text-lg md:text-xl text-black/60 max-w-lg mx-auto lg:mx-0 font-light leading-relaxed text-pretty">
-              Based in Sylhet, Bangladesh—I build modern, responsive, user-friendly web apps on the MERN stack, with smooth motion and interfaces that feel as good as they look. Always learning, always shipping.
-            </p>
-          </motion.div>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start w-full sm:w-auto"
-          >
-            <a href="#projects" className="px-6 sm:px-8 py-3.5 sm:py-4 bg-black text-white rounded-full font-bold uppercase tracking-widest text-[10px] sm:text-xs text-center hover:scale-[1.02] sm:hover:scale-105 transition-transform">View My Work</a>
-            <a href={RESUME_HREF} download target="_blank" rel="noopener noreferrer" className="px-6 sm:px-8 py-3.5 sm:py-4 border border-black/10 rounded-full font-bold uppercase tracking-widest text-[10px] sm:text-xs hover:bg-black hover:text-white transition-all flex items-center justify-center gap-2">
-              <Download className="w-4 h-4" />
-              Resume
-            </a>
-          </motion.div>
-        </div>
-
-        <div className="lg:col-span-5 min-w-0 relative perspective-1000 order-1 lg:order-2 max-w-md mx-auto w-full lg:max-w-none lg:pl-2 xl:pl-0">
-          <motion.div
-            initial={{ opacity: 0, rotateY: 20, scale: 0.8 }}
-            whileInView={{ opacity: 1, rotateY: 0, scale: 1 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="relative z-10 isolate aspect-[4/5] rounded-[28px] sm:rounded-[36px] lg:rounded-[40px] overflow-hidden shadow-2xl"
-          >
-            <img 
-              src="/profileimage.png" 
-              alt="Ratul Saha Roy" 
-              className="w-full h-full object-cover object-top grayscale hover:grayscale-0 transition-all duration-700"
-            />
-            <div className="absolute bottom-4 left-4 right-4 sm:bottom-8 sm:left-8 sm:right-8 p-4 sm:p-6 glass-pill flex items-center justify-between gap-3">
-              <div className="min-w-0">
-                <p className="text-[10px] uppercase tracking-widest font-bold text-black/40">Based in</p>
-                <p className="text-sm font-bold truncate">Sylhet, BD</p>
-              </div>
-              <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
-                <Globe className="w-5 h-5 text-accent" />
-              </div>
-            </div>
-          </motion.div>
-          
-          {/* Decorative elements */}
-          <motion.div 
-            animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
-            transition={{ duration: 5, repeat: Infinity }}
-            className="absolute -top-10 -right-10 w-32 h-32 bg-accent/10 rounded-full blur-3xl"
-          />
-          <motion.div 
-            animate={{ y: [0, 20, 0], rotate: [0, -5, 0] }}
-            transition={{ duration: 7, repeat: Infinity }}
-            className="absolute -bottom-10 -left-10 w-40 h-40 bg-black/5 rounded-full blur-3xl"
-          />
-        </div>
-      </div>
-      
-      <motion.div 
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-        className="mt-12 sm:mt-20 flex flex-col items-center gap-2 opacity-30"
-      >
-        <span className="text-[10px] uppercase tracking-[0.3em] font-bold">Scroll to explore</span>
-        <ChevronDown className="w-4 h-4" />
-      </motion.div>
-    </section>
-  );
-};
-
 const About = () => {
   return (
-    <section id="about" className="bg-muted px-5 py-16 sm:px-8 sm:py-24 lg:px-10 lg:py-32 xl:px-12">
+    <section
+      id="about"
+      className="bg-muted px-5 py-16 sm:px-8 sm:py-24 lg:px-10 lg:py-32 xl:px-12"
+    >
       <div className="max-w-6xl mx-auto w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
           <div className="space-y-8 sm:space-y-12">
@@ -186,12 +77,25 @@ const About = () => {
               </h2>
               <div className="text-base sm:text-lg lg:text-xl text-black/60 font-light leading-relaxed space-y-4">
                 <p>
-                  I am a passionate and dedicated web developer with a strong focus on building modern, responsive, and user-friendly web applications. I enjoy the MERN stack and love crafting interfaces with smooth animations and interactions—as a developer who cares about UX, not as a separate UI/UX designer role.
+                  I am a passionate and dedicated web developer with a strong
+                  focus on building modern, responsive, and user-friendly web
+                  applications. I enjoy the MERN stack and love crafting
+                  interfaces with smooth animations and interactions—as a
+                  developer who cares about UX, not as a separate UI/UX designer
+                  role.
                 </p>
                 <p>
-                  I am continuously learning new technologies and sharpening problem-solving through real-world projects and team collaboration. Currently a Web Developer Intern at{" "}
-                  <a href="https://kodebykraft.com/" className="text-accent font-medium underline underline-offset-4">KodeByKraft</a>
-                  , my goal is to build impactful digital products and grow as a professional developer.
+                  I am continuously learning new technologies and sharpening
+                  problem-solving through real-world projects and team
+                  collaboration. Currently a Web Developer Intern at{" "}
+                  <a
+                    href="https://kodebykraft.com/"
+                    className="text-accent font-medium underline underline-offset-4"
+                  >
+                    KodeByKraft
+                  </a>
+                  , my goal is to build impactful digital products and grow as a
+                  professional developer.
                 </p>
               </div>
             </motion.div>
@@ -203,25 +107,31 @@ const About = () => {
                 { label: "Stack & tools", value: "12+" },
                 { label: "Internship", value: "3 mo+" },
               ].map((stat, i) => (
-                <motion.div 
+                <motion.div
                   key={i}
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ delay: i * 0.1 }}
                   className="p-5 sm:p-6 lg:p-8 bg-white rounded-2xl sm:rounded-3xl border border-black/5"
                 >
-                  <p className="text-2xl sm:text-3xl lg:text-4xl font-display mb-1 sm:mb-2">{stat.value}</p>
-                  <p className="text-[8px] sm:text-[10px] uppercase tracking-wider sm:tracking-widest font-bold text-black/40 leading-tight">{stat.label}</p>
+                  <p className="text-2xl sm:text-3xl lg:text-4xl font-display mb-1 sm:mb-2">
+                    {stat.value}
+                  </p>
+                  <p className="text-[8px] sm:text-[10px] uppercase tracking-wider sm:tracking-widest font-bold text-black/40 leading-tight">
+                    {stat.label}
+                  </p>
                 </motion.div>
               ))}
             </div>
           </div>
 
-          <div className="space-y-6 sm:space-y-8">
-            <h3 className="text-xl sm:text-2xl mb-6 sm:mb-8">Experience & Education</h3>
+          <div className="mt-8 space-y-6 sm:mt-10 sm:space-y-8 lg:mt-16 xl:mt-20">
+            <h3 className="text-xl sm:text-2xl mb-6 sm:mb-8">
+              Experience & Education
+            </h3>
             <div className="space-y-4">
               {EXPERIENCES.map((exp, i) => (
-                <motion.div 
+                <motion.div
                   key={i}
                   initial={{ opacity: 0, x: 20 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -229,13 +139,21 @@ const About = () => {
                 >
                   <div className="flex justify-between items-start gap-3 mb-3 sm:mb-4">
                     <div className="min-w-0">
-                      <p className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-accent mb-1">{exp.period}</p>
-                      <h4 className="text-lg sm:text-xl lg:text-2xl font-display">{exp.role}</h4>
+                      <p className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-accent mb-1">
+                        {exp.period}
+                      </p>
+                      <h4 className="text-lg sm:text-xl lg:text-2xl font-display">
+                        {exp.role}
+                      </h4>
                       <p className="text-sm opacity-60">{exp.company}</p>
                     </div>
-                    {exp.link && <ArrowUpRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" />}
+                    {exp.link && (
+                      <ArrowUpRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    )}
                   </div>
-                  <p className="text-sm font-light leading-relaxed opacity-60 group-hover:opacity-80">{exp.description}</p>
+                  <p className="text-sm font-light leading-relaxed opacity-60 group-hover:opacity-80">
+                    {exp.description}
+                  </p>
                   {exp.highlights && exp.highlights.length > 0 && (
                     <ul className="mt-4 space-y-2 text-sm font-light leading-relaxed opacity-70 group-hover:opacity-90 list-disc pl-5 marker:text-accent">
                       {exp.highlights.map((line, hi) => (
@@ -245,8 +163,8 @@ const About = () => {
                   )}
                 </motion.div>
               ))}
-              
-              <motion.div 
+
+              <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 className="p-5 sm:p-6 lg:p-8 bg-white rounded-2xl sm:rounded-3xl border border-black/5"
@@ -256,11 +174,17 @@ const About = () => {
                     <GraduationCap className="w-5 h-5 sm:w-6 sm:h-6 text-black/40" />
                   </div>
                   <div className="min-w-0">
-                    <h4 className="text-lg sm:text-xl lg:text-2xl font-display">Bachelor&apos;s in CSE</h4>
-                    <p className="text-sm opacity-60">Metropolitan University, Bangladesh · Sylhet</p>
+                    <h4 className="text-lg sm:text-xl lg:text-2xl font-display">
+                      Bachelor&apos;s in CSE
+                    </h4>
+                    <p className="text-sm opacity-60">
+                      Metropolitan University, Bangladesh · Sylhet
+                    </p>
                   </div>
                 </div>
-                <p className="text-xs font-bold uppercase tracking-widest text-black/40">Ongoing · Bachelor&apos;s degree</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-black/40">
+                  Ongoing · Bachelor&apos;s degree
+                </p>
               </motion.div>
             </div>
           </div>
@@ -273,7 +197,6 @@ const About = () => {
 interface ProjectCardProps {
   project: Project;
   index: number;
-  key?: number | string;
 }
 
 const ProjectCard = ({ project, index }: ProjectCardProps) => {
@@ -286,16 +209,18 @@ const ProjectCard = ({ project, index }: ProjectCardProps) => {
       className="group relative overflow-hidden rounded-[24px] border border-black/5 bg-white transition-all duration-700 hover:shadow-2xl sm:rounded-[32px] lg:rounded-[40px]"
     >
       <Link
-        to={`/projects/${project.slug}`}
+        href={`/projects/${project.slug}`}
         className="absolute inset-0 z-[1]"
         aria-label={`View ${project.title} case study`}
       />
       <div className="pointer-events-none relative z-0">
-        <div className="aspect-[16/11] overflow-hidden sm:aspect-[16/10]">
-          <img
+        <div className="relative aspect-[16/11] overflow-hidden sm:aspect-[16/10]">
+          <Image
             src={project.image}
-            alt=""
-            className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
+            alt={`${project.title} project preview`}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover transition-transform duration-1000 group-hover:scale-110"
             referrerPolicy="no-referrer"
           />
         </div>
@@ -349,7 +274,10 @@ const ProjectCard = ({ project, index }: ProjectCardProps) => {
 
 const Projects = () => {
   return (
-    <section id="projects" className="px-5 py-16 sm:px-8 sm:py-24 lg:px-10 lg:py-32 xl:px-12">
+    <section
+      id="projects"
+      className="px-5 py-16 sm:px-8 sm:py-24 lg:px-10 lg:py-32 xl:px-12"
+    >
       <div className="max-w-6xl mx-auto w-full">
         <div className="mb-12 flex flex-col gap-6 sm:mb-16 sm:gap-8 lg:mb-20 xl:flex-row xl:items-end xl:justify-between">
           <motion.div
@@ -361,12 +289,13 @@ const Projects = () => {
               Featured Projects
             </h2>
           </motion.div>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             className="max-w-sm text-left font-light italic text-black/40 text-sm sm:text-base xl:text-right xl:shrink-0"
           >
-            &ldquo;First make it work, then make it right, then make it fast.&rdquo; — Kent Beck
+            &ldquo;First make it work, then make it right, then make it fast.&rdquo;
+            — Kent Beck
           </motion.p>
         </div>
 
@@ -384,7 +313,7 @@ const Projects = () => {
           className="mt-12 flex justify-center sm:mt-16"
         >
           <Link
-            to="/projects"
+            href="/projects"
             className="glass-pill group inline-flex items-center gap-3 px-8 py-4 text-[10px] font-bold uppercase tracking-[0.25em] text-black/70 transition-all hover:border-black/15 hover:text-black"
           >
             View all projects
@@ -399,7 +328,11 @@ const Projects = () => {
 const TechStack = () => {
   const skills = [
     { name: "React.js", icon: <Layout className="w-6 h-6" />, category: "Frontend" },
-    { name: "JavaScript (ES6+)", icon: <Braces className="w-6 h-6" />, category: "Frontend" },
+    {
+      name: "JavaScript (ES6+)",
+      icon: <Braces className="w-6 h-6" />,
+      category: "Frontend",
+    },
     { name: "Tailwind CSS", icon: <Layers className="w-6 h-6" />, category: "Frontend" },
     { name: "HTML5 & CSS3", icon: <Layout className="w-6 h-6" />, category: "Frontend" },
     { name: "Node.js", icon: <Code2 className="w-6 h-6" />, category: "Backend" },
@@ -407,7 +340,11 @@ const TechStack = () => {
     { name: "MongoDB", icon: <Database className="w-6 h-6" />, category: "Database" },
     { name: "MySQL", icon: <Database className="w-6 h-6" />, category: "Database" },
     { name: "Git & GitHub", icon: <Github className="w-6 h-6" />, category: "Tools" },
-    { name: "Framer Motion", icon: <Smartphone className="w-6 h-6" />, category: "Animation" },
+    {
+      name: "Framer Motion",
+      icon: <Smartphone className="w-6 h-6" />,
+      category: "Animation",
+    },
     { name: "Firebase", icon: <Flame className="w-6 h-6" />, category: "Tools" },
     { name: "REST APIs", icon: <Link2 className="w-6 h-6" />, category: "Integration" },
   ];
@@ -417,12 +354,15 @@ const TechStack = () => {
       <div className="max-w-6xl mx-auto w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 xl:gap-20 items-center">
           <div className="lg:col-span-5 text-center lg:text-left">
-            <h2 className="text-[clamp(2.25rem,min(10vw,14dvh),5.5rem)] lg:text-[clamp(2.5rem,min(8vw,12dvh),6rem)] leading-none mb-6 sm:mb-8">Tech <br /> Stack</h2>
+            <h2 className="text-[clamp(2.25rem,min(10vw,14dvh),5.5rem)] lg:text-[clamp(2.5rem,min(8vw,12dvh),6rem)] leading-none mb-6 sm:mb-8">
+              Tech <br /> Stack
+            </h2>
             <p className="text-white/60 font-light leading-relaxed text-base sm:text-lg max-w-xl mx-auto lg:mx-0">
-              I build with intention. Each tool in my arsenal is selected to ensure performance, scalability, and a delightful user experience.
+              I build with intention. Each tool in my arsenal is selected to
+              ensure performance, scalability, and a delightful user experience.
             </p>
           </div>
-          
+
           <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
             {skills.map((skill, i) => (
               <motion.div
@@ -430,15 +370,22 @@ const TechStack = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
-                whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
+                whileHover={{
+                  scale: 1.05,
+                  backgroundColor: "rgba(255,255,255,0.1)",
+                }}
                 className="p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-[28px] lg:rounded-[32px] border border-white/10 flex flex-col items-center justify-center gap-2 sm:gap-4 text-center transition-colors min-h-[7rem] sm:min-h-0"
               >
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-white/5 flex items-center justify-center text-accent [&_svg]:w-5 [&_svg]:h-5 sm:[&_svg]:w-6 sm:[&_svg]:h-6">
                   {skill.icon}
                 </div>
                 <div className="min-w-0 w-full px-0.5">
-                  <p className="font-display text-sm sm:text-lg lg:text-xl leading-tight break-words">{skill.name}</p>
-                  <p className="text-[8px] sm:text-[9px] uppercase tracking-wider sm:tracking-widest text-white/40 mt-1">{skill.category}</p>
+                  <p className="font-display text-sm sm:text-lg lg:text-xl leading-tight break-words">
+                    {skill.name}
+                  </p>
+                  <p className="text-[8px] sm:text-[9px] uppercase tracking-wider sm:tracking-widest text-white/40 mt-1">
+                    {skill.category}
+                  </p>
                 </div>
               </motion.div>
             ))}
@@ -451,20 +398,29 @@ const TechStack = () => {
 
 const Contact = () => {
   return (
-    <section id="contact" className="px-5 py-16 sm:px-8 sm:py-24 lg:px-10 lg:py-32 xl:px-12">
+    <section
+      id="contact"
+      className="px-5 py-16 sm:px-8 sm:py-24 lg:px-10 lg:py-32 xl:px-12"
+    >
       <div className="max-w-6xl mx-auto w-full">
         <div className="bg-muted rounded-[28px] sm:rounded-[40px] lg:rounded-[60px] p-6 sm:p-12 md:p-16 lg:p-24 overflow-hidden relative">
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 xl:gap-20">
             <div className="space-y-8 sm:space-y-12">
-              <h2 className="text-[clamp(2.25rem,min(10vw,14dvh),5.5rem)] lg:text-[clamp(2.5rem,min(8vw,12dvh),6rem)] leading-none">Let's <br /> Connect</h2>
+              <h2 className="text-[clamp(2.25rem,min(10vw,14dvh),5.5rem)] lg:text-[clamp(2.5rem,min(8vw,12dvh),6rem)] leading-none">
+                Let&apos;s <br /> Connect
+              </h2>
               <div className="space-y-5 sm:space-y-6">
                 <div className="flex items-start gap-4 sm:gap-6 group cursor-pointer min-w-0">
                   <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 rounded-full bg-white flex items-center justify-center group-hover:bg-accent group-hover:text-white transition-all">
                     <Mail className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
                   <div className="min-w-0 pt-0.5">
-                    <p className="text-[10px] uppercase tracking-widest font-bold text-black/40">Email me at</p>
-                    <p className="text-base sm:text-lg lg:text-xl font-medium break-all sm:break-words">ratulroy8863@gmail.com</p>
+                    <p className="text-[10px] uppercase tracking-widest font-bold text-black/40">
+                      Email me at
+                    </p>
+                    <p className="text-base sm:text-lg lg:text-xl font-medium break-all sm:break-words">
+                      ratulroy8863@gmail.com
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4 sm:gap-6 group cursor-pointer min-w-0">
@@ -472,21 +428,38 @@ const Contact = () => {
                     <Smartphone className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
                   <div className="min-w-0 pt-0.5">
-                    <p className="text-[10px] uppercase tracking-widest font-bold text-black/40">Call me at</p>
-                    <p className="text-base sm:text-lg lg:text-xl font-medium break-all">+8801795908863</p>
+                    <p className="text-[10px] uppercase tracking-widest font-bold text-black/40">
+                      Call me at
+                    </p>
+                    <p className="text-base sm:text-lg lg:text-xl font-medium break-all">
+                      +8801795908863
+                    </p>
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex flex-wrap gap-3 sm:gap-4">
                 {[
-                  { icon: <Github />, link: "https://github.com/ratulroy8863" },
-                  { icon: <Linkedin />, link: LINKEDIN_HREF },
-                  { icon: <Mail />, link: "mailto:ratulroy8863@gmail.com" }
+                  {
+                    icon: <Github className="w-5 h-5 sm:w-6 sm:h-6" />,
+                    link: "https://github.com/ratulroy8863",
+                    label: "GitHub profile",
+                  },
+                  {
+                    icon: <Linkedin className="w-5 h-5 sm:w-6 sm:h-6" />,
+                    link: LINKEDIN_HREF,
+                    label: "LinkedIn profile",
+                  },
+                  {
+                    icon: <Mail className="w-5 h-5 sm:w-6 sm:h-6" />,
+                    link: "mailto:ratulroy8863@gmail.com",
+                    label: "Email Ratul Saha Roy",
+                  },
                 ].map((social, i) => (
-                  <a 
-                    key={i} 
-                    href={social.link} 
+                  <a
+                    key={i}
+                    href={social.link}
+                    aria-label={social.label}
                     className="w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-black/10 flex items-center justify-center hover:bg-black hover:text-white transition-all shrink-0"
                   >
                     {social.icon}
@@ -495,26 +468,65 @@ const Contact = () => {
               </div>
             </div>
 
-            <form className="space-y-5 sm:space-y-6 min-w-0">
+            <form className="space-y-5 sm:space-y-6 min-w-0" noValidate>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] uppercase tracking-widest font-bold text-black/40 ml-3 sm:ml-4">Name</label>
-                  <input type="text" placeholder="John Doe" className="w-full min-w-0 px-5 sm:px-8 py-3.5 sm:py-4 bg-white rounded-full border border-black/5 focus:outline-none focus:border-accent transition-colors text-base" />
+                  <label
+                    htmlFor="contact-name"
+                    className="text-[10px] uppercase tracking-widest font-bold text-black/40 ml-3 sm:ml-4"
+                  >
+                    Name
+                  </label>
+                  <input
+                    id="contact-name"
+                    name="name"
+                    type="text"
+                    autoComplete="name"
+                    placeholder="John Doe"
+                    className="w-full min-w-0 px-5 sm:px-8 py-3.5 sm:py-4 bg-white rounded-full border border-black/5 focus:outline-none focus:border-accent transition-colors text-base"
+                  />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] uppercase tracking-widest font-bold text-black/40 ml-3 sm:ml-4">Email</label>
-                  <input type="email" placeholder="john@example.com" className="w-full min-w-0 px-5 sm:px-8 py-3.5 sm:py-4 bg-white rounded-full border border-black/5 focus:outline-none focus:border-accent transition-colors text-base" />
+                  <label
+                    htmlFor="contact-email"
+                    className="text-[10px] uppercase tracking-widest font-bold text-black/40 ml-3 sm:ml-4"
+                  >
+                    Email
+                  </label>
+                  <input
+                    id="contact-email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    placeholder="john@example.com"
+                    className="w-full min-w-0 px-5 sm:px-8 py-3.5 sm:py-4 bg-white rounded-full border border-black/5 focus:outline-none focus:border-accent transition-colors text-base"
+                  />
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] uppercase tracking-widest font-bold text-black/40 ml-3 sm:ml-4">Message</label>
-                <textarea rows={4} placeholder="Tell me about your project..." className="w-full min-w-0 px-5 sm:px-8 py-5 sm:py-6 bg-white rounded-[24px] sm:rounded-[32px] border border-black/5 focus:outline-none focus:border-accent transition-colors resize-y min-h-[120px] text-base"></textarea>
+                <label
+                  htmlFor="contact-message"
+                  className="text-[10px] uppercase tracking-widest font-bold text-black/40 ml-3 sm:ml-4"
+                >
+                  Message
+                </label>
+                <textarea
+                  id="contact-message"
+                  name="message"
+                  rows={4}
+                  placeholder="Tell me about your project..."
+                  className="w-full min-w-0 px-5 sm:px-8 py-5 sm:py-6 bg-white rounded-[24px] sm:rounded-[32px] border border-black/5 focus:outline-none focus:border-accent transition-colors resize-y min-h-[120px] text-base"
+                />
               </div>
-              <button type="button" className="w-full py-4 sm:py-6 bg-black text-white rounded-full font-bold uppercase tracking-widest text-[10px] sm:text-xs hover:scale-[1.02] transition-transform">Send Message</button>
+              <button
+                type="button"
+                className="w-full py-4 sm:py-6 bg-black text-white rounded-full font-bold uppercase tracking-widest text-[10px] sm:text-xs hover:scale-[1.02] transition-transform"
+              >
+                Send Message
+              </button>
             </form>
           </div>
-          
-          {/* Decorative background text */}
+
           <div className="absolute -bottom-16 sm:-bottom-20 -right-8 sm:-right-20 text-[clamp(4rem,22vw,12rem)] sm:text-[20vw] font-display text-black/5 leading-none pointer-events-none select-none max-w-[100%] overflow-hidden">
             HIRE
           </div>
@@ -529,13 +541,27 @@ const Footer = () => {
     <footer className="border-t border-black/5 bg-white px-5 py-8 sm:px-8 sm:py-12 lg:px-10 xl:px-12">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-8 text-center md:text-left">
         <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
-          <div className="w-10 h-10 shrink-0 rounded-full bg-black flex items-center justify-center text-white font-bold">R</div>
-          <p className="text-xs sm:text-sm font-medium max-w-xs sm:max-w-none">© 2026 Ratul Saha Roy. All rights reserved.</p>
+          <div className="w-10 h-10 shrink-0 rounded-full bg-black flex items-center justify-center text-white font-bold">
+            R
+          </div>
+          <p className="text-xs sm:text-sm font-medium max-w-xs sm:max-w-none">
+            © 2026 Ratul Saha Roy. All rights reserved.
+          </p>
         </div>
         <div className="flex flex-wrap justify-center gap-x-6 gap-y-3 text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-black/40">
-          <a href="#" className="hover:text-black transition-colors">Privacy Policy</a>
-          <a href="#" className="hover:text-black transition-colors">Terms of Service</a>
-          <a href={RESUME_HREF} download target="_blank" rel="noopener noreferrer" className="hover:text-black transition-colors inline-flex items-center gap-1">
+          <a href="#" className="hover:text-black transition-colors">
+            Privacy Policy
+          </a>
+          <a href="#" className="hover:text-black transition-colors">
+            Terms of Service
+          </a>
+          <a
+            href={RESUME_HREF}
+            download
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-black transition-colors inline-flex items-center gap-1"
+          >
             <Download className="w-3 h-3 shrink-0" />
             Resume
           </a>
@@ -554,9 +580,9 @@ const SERVICES = [
     bullets: [
       "Component-driven React and Tailwind UI",
       "Responsive layouts, spacing, and readable structure",
-      "Motion only where it supports usability and polish"
+      "Motion only where it supports usability and polish",
     ],
-    imageSrc: "/service-01.png"
+    imageSrc: "/service-01.png",
   },
   {
     id: "02",
@@ -566,9 +592,9 @@ const SERVICES = [
     bullets: [
       "MERN features from database to dashboard",
       "REST APIs and auth-aware product flows",
-      "Maintainable code under real data and constraints"
+      "Maintainable code under real data and constraints",
     ],
-    imageSrc: "/service-02.png"
+    imageSrc: "/service-02.png",
   },
   {
     id: "03",
@@ -578,10 +604,10 @@ const SERVICES = [
     bullets: [
       "REST APIs with clear, predictable contracts",
       "Firebase when realtime or auth helpers fit the product",
-      "MongoDB or MySQL chosen to match the problem"
+      "MongoDB or MySQL chosen to match the problem",
     ],
-    imageSrc: "/service-03.png"
-  }
+    imageSrc: "/service-03.png",
+  },
 ] as const;
 
 const TESTIMONIALS = [
@@ -589,14 +615,14 @@ const TESTIMONIALS = [
     name: "Team feedback",
     role: "Development environment",
     text: "Ratul asks good questions before he builds, ships UI that matches the spec, and is easy to collaborate with on day-to-day tickets.",
-    avatar: "https://i.pravatar.cc/150?u=ratul-peer-a"
+    avatar: "https://i.pravatar.cc/150?u=ratul-peer-a",
   },
   {
     name: "Mentor note",
     role: "Code review & pairing",
     text: "Strong React fundamentals and a clear willingness to learn—he iterates quickly when we discuss performance or cleaner component structure.",
-    avatar: "https://i.pravatar.cc/150?u=ratul-peer-b"
-  }
+    avatar: "https://i.pravatar.cc/150?u=ratul-peer-b",
+  },
 ];
 
 const Services = () => {
@@ -619,7 +645,9 @@ const Services = () => {
             What I Can Do
           </h2>
           <p className="mt-5 text-base font-normal leading-relaxed text-[#4B5563] sm:mt-6 sm:text-lg">
-            Three ways I help teams and my own projects: solid front-end implementation, MERN-style full stack delivery, and clean integration between apps, APIs, and data stores.
+            Three ways I help teams and my own projects: solid front-end
+            implementation, MERN-style full stack delivery, and clean integration
+            between apps, APIs, and data stores.
           </p>
         </motion.header>
 
@@ -636,6 +664,7 @@ const Services = () => {
                   id={`service-trigger-${service.id}`}
                   aria-expanded={isOpen}
                   aria-controls={`service-panel-${service.id}`}
+                  aria-label={`${isOpen ? "Collapse" : "Expand"} ${service.title} details`}
                   className="flex w-full cursor-pointer items-center justify-between gap-4 py-6 text-left font-display text-base font-bold uppercase tracking-wide text-black transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black/20 sm:py-7 sm:text-lg lg:text-xl"
                   onClick={() =>
                     setOpenId((prev) =>
@@ -665,7 +694,7 @@ const Services = () => {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{
                         duration: 0.38,
-                        ease: [0.25, 0.1, 0.25, 1]
+                        ease: [0.25, 0.1, 0.25, 1],
                       }}
                       className="overflow-hidden"
                     >
@@ -681,13 +710,13 @@ const Services = () => {
                           </ul>
                         </div>
                         <div className="relative min-h-[12rem] lg:min-h-[14rem]">
-                          <div className="relative overflow-hidden rounded-[28px] border border-black/5 bg-muted sm:rounded-[32px] lg:rounded-[36px]">
-                            <img
+                          <div className="relative h-[min(52vw,320px)] min-h-[12rem] w-full overflow-hidden rounded-[28px] border border-black/5 bg-muted sm:rounded-[32px] lg:h-[min(40vw,360px)] lg:min-h-[14rem] lg:rounded-[36px]">
+                            <Image
                               src={service.imageSrc}
-                              alt=""
-                              className="block max-h-[min(52vw,320px)] w-full object-cover object-center lg:max-h-[min(40vw,360px)]"
-                              loading="lazy"
-                              decoding="async"
+                              alt={`Illustration for ${service.title}`}
+                              fill
+                              sizes="(max-width: 1024px) 90vw, 40vw"
+                              className="object-cover object-center"
                             />
                           </div>
                         </div>
@@ -712,7 +741,9 @@ const Testimonials = () => {
           <h2 className="mb-4 whitespace-nowrap text-[clamp(2rem,min(8vw,12dvh),5.5rem)] leading-none [text-wrap:normal] sm:mb-6 lg:text-[clamp(2.25rem,min(7vw,11dvh),5.75rem)]">
             Client Voices
           </h2>
-          <p className="text-black/40 font-light italic text-sm sm:text-base px-2">"Trust is the foundation of every great project."</p>
+          <p className="text-black/40 font-light italic text-sm sm:text-base px-2">
+            &ldquo;Trust is the foundation of every great project.&rdquo;
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
@@ -725,14 +756,30 @@ const Testimonials = () => {
               className="p-6 sm:p-10 lg:p-12 bg-white rounded-[24px] sm:rounded-[32px] lg:rounded-[40px] border border-black/5 space-y-5 sm:space-y-8"
             >
               <div className="flex flex-wrap gap-1 text-accent">
-                {[...Array(5)].map((_, j) => <Award key={j} className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current" />)}
+                {[...Array(5)].map((_, j) => (
+                  <Award key={j} className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current" />
+                ))}
               </div>
-              <p className="text-lg sm:text-xl lg:text-2xl font-light leading-relaxed italic">"{t.text}"</p>
+              <p className="text-lg sm:text-xl lg:text-2xl font-light leading-relaxed italic">
+                &ldquo;{t.text}&rdquo;
+              </p>
               <div className="flex items-center gap-3 sm:gap-4 min-w-0">
-                <img src={t.avatar} alt={t.name} className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-full grayscale" />
+                <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full sm:h-12 sm:w-12">
+                  <Image
+                    src={t.avatar}
+                    alt={`Portrait for ${t.name}`}
+                    fill
+                    sizes="48px"
+                    className="object-cover grayscale"
+                  />
+                </div>
                 <div className="min-w-0 text-left">
-                  <p className="font-display text-lg sm:text-xl truncate">{t.name}</p>
-                  <p className="text-[9px] sm:text-[10px] uppercase tracking-widest font-bold text-black/40">{t.role}</p>
+                  <p className="font-display text-lg sm:text-xl truncate">
+                    {t.name}
+                  </p>
+                  <p className="text-[9px] sm:text-[10px] uppercase tracking-widest font-bold text-black/40">
+                    {t.role}
+                  </p>
                 </div>
               </div>
             </motion.div>
@@ -743,11 +790,9 @@ const Testimonials = () => {
   );
 };
 
-function HomePage() {
+export default function HomeBelowFold() {
   return (
-    <div className="relative">
-      <Navbar />
-      <Hero />
+    <>
       <About />
       <Services />
       <Projects />
@@ -755,24 +800,6 @@ function HomePage() {
       <Testimonials />
       <Contact />
       <Footer />
-      <BackToTop />
-
-      <div className="pointer-events-none fixed inset-0 -z-50">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(93,95,239,0.03),transparent_70%)]" />
-      </div>
-    </div>
-  );
-}
-
-export default function App() {
-  return (
-    <>
-      <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/projects" element={<ProjectsPage />} />
-        <Route path="/projects/:slug" element={<ProjectDetailPage />} />
-      </Routes>
     </>
   );
 }
