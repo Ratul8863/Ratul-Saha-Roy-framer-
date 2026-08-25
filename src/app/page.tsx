@@ -1,24 +1,42 @@
 import type { Metadata } from "next";
-import HomePage from "@/views/HomePage";
-import { defaultDescription, getSiteUrl, siteName } from "@/lib/site";
+import LandingPage from "@/views/LandingPage";
+import { PROJECTS } from "@/data/projects";
+import { ACHIEVEMENTS } from "@/data/achievements";
+import {
+  buildCrawlSummary,
+  defaultDescription,
+  getSiteUrl,
+  seoKeywords,
+} from "@/lib/site";
 
 const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
+  title: `Ratul Saha Roy | Full Stack Web Developer (MERN)`,
   description: defaultDescription,
+  keywords: seoKeywords,
   alternates: { canonical: siteUrl },
   openGraph: {
     url: siteUrl,
-    title: `${siteName} · Full Stack Web Developer (MERN)`,
+    title: `Ratul Saha Roy | Full Stack Web Developer (MERN)`,
     description: defaultDescription,
+    type: "website",
+    siteName: "Ratul Saha Roy",
   },
   twitter: {
-    title: `${siteName} · Full Stack Web Developer (MERN)`,
+    card: "summary_large_image",
+    title: `Ratul Saha Roy | Full Stack Web Developer (MERN)`,
     description: defaultDescription,
   },
 };
 
-/** SSG: static shell; HomePage code-splits below-the-fold client sections. */
+/** SSG: static shell — projects/achievements come from the server so SSR and client share one snapshot. */
 export default function Page() {
-  return <HomePage />;
+  return (
+    <>
+      {/* Full entity crawl text: projects, awards, company, university */}
+      <p className="sr-only">{buildCrawlSummary()}</p>
+      <LandingPage projects={PROJECTS} achievements={ACHIEVEMENTS} />
+    </>
+  );
 }

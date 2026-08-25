@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import { getProjectBySlug, PROJECTS } from "@/lib/projects";
-import { getSiteUrl, siteName } from "@/lib/site";
+import {
+  projectJsonLd,
+  projectSeoDescription,
+  projectSeoKeywords,
+  projectSeoTitle,
+} from "@/lib/project-seo";
+import { getSiteUrl } from "@/lib/site";
 import ProjectDetailPage from "@/views/ProjectDetailPage";
 
 export function generateStaticParams() {
@@ -22,10 +28,11 @@ export async function generateMetadata({
       robots: { index: false, follow: false },
     };
   }
-  const title = project.title;
-  const description = project.description;
+
   const base = getSiteUrl();
   const canonical = `${base}/projects/${slug}`;
+  const title = projectSeoTitle(project);
+  const description = projectSeoDescription(project);
   const ogImage = project.image.startsWith("http")
     ? project.image
     : new URL(project.image, base).toString();
@@ -34,24 +41,27 @@ export async function generateMetadata({
     title,
     description,
     alternates: { canonical },
-    keywords: [...project.tags, "case study", "MERN", siteName],
+    keywords: projectSeoKeywords(project),
+    authors: [{ name: "Ratul Saha Roy", url: base }],
+    creator: "Ratul Saha Roy",
     openGraph: {
       url: canonical,
-      title: `${project.title} · Case study`,
+      title,
       description,
       type: "article",
+      siteName: "Ratul Saha Roy",
       images: [
         {
           url: ogImage,
           width: 1200,
           height: 630,
-          alt: project.title,
+          alt: `${project.title} — built by Ratul Saha Roy`,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${project.title} · ${siteName}`,
+      title,
       description,
       images: [ogImage],
     },
@@ -62,6 +72,7 @@ export async function generateMetadata({
         index: true,
         follow: true,
         "max-image-preview": "large",
+        "max-snippet": -1,
       },
     },
   };
@@ -74,5 +85,30 @@ export async function generateMetadata({
  */
 export default async function Page({ params }: PageProps) {
   const { slug } = await params;
-  return <ProjectDetailPage slug={slug} />;
+  const project = getProjectBySlug(slug);
+
+  return (
+    <>
+      {project ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(projectJsonLd(project)),
+          }}
+        />
+      ) : null}
+      {/* Crawler-visible attribution: ties live brand ↔ you */}
+      {project ? (
+        <p className="sr-only">
+          {project.title} was developed by Ratul Saha Roy.
+          {project.seoAliases?.length
+            ? ` Also known as: ${project.seoAliases.join(", ")}.`
+            : ""}{" "}
+          Live website: {project.link}. Full case study on Ratul Saha Roy&apos;s
+          portfolio at {getSiteUrl()}/projects/{project.slug}.
+        </p>
+      ) : null}
+      <ProjectDetailPage slug={slug} />
+    </>
+  );
 }

@@ -1,174 +1,111 @@
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
+ *
+ * Projects archive — Figma 3rd-version theme (same card chrome as Achievements).
  */
 
 "use client";
 
 import Image from "next/image";
 import Link from "next/link";
-import {
-  motion,
-  useMotionValue,
-  useSpring,
-  useTransform,
-} from "motion/react";
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
-import { useRef, type MouseEvent } from "react";
+import { motion } from "motion/react";
+import { ArrowLeft, ArrowUpRight, Plus } from "lucide-react";
 import { PROJECTS, type Project } from "../data/projects";
-import { Navbar } from "../components/Navbar";
+import { LandingHeader } from "../components/landing/LandingHeader";
 import { BackToTop } from "../components/BackToTop";
 
-function TiltProjectCard({
+function ProjectArchiveCard({
   project,
   index,
 }: {
   project: Project;
   index: number;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 320, damping: 28, mass: 0.55 });
-  const springY = useSpring(y, { stiffness: 320, damping: 28, mass: 0.55 });
-  const rotateX = useTransform(springY, [-0.5, 0.5], [16, -16]);
-  const rotateY = useTransform(springX, [-0.5, 0.5], [-16, 16]);
-
-  const handleMove = (e: MouseEvent<HTMLDivElement>) => {
-    const el = ref.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    x.set((e.clientX - r.left) / r.width - 0.5);
-    y.set((e.clientY - r.top) / r.height - 0.5);
-  };
-
-  const handleLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
-
-  const canVisit = project.link && project.link !== "#";
+  const number = String(index + 1).padStart(2, "0");
+  const canVisit = Boolean(project.link && project.link !== "#");
+  const highlights = [
+    project.category,
+    ...project.tags.slice(0, 2),
+  ].filter(Boolean);
 
   return (
     <motion.article
-      className="min-h-0 [perspective:1400px]"
-      initial={{ opacity: 0, y: 72, rotateX: 10 }}
-      whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-      viewport={{ once: true, margin: "-70px" }}
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
       transition={{
-        duration: 0.75,
-        delay: index * 0.11,
+        duration: 0.55,
+        delay: Math.min(index * 0.06, 0.36),
         ease: [0.22, 1, 0.36, 1],
       }}
+      className="group relative flex h-full flex-col overflow-hidden rounded-[30px] border-[5px] border-solid border-ink bg-card text-ink"
     >
-      <motion.div
-        ref={ref}
-        onMouseMove={handleMove}
-        onMouseLeave={handleLeave}
-        style={{
-          rotateX,
-          rotateY,
-          transformStyle: "preserve-3d",
-        }}
-        transition={{ type: "spring", stiffness: 400, damping: 32 }}
-        className="group/card relative h-full overflow-hidden rounded-[28px] border border-black/10 bg-white shadow-[0_28px_90px_-32px_rgba(0,0,0,0.18)] sm:rounded-[36px]"
-      >
-        <Link
-          href={`/projects/${project.slug}`}
-          className="absolute inset-0 z-[5]"
-          aria-label={`View ${project.title} case study`}
-        />
-        <div
-          className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-500 group-hover/card:opacity-100"
-          style={{
-            background:
-              "linear-gradient(135deg, rgba(93,95,239,0.12) 0%, transparent 45%, rgba(0,0,0,0.04) 100%)",
-            transform: "translateZ(1px)",
-          }}
-        />
+      <Link
+        href={`/projects/${project.slug}`}
+        className="absolute inset-0 z-[2]"
+        aria-label={`View ${project.title} case study`}
+      />
 
-        <div
-          className="pointer-events-none relative aspect-[16/10] overflow-hidden bg-muted"
-          style={{
-            transform: "translateZ(42px)",
-            transformStyle: "preserve-3d",
-          }}
-        >
-          <motion.div
-            className="absolute inset-0 h-full w-full"
-            whileHover={{ scale: 1.07 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <Image
-              src={project.image}
-              alt={project.title}
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover grayscale group-hover/card:grayscale-0"
-              referrerPolicy="no-referrer"
-            />
-          </motion.div>
-          <div
-            className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-70"
-            style={{ transform: "translateZ(2px)" }}
+      <div className="relative z-[1] flex min-h-0 flex-1 flex-col gap-3.5 p-5 sm:p-6">
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2.5">
+            <div className="flex items-start justify-between gap-3 font-audiowide text-[22px] leading-[1.2] sm:text-[26px] xl:text-[28px]">
+              <h2 className="min-w-0 flex-1 line-clamp-2">{project.title}</h2>
+              <span className="shrink-0 tabular-nums">/{number}</span>
+            </div>
+            <div className="h-1 w-[100px] rounded-full bg-ink" />
+          </div>
+
+          <p className="line-clamp-3 font-baumans text-[16px] leading-[1.55] text-ink sm:text-[18px] sm:leading-[1.55]">
+            {project.description}
+          </p>
+        </div>
+
+        <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden rounded-2xl bg-surface">
+          <Image
+            src={project.image}
+            alt={project.title}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+            referrerPolicy="no-referrer"
           />
         </div>
 
-        <div
-          className="pointer-events-none relative space-y-4 p-6 sm:p-8"
-          style={{
-            transform: "translateZ(56px)",
-            transformStyle: "preserve-3d",
-          }}
-        >
-          <div className="flex items-start justify-between gap-4">
-            <div className="min-w-0">
-              <span className="mb-3 inline-block rounded-full bg-accent/10 px-3 py-1 text-[9px] font-bold uppercase tracking-widest text-accent">
-                {project.category}
+        <ul className="mt-auto flex flex-col gap-2">
+          {highlights.map((item) => (
+            <li key={item} className="flex items-center gap-3 sm:gap-4">
+              <Plus className="h-4 w-4 shrink-0 sm:h-5 sm:w-5" strokeWidth={2.5} aria-hidden />
+              <span className="min-w-0 truncate font-baumans text-[14px] leading-[1.4] sm:text-[16px]">
+                {item}
               </span>
-              <h2 className="font-display text-2xl font-extrabold leading-tight tracking-tight text-ink sm:text-3xl lg:text-4xl">
-                {project.title}
-              </h2>
-            </div>
-            {canVisit ? (
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="pointer-events-auto relative z-[6] mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-black/10 text-ink transition-colors hover:bg-black hover:text-white"
-                aria-label={`Open ${project.title}`}
-              >
-                <ArrowUpRight className="h-5 w-5 transition-transform group-hover/card:rotate-45" />
-              </a>
-            ) : (
-              <span className="relative z-[6] mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-dashed border-black/15 text-black/30">
-                <ArrowUpRight className="h-5 w-5" />
-              </span>
-            )}
-          </div>
-          <p className="text-sm font-light leading-relaxed text-black/55 sm:text-base">
-            {project.description}
-          </p>
-          <div className="flex flex-wrap gap-2 pt-1">
-            {project.tags.map((tag) => (
-              <span
-                key={tag}
-                className="rounded-full border border-black/8 px-3 py-1 text-[9px] font-bold uppercase tracking-widest text-black/45"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-          <p className="text-[9px] font-bold uppercase tracking-widest text-black/35">
-            Case study →
-          </p>
-        </div>
+            </li>
+          ))}
+        </ul>
 
-        <div
-          className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-accent/20 blur-3xl"
-          style={{ transform: "translateZ(20px)" }}
-        />
-      </motion.div>
+        <div className="pointer-events-none relative z-[3] flex items-center justify-between gap-3 pt-1">
+          <span className="font-anon text-[12px] font-bold uppercase tracking-wider text-muted">
+            Case study →
+          </span>
+          {canVisit ? (
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pointer-events-auto flex h-11 w-11 items-center justify-center rounded-full border-[3px] border-ink bg-bg text-ink transition-colors hover:bg-accent hover:text-on-accent hover:border-accent"
+              aria-label={`Open ${project.title} live site`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <ArrowUpRight className="h-5 w-5" />
+            </a>
+          ) : (
+            <span className="flex h-11 w-11 items-center justify-center rounded-full border-[3px] border-dashed border-ink/25 text-ink/30">
+              <ArrowUpRight className="h-5 w-5" />
+            </span>
+          )}
+        </div>
+      </div>
     </motion.article>
   );
 }
@@ -176,57 +113,54 @@ function TiltProjectCard({
 export default function ProjectsPage() {
   return (
     <div className="relative min-h-dvh overflow-x-hidden bg-bg text-ink">
-      <Navbar />
+      <LandingHeader projectCount={PROJECTS.length} />
+
+      <div
+        className="pointer-events-none absolute inset-y-0 left-[80px] hidden w-px bg-ink/10 lg:block"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute inset-y-0 right-[80px] hidden w-px bg-ink/10 lg:block"
+        aria-hidden
+      />
 
       <main
         id="main-content"
-        className="px-5 pb-24 pt-28 sm:px-8 sm:pt-32 lg:px-10 xl:px-12"
+        className="relative mx-auto w-full max-w-[1440px] px-5 pb-24 pt-28 sm:px-10 sm:pt-32 lg:px-[100px] lg:pb-28 lg:pt-36"
       >
-        <div className="mx-auto max-w-6xl">
-          <motion.header
-            className="mb-14 sm:mb-20 lg:mb-24"
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        <motion.header
+          className="mb-12 flex flex-col items-center text-center sm:mb-16 lg:mb-20"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <Link
+            href="/"
+            className="mb-8 inline-flex items-center gap-2 rounded-full border border-border px-4 py-2.5 font-anon text-[12px] font-bold uppercase tracking-[0.18em] text-ink transition-colors hover:bg-accent hover:text-on-accent hover:border-accent"
           >
-            <Link
-              href="/"
-              className="glass-pill mb-8 inline-flex items-center gap-2 px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] text-black/55 transition-colors hover:text-black"
-            >
-              <ArrowLeft className="h-4 w-4" aria-hidden />
-              Back home
-            </Link>
-            <h1 className="mb-5 max-w-4xl font-display text-[clamp(2.5rem,min(11vw,16dvh),6.25rem)] font-extrabold leading-[0.92] tracking-tight">
-              Project <span className="text-accent">Archive</span>
-            </h1>
-            <p className="max-w-2xl text-base font-light leading-relaxed text-black/50 sm:text-lg">
-              Every build here is part of my MERN journey—live sites, full-stack apps,
-              and experiments. Hover cards for a 3D tilt; open the arrow when a public
-              link is available.
-            </p>
-          </motion.header>
+            <ArrowLeft className="h-4 w-4" aria-hidden />
+            Back home
+          </Link>
+          <h1 className="mb-4 font-audiowide text-[clamp(2.25rem,6vw,3rem)] leading-[1.15] text-ink sm:text-[48px] sm:leading-[72px]">
+            PROJECTS
+          </h1>
+          <p className="max-w-[34ch] font-baumans text-[17px] leading-[1.5] text-ink sm:max-w-xl sm:text-[24px] sm:leading-[36px]">
+            Live sites, full-stack builds, and experiments from the MERN journey.
+          </p>
+        </motion.header>
 
-          <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-8 lg:gap-12">
-            {PROJECTS.map((project, i) => (
-              <div key={project.slug} className="min-h-0">
-                <TiltProjectCard project={project} index={i} />
-              </div>
-            ))}
-          </div>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8 lg:gap-10">
+          {PROJECTS.map((project, i) => (
+            <ProjectArchiveCard
+              key={project.slug}
+              project={project}
+              index={i}
+            />
+          ))}
         </div>
       </main>
 
       <BackToTop />
-
-      <div
-        className="pointer-events-none fixed inset-0 -z-50 isolate"
-        aria-hidden
-      >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_40%_20%,rgba(93,95,239,0.07),transparent_55%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(0,0,0,0.04),transparent_50%)]" />
-        <div className="absolute left-[-20%] top-[15%] h-[min(70vw,480px)] w-[min(70vw,480px)] rounded-full bg-accent/[0.09] blur-[100px]" />
-        <div className="absolute bottom-[-10%] right-[-15%] h-[min(60vw,420px)] w-[min(60vw,420px)] rounded-full bg-black/[0.04] blur-[90px]" />
-      </div>
     </div>
   );
 }
