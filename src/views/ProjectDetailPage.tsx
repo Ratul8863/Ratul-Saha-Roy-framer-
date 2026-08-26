@@ -242,7 +242,7 @@ function StatsStrip({ project }: { project: Project }) {
   if (stats.length === 0) return null;
 
   return (
-    <div className="pd-stats mx-auto grid max-w-[1440px] grid-cols-2 gap-3 px-5 sm:grid-cols-3 sm:gap-5 sm:px-10 lg:px-[100px]">
+    <div className="pd-stats mx-auto grid max-w-[1440px] grid-cols-3 gap-2.5 px-4 sm:gap-5 sm:px-10 lg:px-[100px]">
       {stats.map((stat, i) => (
         <motion.div
           key={stat.label}
@@ -250,14 +250,14 @@ function StatsStrip({ project }: { project: Project }) {
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ ...SPRING, delay: i * 0.08 }}
-          className="relative overflow-hidden rounded-[22px] border-[3px] border-ink bg-card px-4 py-5 text-center sm:rounded-[26px] sm:py-6"
+          className="relative overflow-hidden rounded-[18px] border-[3px] border-ink bg-card px-2 py-3.5 text-center sm:rounded-[26px] sm:px-4 sm:py-6"
         >
           <div
             className="pointer-events-none absolute -right-6 -top-6 h-20 w-20 rounded-full bg-accent/20 blur-2xl"
             aria-hidden
           />
           <p
-            className="pd-stat-number relative font-audiowide text-3xl text-accent sm:text-4xl"
+            className="pd-stat-number relative font-audiowide text-2xl text-accent sm:text-4xl"
             data-target={stat.value}
             data-raw={stat.raw ?? ""}
           >
@@ -575,8 +575,11 @@ function ProjectDetailContent({
 }) {
   const reduceMotion = useReducedMotion();
   const rootRef = useRef<HTMLDivElement>(null);
+  const heroStickyRef = useRef<HTMLDivElement>(null);
+  const heroSentinelRef = useRef<HTMLDivElement>(null);
   const figureRef = useRef<HTMLElement>(null);
   const imgWrapRef = useRef<HTMLDivElement>(null);
+  const mobileImgWrapRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
   const galleryPinRef = useRef<HTMLDivElement>(null);
   const galleryTrackRef = useRef<HTMLDivElement>(null);
@@ -606,16 +609,15 @@ function ProjectDetailContent({
   }, [lenis]);
 
   useEffect(() => {
-    const hero = document.getElementById("pd-hero");
-    if (!hero || !canVisit) return;
+    const sentinel = heroSentinelRef.current;
+    if (!sentinel || !canVisit) return;
     const io = new IntersectionObserver(
       ([entry]) => {
-        // Show dock when hero is mostly off-screen
         setShowLiveDock(!entry.isIntersecting);
       },
-      { threshold: 0.12, rootMargin: "-48px 0px 0px 0px" },
+      { threshold: 0, rootMargin: "-72px 0px 0px 0px" },
     );
-    io.observe(hero);
+    io.observe(sentinel);
     return () => io.disconnect();
   }, [canVisit, project.slug]);
 
@@ -702,21 +704,87 @@ function ProjectDetailContent({
         ease: "sine.inOut",
       });
 
-      /* Soft parallax only — no pinSpacing:false (that caused overlapping mess) */
+      /* Home-style curtain parallax — layered drift while content slides over */
+      const heroSticky = heroStickyRef.current;
+      const parallaxEnd = () => `+=${Math.round(window.innerHeight * 0.9)}`;
+      const parallaxScrub = heroSticky
+        ? {
+            trigger: heroSticky,
+            start: "top top",
+            end: parallaxEnd,
+            scrub: 0.55,
+            invalidateOnRefresh: true,
+          }
+        : null;
+
       const figure = figureRef.current;
       const imgWrap = imgWrapRef.current;
-      if (figure && imgWrap) {
-        gsap.to(imgWrap, {
-          yPercent: 10,
-          scale: 1.06,
-          ease: "none",
-          scrollTrigger: {
-            trigger: figure,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: true,
+      const mobileImgWrap = mobileImgWrapRef.current;
+
+      if (parallaxScrub && imgWrap) {
+        gsap.fromTo(
+          imgWrap,
+          { yPercent: -6, scale: 1.14 },
+          { yPercent: 14, scale: 1.04, ease: "none", scrollTrigger: parallaxScrub },
+        );
+      }
+
+      if (parallaxScrub && mobileImgWrap) {
+        gsap.fromTo(
+          mobileImgWrap,
+          { yPercent: -4, scale: 1.1 },
+          { yPercent: 12, scale: 1.02, ease: "none", scrollTrigger: parallaxScrub },
+        );
+      }
+
+      const watermark = root.querySelector(".pd-hero-watermark");
+      if (parallaxScrub && watermark) {
+        gsap.fromTo(
+          watermark,
+          { yPercent: -8, scale: 1 },
+          {
+            yPercent: 22,
+            scale: 1.08,
+            ease: "none",
+            scrollTrigger: { ...parallaxScrub, scrub: 0.35 },
           },
-        });
+        );
+      }
+
+      const caption = root.querySelector(".pd-hero-caption");
+      if (parallaxScrub && caption) {
+        gsap.fromTo(
+          caption,
+          { y: 0 },
+          { y: -72, ease: "none", scrollTrigger: { ...parallaxScrub, scrub: 0.4 } },
+        );
+      }
+
+      const crumbs = root.querySelector(".pd-hero-crumbs");
+      if (parallaxScrub && crumbs) {
+        gsap.fromTo(
+          crumbs,
+          { y: 0, opacity: 1 },
+          { y: -48, opacity: 0.55, ease: "none", scrollTrigger: { ...parallaxScrub, scrub: 0.45 } },
+        );
+      }
+
+      if (parallaxScrub && figure) {
+        gsap.fromTo(
+          figure,
+          { opacity: 1 },
+          {
+            opacity: 0.72,
+            ease: "none",
+            scrollTrigger: {
+              trigger: heroSticky,
+              start: "top top",
+              end: () => `+=${Math.round(window.innerHeight * 0.45)}`,
+              scrub: true,
+              invalidateOnRefresh: true,
+            },
+          },
+        );
       }
 
       /* Stats count-up */
@@ -829,16 +897,86 @@ function ProjectDetailContent({
 
       <main id="main-content" className="pb-20 sm:pb-24">
         <div ref={rootRef}>
-          {/* ===== HERO — flush top (no gap / seam line above image) ===== */}
-          <section id="pd-hero" className="relative">
+          {/* ===== HERO — sticky curtain + parallax (home-style) ===== */}
+          <section id="pd-hero" className="relative scroll-mt-0">
+            <div ref={heroStickyRef} className="sticky top-0 z-[1] overflow-hidden">
+            {/* ── Mobile: stacked ── */}
+            <div className="sm:hidden">
+              <div className="mx-auto flex max-w-[1440px] flex-wrap items-center gap-2.5 px-4 pb-4 pt-[5.5rem]">
+                <Link
+                  href="/projects"
+                  className="pd-crumb inline-flex items-center gap-2 rounded-full border border-border bg-card px-3.5 py-2 font-anon text-[10px] font-bold uppercase tracking-[0.16em] text-ink"
+                >
+                  <ArrowLeft className="h-3.5 w-3.5" aria-hidden />
+                  All projects
+                </Link>
+                <Link
+                  href="/"
+                  className="pd-crumb font-anon text-[10px] font-bold uppercase tracking-[0.16em] text-muted"
+                >
+                  Home
+                </Link>
+              </div>
+
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-ink">
+                <div ref={mobileImgWrapRef} className="absolute inset-0 will-change-transform">
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    priority
+                    sizes="100vw"
+                    className="object-cover object-center"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+              </div>
+
+              <div className="px-4 py-6">
+                <p className="pd-meta mb-2 font-anon text-[10px] font-bold uppercase tracking-[0.22em] text-accent">
+                  {metaBits.join(" · ")}
+                </p>
+                {project.role && (
+                  <p className="mb-3 font-baumans text-[14px] leading-snug text-muted">
+                    {project.role}
+                  </p>
+                )}
+                <h1 className="pd-title-word mb-3 font-audiowide text-[1.75rem] leading-[1.1] text-ink">
+                  {project.title}
+                </h1>
+                <p className="pd-lead mb-5 font-baumans text-[15px] leading-[1.55] text-ink/85">
+                  {project.description}
+                </p>
+                {canVisit && (
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="pd-hero-cta inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 font-anon text-[11px] font-bold uppercase tracking-[0.2em] text-on-accent"
+                  >
+                    Visit live site
+                    <ArrowUpRight className="h-4 w-4" aria-hidden />
+                  </a>
+                )}
+              </div>
+            </div>
+
+            {/* ── Tablet+ : cinematic overlay ── */}
             <figure
               ref={figureRef}
-              className="pd-figure relative w-screen max-w-[100vw] overflow-hidden border-0 bg-ink outline-none ring-0"
+              className="pd-figure relative hidden w-screen max-w-[100vw] overflow-hidden border-0 bg-ink sm:block"
               style={{ marginLeft: "calc(50% - 50vw)" }}
             >
+              <p
+                className="pd-hero-watermark pointer-events-none absolute inset-0 z-[1] flex items-center justify-end overflow-hidden pr-[4%] font-audiowide text-[clamp(3.5rem,13vw,10rem)] uppercase leading-[0.88] tracking-tight text-white/[0.07] select-none sm:pr-[6%]"
+                aria-hidden
+              >
+                {project.title}
+              </p>
               <div
                 ref={imgWrapRef}
-                className="relative aspect-[4/5] w-full will-change-transform sm:aspect-[16/10] lg:aspect-[2.35/1] lg:min-h-[min(72vh,700px)]"
+                className="relative aspect-[16/10] w-full will-change-transform lg:aspect-[2.35/1] lg:min-h-[min(72vh,700px)]"
               >
                 <Image
                   src={project.image}
@@ -855,8 +993,7 @@ function ProjectDetailContent({
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent" />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/75 via-black/30 to-transparent lg:via-black/20" />
 
-              {/* Crumbs overlay on image — pulls content up, kills the seam */}
-              <div className="absolute inset-x-0 top-0 z-[3] mx-auto flex max-w-[1440px] flex-wrap items-center gap-3 px-5 pb-2 pt-[5.25rem] sm:px-10 sm:pt-[5.75rem] lg:px-[100px] lg:pt-24">
+              <div className="pd-hero-crumbs absolute inset-x-0 top-0 z-[3] mx-auto flex max-w-[1440px] flex-wrap items-center gap-3 px-5 pb-2 pt-[5.75rem] sm:px-10 lg:px-[100px] lg:pt-24">
                 <Link
                   href="/projects"
                   className="pd-crumb inline-flex items-center gap-2 rounded-full border border-white/25 bg-black/45 px-4 py-2.5 font-anon text-[10px] font-bold uppercase tracking-[0.18em] text-white backdrop-blur-md transition-colors hover:border-accent hover:bg-accent hover:text-on-accent"
@@ -909,22 +1046,21 @@ function ProjectDetailContent({
                   <p className="pd-lead mb-6 font-baumans text-[15px] leading-[1.5] text-white/85 sm:text-[17px]">
                     {project.description}
                   </p>
-                  <div className="flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap">
+                  <div className="flex flex-wrap gap-3">
                     {canVisit && (
                       <a
                         href={project.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="pd-hero-cta inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 font-anon text-[11px] font-bold uppercase tracking-[0.2em] text-on-accent shadow-[0_0_28px_color-mix(in_srgb,var(--theme-accent)_40%,transparent)] sm:w-auto"
+                        className="pd-hero-cta inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 font-anon text-[11px] font-bold uppercase tracking-[0.2em] text-on-accent shadow-[0_0_28px_color-mix(in_srgb,var(--theme-accent)_40%,transparent)]"
                       >
                         Visit live site
                         <ArrowUpRight className="h-4 w-4" aria-hidden />
                       </a>
                     )}
-                    {/* Desktop secondary — mobile already has All projects in crumbs */}
                     <Link
                       href="/projects"
-                      className="pd-hero-cta hidden items-center justify-center gap-2 rounded-full border border-white/40 bg-white/10 px-6 py-3.5 font-anon text-[10px] font-bold uppercase tracking-[0.2em] text-white backdrop-blur-sm transition-colors hover:bg-white/20 sm:inline-flex"
+                      className="pd-hero-cta inline-flex items-center justify-center gap-2 rounded-full border border-white/40 bg-white/10 px-6 py-3.5 font-anon text-[10px] font-bold uppercase tracking-[0.2em] text-white backdrop-blur-sm transition-colors hover:bg-white/20"
                     >
                       All projects
                     </Link>
@@ -932,19 +1068,21 @@ function ProjectDetailContent({
                 </div>
               </figcaption>
             </figure>
-          </section>
+            </div>
 
-          {/* Content slides over pinned hero */}
-          <div className="relative z-[2] bg-bg pt-10 sm:pt-14">
-            <div className="mb-10 sm:mb-12">
+            <div ref={heroSentinelRef} className="pointer-events-none h-px w-full" aria-hidden />
+
+          {/* Content slides over pinned hero (curtain) */}
+          <div className="relative z-[2] bg-bg pt-8 sm:pt-14">
+            <div className="mb-8 sm:mb-12">
               <TechMarquee tags={project.tags} />
             </div>
 
             <StatsStrip project={project} />
 
-            {/* Always-visible live strip (right under stats) */}
+            {/* Live strip — tablet+ only (mobile has hero CTA + sticky dock) */}
             {canVisit && (
-              <div className="mx-auto mt-8 max-w-[1440px] px-5 sm:mt-10 sm:px-10 lg:px-[100px]">
+              <div className="mx-auto mt-8 hidden max-w-[1440px] px-5 sm:mt-10 sm:block sm:px-10 lg:px-[100px]">
                 <a
                   href={project.link}
                   target="_blank"
@@ -1446,6 +1584,7 @@ function ProjectDetailContent({
               </motion.div>
             </section>
           </div>
+          </section>
         </div>
       </main>
 
