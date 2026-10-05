@@ -16,7 +16,7 @@ export const SEO_BIO = {
     "Metropolitan University Sylhet",
     "MU Sylhet",
   ],
-  degree: "Bachelor's in Computer Science & Engineering (CSE)",
+  degree: "Bachelor's in Computer Science & Engineering (CSE) — July 2023 – Present · Expected 2027",
   location: "Sylhet, Bangladesh",
 } as const;
 
@@ -36,6 +36,10 @@ const ACHIEVEMENT_SEARCH_PHRASES: string[] = [
   "MillionX Bangladesh",
   "NagriPath",
   "Bornokontho",
+  "Infinity AI BuildFest",
+  "The Infinity AI BuildFest 2026",
+  "Infinity AI BuildFest BRAC",
+  "Team Cogniverse",
   "InnovateX Hackathon",
   "InnovateX BUBT",
   "EarthSync",
@@ -81,6 +85,8 @@ export function buildSiteSeoKeywords(): string[] {
     "CSE Metropolitan University Sylhet",
     "full stack developer Bangladesh",
     "MERN stack developer Sylhet",
+    "Software Developer Bangladesh",
+    "AI Machine Learning developer Sylhet",
     "React developer Bangladesh",
     "web developer Sylhet",
     "ratul-saha-roy.pro.bd",
@@ -99,14 +105,8 @@ export function buildSiteSeoKeywords(): string[] {
 }
 
 export function buildDefaultDescription(): string {
-  const projectNames = PROJECTS.slice(0, 6)
-    .map((p) => p.title)
-    .join(", ");
   return (
-    `${PERSON_NAME} — ${SEO_BIO.jobTitle} at ${SEO_BIO.company}; CSE student at ${SEO_BIO.university}. ` +
-    `Full Stack (MERN) developer. Projects: ${projectNames}. ` +
-    `Awards include Hult Prize On-Campus Champion, NASA Space Apps Sylhet 2nd Runner-Up, MillionX & InnovateX finalist. ` +
-    `Portfolio: ratul-saha-roy.pro.bd`
+    `${PERSON_NAME} is a Junior Software Developer and CSE student working across full-stack development, AI/ML, research, and data-driven software solutions.`
   );
 }
 

@@ -81,7 +81,7 @@ const siteUrl = getSiteUrl();
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `Ratul Saha Roy | Full Stack Web Developer (MERN)`,
+    default: `Ratul Saha Roy — Software Developer | Full-Stack, AI/ML & Research`,
     template: `%s | Ratul Saha Roy`,
   },
   description: defaultDescription,
@@ -91,16 +91,16 @@ export const metadata: Metadata = {
   creator: "Ratul Saha Roy",
   publisher: "Ratul Saha Roy",
   category: "technology",
-  // Google needs a crawlable favicon that is a multiple of 48px
+  // One unique, crawlable portrait URL avoids Google reusing the old "R" favicon.
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon.png", sizes: "48x48", type: "image/png" },
-      { url: "/favicon-48x48.png", sizes: "48x48", type: "image/png" },
-      { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
-      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      {
+        url: "/ratul-saha-roy-profile-v3.png",
+        sizes: "96x96",
+        type: "image/png",
+      },
     ],
-    shortcut: "/favicon.ico",
+    shortcut: "/ratul-saha-roy-profile-v3.png",
     apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
@@ -108,21 +108,21 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: siteUrl,
     siteName: "Ratul Saha Roy",
-    title: `Ratul Saha Roy | Full Stack Web Developer (MERN)`,
+    title: `Ratul Saha Roy — Software Developer | Full-Stack, AI/ML & Research`,
     description: defaultDescription,
     images: [
       {
         url: `${siteUrl}/og-default.png`,
         width: 1200,
         height: 630,
-        alt: "Ratul Saha Roy — Full Stack Web Developer Portfolio",
+        alt: "Ratul Saha Roy — Software Developer Portfolio",
         type: "image/png",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: `Ratul Saha Roy | Full Stack Web Developer (MERN)`,
+    title: `Ratul Saha Roy — Software Developer | Full-Stack, AI/ML & Research`,
     description: defaultDescription,
     images: [`${siteUrl}/og-default.png`],
     creator: "@ratulroy8863",
@@ -161,7 +161,11 @@ function JsonLd() {
       `${siteUrl}/landing/hero-portrait-v3.png`,
       `${siteUrl}/apple-icon.png`,
     ],
-    jobTitle: [SEO_BIO.jobTitle, "Full Stack Web Developer"],
+    jobTitle: [
+      SEO_BIO.jobTitle,
+      "Software Developer",
+      "Full Stack Web Developer",
+    ],
     description: defaultDescription,
     email: "ratulroy8863@gmail.com",
     telephone: "+8801795908863",
@@ -203,9 +207,15 @@ function JsonLd() {
       "MongoDB",
       "TypeScript",
       "JavaScript",
+      "Python",
       "Tailwind CSS",
-      "MERN Stack",
+      "Machine Learning",
+      "Deep Learning",
+      "Artificial Intelligence",
+      "GIS",
+      "Remote Sensing",
       "Full Stack Development",
+      "Software Engineering",
       "Web Development",
       "REST APIs",
       "Firebase",
@@ -244,7 +254,7 @@ function JsonLd() {
     name: "Ratul Saha Roy",
     alternateName: [
       "Ratul Saha Roy Portfolio",
-      "Ratul Saha Roy — Full Stack Web Developer",
+      "Ratul Saha Roy — Software Developer",
     ],
     description: defaultDescription,
     publisher: { "@id": `${siteUrl}/#person` },
@@ -266,14 +276,8 @@ function JsonLd() {
         {
           "@type": "ListItem",
           position: 1,
-          name: "Home",
+          name: "Ratul Saha Roy",
           item: siteUrl,
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Projects",
-          item: `${siteUrl}/projects`,
         },
       ],
     },
@@ -328,6 +332,13 @@ export default function RootLayout({
         <meta name="geo.position" content="24.8949;91.8687" />
         <meta name="ICBM" content="24.8949, 91.8687" />
         <link rel="canonical" href={siteUrl} />
+        <link
+          rel="alternate"
+          type="text/plain"
+          href={`${siteUrl}/llms.txt`}
+          title="LLM profile"
+        />
+        <link rel="author" type="text/plain" href="/humans.txt" />
         <script dangerouslySetInnerHTML={{ __html: themeBoot }} />
       </head>
       <body>

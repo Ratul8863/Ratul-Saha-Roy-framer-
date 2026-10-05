@@ -16,8 +16,9 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 const PILL_LINKS = [
   { hash: "#home", label: "Home" },
   { hash: "#about", label: "About" },
-  { hash: "#projects", label: "Projects" },
-  { hash: "#achievements", label: "Work" },
+  { hash: "#projects", label: "Work" },
+  { hash: "#research", label: "Research" },
+  { hash: "#achievements", label: "Awards" },
 ] as const;
 
 interface LandingHeaderProps {
@@ -30,7 +31,7 @@ export function LandingHeader({ projectCount: _pc }: LandingHeaderProps) {
   const router = useRouter();
   const onHome = pathname === "/" || pathname === "";
   const [open, setOpen] = useState(false);
-  /** false = full nav, true = “Available for Projects” compact pill */
+  /** false = full nav, true = compact availability pill */
   const [showAvailable, setShowAvailable] = useState(false);
   const lenis = useLenis();
 
@@ -165,7 +166,7 @@ export function LandingHeader({ projectCount: _pc }: LandingHeaderProps) {
                   />
                 </div>
                 <span className="font-anon text-[13px] font-bold text-ink">
-                  Available for Projects
+                  Available for Opportunities
                 </span>
                 <span className="h-2 w-2 rounded-full bg-accent" aria-hidden />
                 <ThemeToggle />

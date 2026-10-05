@@ -41,15 +41,19 @@ export function ContactSection() {
       <div className="relative mx-auto hidden h-[535px] w-full max-w-[1440px] items-center justify-center lg:flex">
         <div className="flex w-[810px] flex-col items-center gap-10">
           <div className="flex flex-col items-center gap-6">
-            <h2 className="text-center font-audiowide text-[48px] leading-[72px] text-ink">
-              Curious about what we can create together?
+            <h2 className="text-center font-audiowide text-[42px] leading-[1.25] text-ink xl:text-[48px] xl:leading-[64px]">
+              Let&apos;s build something meaningful
             </h2>
+            <p className="max-w-[560px] text-center font-baumans text-[20px] leading-[32px] text-muted">
+              Production apps, AI ideas, research collabs — or a hard technical
+              problem. Have an opportunity?
+            </p>
             <a
               href="mailto:ratulroy8863@gmail.com"
               className="flex h-[60px] items-center gap-2 rounded-full bg-accent py-4 pr-2 pl-5 shadow-[0_4px_5px_rgba(0,0,0,0.35)] transition-transform hover:scale-105"
             >
               <span className="font-anon text-[16px] font-bold text-on-accent">
-                Book a Free Call
+                Let&apos;s Talk
               </span>
               <span className="flex h-[47px] w-[47px] items-center justify-center rounded-full bg-on-accent/15">
                 <ArrowDownRight className="h-5 w-5 text-on-accent" />
@@ -78,15 +82,19 @@ export function ContactSection() {
       </div>
 
       <div className="relative mx-auto flex max-w-[1440px] flex-col items-center gap-8 px-6 sm:px-10 lg:hidden">
-        <h2 className="text-center font-audiowide text-[clamp(1.35rem,6.5vw,2.25rem)] leading-[1.35] text-ink">
-          Curious about what we can create together?
+        <h2 className="text-center font-audiowide text-[clamp(1.5rem,6.5vw,2.25rem)] leading-[1.35] text-ink">
+          Let&apos;s build something meaningful
         </h2>
+        <p className="max-w-[420px] text-center font-baumans text-[16px] leading-[1.55] text-muted sm:text-[18px]">
+          Production apps, AI ideas, research collabs — or a hard technical
+          problem. Have an opportunity?
+        </p>
         <a
           href="mailto:ratulroy8863@gmail.com"
           className="flex items-center gap-2 rounded-full bg-accent py-3 pr-2 pl-5 shadow-[0_4px_5px_rgba(0,0,0,0.35)] transition-transform hover:scale-105"
         >
           <span className="font-anon text-sm font-bold text-on-accent">
-            Book a Free Call
+            Let&apos;s Talk
           </span>
           <span className="flex h-[36px] w-[36px] items-center justify-center rounded-full bg-on-accent/15">
             <ArrowDownRight className="h-4 w-4 text-on-accent" />

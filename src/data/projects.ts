@@ -58,7 +58,7 @@ export const PROJECTS: Project[] = [
       "peptide.up.railway.app",
     ],
     description:
-      "Built by Ratul Saha Roy — research-grade peptide storefront with guest checkout, atomic inventory reservations, provider-agnostic payments, and a cream / forest-green brand UI.",
+      "A production-oriented e-commerce platform featuring guest checkout, inventory reservation, authentication, payment integration, and a custom storefront experience.",
     tags: [
       "Next.js",
       "TypeScript",
@@ -72,7 +72,7 @@ export const PROJECTS: Project[] = [
     ],
     link: "https://peptide.up.railway.app/giveaway",
     image: "/peptide-journey.png",
-    category: "Full-stack e-commerce",
+    category: "Full-Stack E-Commerce",
     role: "Solo / full-stack",
     year: "2026",
     overview: [
@@ -114,7 +114,7 @@ export const PROJECTS: Project[] = [
       "MK Heating website",
     ],
     description:
-      "Redesigned and rebuilt by Ratul Saha Roy — MK Heating’s East London heating & plumbing website in Next.js — local SEO area pages, booking CTAs, Google reviews, and a navy/cream brand system focused on fast conversion.",
+      "A conversion-focused heating and plumbing website for an East London business, featuring local SEO pages, service information, booking CTAs, Google reviews, and a responsive branded interface.",
     tags: [
       "Next.js",
       "React",
@@ -127,7 +127,7 @@ export const PROJECTS: Project[] = [
     ],
     link: "https://www.boilerserviceeastlondon.co.uk/",
     image: "/mk-heating.png",
-    category: "Client website redesign",
+    category: "Client Website",
     role: "Full-stack frontend / UI implementation",
     year: "2026",
     overview: [
@@ -167,7 +167,7 @@ export const PROJECTS: Project[] = [
       "cleaning company London website",
     ],
     description:
-      "Built by Ratul Saha Roy — a 39-page responsive marketing website for a London steam cleaning company. Built as a static HTML/CSS/JS site from a full Figma redesign, with a shared design system, mega-menus, service & area pages, and a Matter.js-powered interactive CTA.",
+      "A 39-page responsive marketing website built from a complete Figma redesign, featuring a shared design system, mega navigation, service and location pages, and an interactive Matter.js-powered CTA.",
     tags: [
       "HTML",
       "CSS",
@@ -180,7 +180,7 @@ export const PROJECTS: Project[] = [
     ],
     link: "https://aj-cleaning-london.vercel.app/",
     image: "/aj-cleaning-london.png",
-    category: "Marketing site redesign",
+    category: "Marketing Website",
     role: "Frontend design implementation from Figma",
     year: "2026",
     overview: [
@@ -222,7 +222,7 @@ export const PROJECTS: Project[] = [
       "Community Roots",
     ],
     description:
-      "Built by Ratul Saha Roy — the GroundRoots full-stack platform for a Plaistow youth CIC — public site, Stripe shop, and coach Academy Tracker — from architecture through production deploy.",
+      "A full-stack platform for a London youth CIC combining a public website, Stripe-powered shop, and Academy Tracker for managing coaching and community activities.",
     tags: [
       "Full Stack",
       "React",
@@ -238,7 +238,7 @@ export const PROJECTS: Project[] = [
     ],
     link: "https://groundroots.org",
     image: "/groundroots.png",
-    category: "Youth community platform",
+    category: "Full-Stack Community Platform",
     role: "Full Stack — Architecture & Implementation",
     year: "2026",
     overview: [
@@ -280,7 +280,7 @@ export const PROJECTS: Project[] = [
       "Dartford freight logistics",
     ],
     description:
-      "Built by Ratul Saha Roy — corporate logistics website for EMS Logistics UK: architecture and full stack implementation of a multi-page marketing platform with services, partnerships, careers, and quote capture, built in Next.js with motion-led UX.",
+      "A multi-page corporate platform for a UK logistics company, covering services, partnerships, careers, and quote capture with a responsive interface and motion-led user experience.",
     tags: [
       "Next.js",
       "React",
@@ -295,7 +295,7 @@ export const PROJECTS: Project[] = [
     ],
     link: "https://www.emslogistics.co.uk",
     image: "/ems-logistics.png",
-    category: "Corporate logistics website",
+    category: "Corporate Web Platform",
     role: "Full Stack — Architecture & Implementation",
     year: "2026",
     overview: [
@@ -336,7 +336,7 @@ export const PROJECTS: Project[] = [
       "SIYAR platform",
     ],
     description:
-      "Contributed by Ratul Saha Roy as a developer on selected pages of Siyar Institute — a React + Node scholarly publishing platform for Islamic knowledge, with multilingual UI and admin-backed content.",
+      "Contributed to selected pages of a React and Node.js scholarly publishing platform featuring multilingual interfaces and admin-backed content management.",
     tags: [
       "React",
       "Vite",
@@ -351,7 +351,7 @@ export const PROJECTS: Project[] = [
     ],
     link: "https://siyarinstitute.org",
     image: "/siyar.png",
-    category: "Islamic knowledge platform",
+    category: "Islamic Knowledge Platform",
     role: "Frontend / Feature Developer — selected pages",
     year: "2026",
     overview: [
@@ -395,7 +395,7 @@ export const PROJECTS: Project[] = [
       "Islamic learning platform Assubah",
     ],
     description:
-      "Full-stack Islamic learning platform built by Ratul Saha Roy — architecture and implementation for courses, auth, payments, shop, applications, and admin — shipped to production at assubah.com.",
+      "Full-stack Islamic learning platform — architecture and implementation for courses, auth, payments, shop, applications, and admin — shipped to production at assubah.com.",
     tags: [
       "Full Stack",
       "React",
@@ -459,7 +459,7 @@ export const PROJECTS: Project[] = [
       "Assubah donation platform",
     ],
     description:
-      "Built end-to-end by Ratul Saha Roy — donation and fundraising platform for a UK Islamic charity: architecture through production deploy. Next.js UI, Express/MongoDB APIs, Stripe payments, Gift Aid, peer-to-peer fundraisers, and a full admin ops suite across multi-country appeals.",
+      "Donation and fundraising platform for a UK Islamic charity: architecture through production deploy. Next.js UI, Express/MongoDB APIs, Stripe payments, Gift Aid, peer-to-peer fundraisers, and a full admin ops suite across multi-country appeals.",
     tags: [
       "Next.js",
       "React",
@@ -517,7 +517,7 @@ export const PROJECTS: Project[] = [
       "University Astronomy Society Platform",
     ],
     description:
-      "Developed by Ratul Saha Roy — comprehensive MERN stack platform for Mawlana Bhashani Science and Technology University Astronomy Society (MUGAS). Features member management, research project tracking, event coordination, blog publishing, and interactive community tools to support astronomical research and education.",
+      "Comprehensive MERN stack platform for Mawlana Bhashani Science and Technology University Astronomy Society (MUGAS). Features member management, research project tracking, event coordination, blog publishing, and interactive community tools to support astronomical research and education.",
     tags: ["React", "TypeScript", "Node.js", "Express", "MongoDB", "Tailwind CSS", "MERN Stack"],
     link: "https://mugas.vercel.app/",
     image: "/mugas.png",
@@ -578,7 +578,7 @@ export const PROJECTS: Project[] = [
       "e-waste recycling platform",
     ],
     description:
-      "Built by Ratul Saha Roy — comprehensive MERN stack platform for digital scrap collection and recycling, enabling users to sell or donate e-waste while empowering agents and partners. Focused on role-based access, secure transactions, and a responsive UI to promote sustainable waste management through technology.",
+      "Comprehensive MERN stack platform for digital scrap collection and recycling, enabling users to sell or donate e-waste while empowering agents and partners. Focused on role-based access, secure transactions, and a responsive UI to promote sustainable waste management through technology.",
     tags: ["React", "Node.js", "MongoDB", "Firebase Auth", "Express", "MERN Stack", "Responsive Design"],
     link: "https://ecoscrap-solution.vercel.app",
     image: "/ecoscrap.png",
@@ -629,7 +629,7 @@ export const PROJECTS: Project[] = [
       "Government Jubilee High School football",
     ],
     description:
-      "Built by Ratul Saha Roy — official site for the annual alumni football tournament at Government Jubilee High School, Sunamganj. Includes live match control and scores (real-time updates), fixtures, teams, players, leaderboards, gallery, news, and an admin CMS—built with React, Node, MongoDB, and Socket.IO. Deployed on Vercel.",
+      "Official site for the annual alumni football tournament at Government Jubilee High School, Sunamganj. Includes live match control and scores (real-time updates), fixtures, teams, players, leaderboards, gallery, news, and an admin CMS—built with React, Node, MongoDB, and Socket.IO. Deployed on Vercel.",
     tags: [
       "React",
       "TypeScript",
@@ -677,44 +677,186 @@ export const PROJECTS: Project[] = [
     title: "Hostel Meals",
     seoAliases: [
       "Hostel Meals",
+      "Hostel Meal & Food Review Management Platform",
       "hostel meal management",
       "hostel-management-by-ratul.web.app",
     ],
     description:
-      "Built by Ratul Saha Roy — full stack app for hostel meal management: role-based access, orders, and secure flows. Sharpens MERN patterns—REST APIs, auth-minded design, and dashboards that stay usable on mobile.",
-    tags: ["React", "Node.js", "Stripe", "JWT"],
+      "A hostel meal and food-review platform with role-based access, premium Stripe subscriptions, and SaaS-style admin dashboards for meals, users, payments, and reviews.",
+    tags: [
+      "React.js",
+      "React Router",
+      "Tailwind CSS",
+      "Firebase Auth",
+      "Express.js",
+      "MongoDB",
+      "JWT",
+      "Stripe",
+      "React Hook Form",
+    ],
     link: "https://hostel-management-by-ratul.web.app/",
     image: "/hostel-meals.png",
-    category: "Live site",
-    role: "Full stack · real-time features",
+    category: "Full-Stack Platform",
+    role: "Full Stack",
     year: "2024",
     overview: [
-      "A product-shaped exercise in meal ordering and operations for a hostel context: roles, orders, and flows that need to stay understandable on small screens.",
-      "The focus is on predictable REST contracts, JWT-oriented access patterns, and dashboards that do not overwhelm—so the same codebase can grow toward production hardening.",
+      "A web app that streamlines hostel food management through a secure role-based system, allowing users to explore meals and subscribe to premium plans, while admins efficiently manage meal content, users, and payments.",
+      "Built as a scalable MERN-style product with Firebase Auth, JWT-secured APIs, Stripe memberships, and dashboards that stay usable on mobile.",
     ],
     highlights: [
-      "Role-based views and order flows",
-      "Payment-oriented integration patterns (Stripe)",
-      "Mobile-first dashboard layout",
+      "Scalable role-based system with secure access and dynamic UI per user type",
+      "Stripe premium membership plans (Silver / Gold / Platinum) with badge rendering and access control",
+      "Admin dashboards with paginated analytics on orders, payments, and reviews",
+      "Meal CRUD with image uploads, role assignment, subscription management, and review moderation",
+      "Real-time updates and server-side search across operational flows",
     ],
     caseStudy: {
       problem:
-        "Hostel meal operations need simple roles, predictable ordering, and flows that still work when everyone is on a phone—without exposing sensitive actions.",
+        "Hostel meal operations needed role-aware access, premium subscriptions, and admin tooling for meals, payments, and reviews — without a fragmented stack of forms and spreadsheets.",
       approach:
-        "I modeled REST resources around orders and roles, used JWT-shaped access patterns, and kept dashboard density low so the same screens work for students and staff.",
+        "Built a React + Express + MongoDB platform with Firebase Auth and JWT, Stripe membership tiers, and SaaS-style dashboards for orders, payments, and moderation.",
       outcome:
-        "A MERN-style reference build that demonstrates how I structure auth-aware UI, payments, and mobile-first dashboards for real constraints.",
+        "A live production app at hostel-management-by-ratul.web.app demonstrating end-to-end hostel meal management with subscriptions and admin ops.",
     },
     gallery: [
       {
         src: "/hostel-meals.png",
-        alt: "Hostel Meals orders overview",
-        caption: "Orders overview",
+        alt: "Hostel Meals platform",
+        caption: "Hostel meal management platform",
+      },
+    ],
+    extraLinks: [
+      {
+        label: "Client Code",
+        href: "https://github.com/Ratul8863/Hostel-Meals_Client",
       },
       {
-        src: "https://picsum.photos/seed/hostel-dashboard/1200/750",
-        alt: "Admin dashboard",
-        caption: "Role-based admin dashboard for meal management",
+        label: "Server Code",
+        href: "https://github.com/Ratul8863/Hostel-Meals_Server",
+      },
+    ],
+  },
+  {
+    slug: "hobbyhub",
+    title: "HobbyHub",
+    seoAliases: [
+      "HobbyHub",
+      "HobyHub",
+      "Hobby Hub",
+      "hobyhub-by-ratul.web.app",
+      "Group Management Web App",
+    ],
+    description:
+      "A community-driven group management app where people discover, join, or create local hobby groups and connect through events, dashboards, and real-time updates.",
+    tags: [
+      "React.js",
+      "React Router",
+      "Tailwind CSS",
+      "Firebase Auth",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+    ],
+    link: "https://hobyhub-by-ratul.web.app/",
+    image: "/hobbyhub.png",
+    category: "Full-Stack Community App",
+    role: "Full Stack",
+    year: "2024",
+    overview: [
+      "HobbyHub is a community-driven web app where people can discover, join, or create local hobby-based groups (e.g. Fishing, Photography, Running) and connect with like-minded individuals.",
+      "Users explore groups by category, popularity, or date; create and manage their own groups; and access personalized dashboards with stats, activity, and member insights.",
+    ],
+    highlights: [
+      "Browse local hobby groups filtered by category, popularity, or date",
+      "Create and manage interest-based groups with events and descriptions",
+      "Personalized dashboards with group activity and member insights",
+      "Firebase Auth with Express/MongoDB backend for community workflows",
+    ],
+    caseStudy: {
+      problem:
+        "People looking for local hobby communities needed a simple way to discover groups, join activities, and manage membership without heavy social-network complexity.",
+      approach:
+        "Built a React + Express + MongoDB app with Firebase Auth, group discovery filters, creator tools, and dashboards for activity and member insights.",
+      outcome:
+        "A live production community platform at hobyhub-by-ratul.web.app for discovering and running local hobby groups.",
+    },
+    gallery: [
+      {
+        src: "/hobbyhub.png",
+        alt: "HobbyHub homepage",
+        caption: "Hobby group discovery and community hub",
+      },
+    ],
+    extraLinks: [
+      {
+        label: "Client Code",
+        href: "https://github.com/Ratul8863/Hoby-hub-client",
+      },
+      {
+        label: "Server Code",
+        href: "https://github.com/Ratul8863/Hobby-hub-server",
+      },
+    ],
+  },
+  {
+    slug: "product-recommendation",
+    title: "Product Recommendation System",
+    seoAliases: [
+      "RecoSys",
+      "Product Recommendation",
+      "product-recommendation-byratul.web.app",
+      "Interactive Review Platform",
+    ],
+    description:
+      "An interactive review platform where users share product queries, exchange recommendations, and engage through a real-time activity feed of likes, shares, and suggestions.",
+    tags: [
+      "React.js",
+      "React Router",
+      "Tailwind CSS",
+      "Firebase Auth",
+      "Express.js",
+      "MongoDB",
+      "JWT",
+      "Framer Motion",
+    ],
+    link: "https://product-recommendation-byratul.web.app/",
+    image: "/product-recommendation.png",
+    category: "Full-Stack Review Platform",
+    role: "Full Stack",
+    year: "2024",
+    overview: [
+      "A full-featured platform where users can share, explore, and interact with product-related queries and recommendations, with full control over their content and real-time social engagement.",
+      "Users create tagged queries, explore others' recommendations, add personalized suggestions, and follow a live activity feed across the platform.",
+    ],
+    highlights: [
+      "Create, update, and delete product-related queries with tags and context",
+      "Explore queries and receive tailored product recommendations",
+      "Add personalized recommendations and browse community suggestions",
+      "Real-time activity feed for likes, shares, and recommendation activity",
+    ],
+    caseStudy: {
+      problem:
+        "Shoppers and reviewers needed a focused space to ask product questions, share recommendations, and see social engagement without a generic forum layout.",
+      approach:
+        "Implemented a React + Express + MongoDB stack with Firebase Auth, JWT APIs, Framer Motion UI, and a real-time-style activity feed for recommendation engagement.",
+      outcome:
+        "A live production review platform at product-recommendation-byratul.web.app for query-driven product recommendations.",
+    },
+    gallery: [
+      {
+        src: "/product-recommendation.png",
+        alt: "Product Recommendation System homepage",
+        caption: "RecoSys — queries and recommendations",
+      },
+    ],
+    extraLinks: [
+      {
+        label: "Client Code",
+        href: "https://github.com/Ratul8863/Product-Recommendations-client",
+      },
+      {
+        label: "Server Code",
+        href: "https://github.com/Ratul8863/Product-Recommendations-server",
       },
     ],
   },

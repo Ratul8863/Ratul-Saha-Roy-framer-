@@ -6,7 +6,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const base = getSiteUrl();
   const lastModified = new Date();
 
-  // Only real indexable URLs — no hash fragments (#about etc.); Google rejects those.
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: base,
@@ -19,6 +18,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: "weekly",
       priority: 0.9,
+    },
+    {
+      url: `${base}/llms.txt`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.5,
+    },
+    {
+      url: `${base}/llms-full.txt`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.5,
     },
   ];
 

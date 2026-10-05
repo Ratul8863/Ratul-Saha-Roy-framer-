@@ -35,6 +35,17 @@ export const ACHIEVEMENTS: Achievement[] = [
       "EcoScrap team as Champion of Hult Prize On-Campus Round at Metropolitan University",
   },
   {
+    title: "Finalist — The Infinity AI BuildFest",
+    issuer: "Infinity AI BuildFest · BRAC University · MUGAS",
+    date: "2026",
+    description:
+      "Team Cogniverse (Ratul Saha Roy, Shuvo Sutradhor, Anidro Paul) secured a place in the Final Round of The Infinity AI BuildFest 2026 at BRAC University, representing Metropolitan University.",
+    type: "award",
+    image: "/achievements/infinity-ai-buildfest.jpeg",
+    imageAlt:
+      "Team Cogniverse at The Infinity AI BuildFest 2026 Final Round, BRAC University",
+  },
+  {
     title: "2nd Runner-Up — NASA Space Apps Challenge",
     issuer: "NASA · BASIS · Sylhet Regional",
     date: "2025",
@@ -158,9 +169,9 @@ export const ACHIEVEMENTS: Achievement[] = [
   {
     title: "Bachelor's in Computer Science & Engineering",
     issuer: "Metropolitan University, Sylhet",
-    date: "Ongoing",
+    date: "July 2023 – Present · Expected 2027",
     description:
-      "Pursuing CSE with a focus on software development, problem solving, and modern web technologies.",
+      "Pursuing B.Sc. in CSE with interests spanning software engineering, artificial intelligence, machine learning, and emerging computing technologies.",
     type: "education",
     image: "/service-01.png",
     imageAlt: "Computer Science and Engineering studies",

@@ -264,21 +264,15 @@ html.light .nav-pill {
 }
 
 .hero-object {
-  animation: heroObjectDrop 1000ms cubic-bezier(0.22, 1, 0.36, 1) both;
-  will-change: transform;
-  backface-visibility: hidden;
+  animation: heroObjectDrop 1000ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 
 .hero-enter-above {
-  animation: heroEnterFromAbove 750ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+  animation: heroEnterFromAbove 750ms cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
 }
 
 .hero-enter-below {
-  animation: heroEnterFromBelow 750ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
-  will-change: transform, opacity;
-  backface-visibility: hidden;
+  animation: heroEnterFromBelow 750ms cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
 }
 
 .hero-enter--headline {
@@ -301,33 +295,6 @@ html.light .nav-pill {
 }
 .hero-enter--stat-2 {
   animation-delay: 2350ms;
-}
-
-.float-slot-art {
-  opacity: 1;
-  pointer-events: auto;
-  transition: opacity 0.3s;
-}
-
-html[data-scroll-floater="active"] .float-slot-art {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.scroll-floater {
-  contain: layout style paint;
-  z-index: 4;
-  transform: translateZ(0);
-}
-
-@media (max-width: 1023px) {
-  .float-slot-art {
-    opacity: 1 !important;
-    pointer-events: auto !important;
-  }
-  .scroll-floater {
-    display: none !important;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

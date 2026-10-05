@@ -57,6 +57,9 @@ export function LandingFooter() {
           <h2 className="text-center font-anton text-[clamp(2.25rem,11vw,4.5rem)] leading-[1.15] tracking-[1.8px] text-ink md:text-[clamp(3rem,12vw,180px)] md:leading-[1.3]">
             RATUL SAHA ROY
           </h2>
+          <p className="mt-3 text-center font-baumans text-[16px] leading-[28px] text-muted sm:text-[18px]">
+            Software Developer building across Web, AI &amp; Research.
+          </p>
 
           <div className="mt-8 flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between lg:mt-10">
             <div className="flex min-w-0 flex-col gap-4 sm:gap-6">
@@ -100,7 +103,7 @@ export function LandingFooter() {
       <div className="relative bg-[#0a0a0a] px-6 py-[38px] sm:px-10 lg:px-[80px] dark:bg-black">
         <div className="mx-auto flex max-w-[1440px] flex-col items-center justify-between gap-4 sm:flex-row">
           <p className="font-baumans text-[16px] leading-[30px] text-[#f5f5f5] sm:text-[20px]">
-            2026 Ratul Saha Roy. All rights reserved.
+            © 2026 Ratul Saha Roy. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             <a

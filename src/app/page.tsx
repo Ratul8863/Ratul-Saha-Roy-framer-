@@ -12,20 +12,20 @@ import {
 const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
-  title: `Ratul Saha Roy | Full Stack Web Developer (MERN)`,
+  title: `Ratul Saha Roy — Software Developer | Full-Stack, AI/ML & Research`,
   description: defaultDescription,
   keywords: seoKeywords,
   alternates: { canonical: siteUrl },
   openGraph: {
     url: siteUrl,
-    title: `Ratul Saha Roy | Full Stack Web Developer (MERN)`,
+    title: `Ratul Saha Roy — Software Developer | Full-Stack, AI/ML & Research`,
     description: defaultDescription,
     type: "website",
     siteName: "Ratul Saha Roy",
   },
   twitter: {
     card: "summary_large_image",
-    title: `Ratul Saha Roy | Full Stack Web Developer (MERN)`,
+    title: `Ratul Saha Roy — Software Developer | Full-Stack, AI/ML & Research`,
     description: defaultDescription,
   },
 };

@@ -55,7 +55,7 @@ export async function generateMetadata({
           url: ogImage,
           width: 1200,
           height: 630,
-          alt: `${project.title} — built by Ratul Saha Roy`,
+          alt: `${project.title} — developed by Ratul Saha Roy`,
         },
       ],
     },

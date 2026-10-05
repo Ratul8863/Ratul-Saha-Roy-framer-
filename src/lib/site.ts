@@ -31,4 +31,4 @@ export const defaultDescription = buildDefaultDescription();
 export const seoKeywords = buildSiteSeoKeywords();
 
 export const shortDescription =
-  "Junior Software Developer at Kode By Kraft · CSE @ Metropolitan University, Sylhet · Full Stack (MERN) · Assubah, EcoScrap, Hult Prize, NASA Space Apps.";
+  "Junior Software Developer at Kode By Kraft · CSE @ Metropolitan University, Sylhet · Software Developer across Full-Stack, AI/ML & Research.";

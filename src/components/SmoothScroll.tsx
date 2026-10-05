@@ -51,7 +51,7 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
     };
 
     const onWheel = (e: WheelEvent) => {
-      if (stopped || e.ctrlKey) return;
+      if (e.defaultPrevented || stopped || e.ctrlKey) return;
       const el = e.target as HTMLElement | null;
       if (el?.closest?.("[data-scroll-lock], [data-lenis-prevent]")) return;
 

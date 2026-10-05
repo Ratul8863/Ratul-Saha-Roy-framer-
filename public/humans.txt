@@ -1,0 +1,15 @@
+/* TEAM */
+Developer: Ratul Saha Roy
+Role: Software Developer — Full-Stack, AI/ML & Research
+Site: https://ratul-saha-roy.pro.bd
+Email: ratulroy8863@gmail.com
+Location: Sylhet, Bangladesh
+Employer: Kode By Kraft
+Education: B.Sc. CSE, Metropolitan University, Sylhet (July 2023 – Present · Expected 2027)
+GitHub: https://github.com/ratulroy8863
+LinkedIn: https://www.linkedin.com/in/ratulroy8863
+
+/* SITE */
+Standards: HTML5, Next.js, Schema.org JSON-LD
+LLM: /llms.txt , /llms-full.txt
+Sitemap: /sitemap.xml

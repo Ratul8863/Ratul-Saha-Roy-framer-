@@ -657,7 +657,7 @@ function DesktopAchievementsCarousel({
   const { ref, width } = useContainerWidth(0);
 
   const cardWidth = useMemo(() => {
-    if (width <= 0) return DESKTOP_CARD_W_MAX;
+    if (width <= 0) return 0;
     const usable = Math.max(0, width - DESKTOP_SIDE_PAD * 2);
     const raw = Math.floor(
       (usable - DESKTOP_GAP * (DESKTOP_VISIBLE - 1)) / DESKTOP_VISIBLE,
@@ -668,8 +668,10 @@ function DesktopAchievementsCarousel({
     );
   }, [width]);
 
+  // The title, description, image, and three metadata rows need more vertical
+  // room than the old 500px floor provided at narrower desktop widths.
   const stageHeight = Math.round(
-    Math.min(640, Math.max(500, cardWidth * 1.45)),
+    Math.min(680, Math.max(580, cardWidth * 1.6)),
   );
 
   return (
@@ -764,11 +766,14 @@ export function AchievementsSection({
         <div className="flex w-full flex-col items-center gap-[60px] px-6 pb-20 pt-[100px]">
           <div className="flex w-full max-w-[616px] flex-col items-center gap-6">
             <div className="flex w-full flex-col items-center gap-4 text-center">
+              <p className="font-anon text-[12px] font-bold uppercase tracking-[0.22em] text-accent">
+                Recognition
+              </p>
               <h2 className="font-audiowide text-[48px] leading-[72px] text-ink">
                 ACHIEVEMENTS
               </h2>
-              <p className="w-full font-baumans text-[24px] leading-[36px] text-ink">
-                Trust is the foundation of every great project.
+              <p className="w-full font-baumans text-[24px] leading-[36px] text-muted">
+                Milestones from software, innovation, competitions, and community.
               </p>
             </div>
             <FilterPills activeTab={activeTab} onChange={setActiveTab} />
@@ -783,11 +788,14 @@ export function AchievementsSection({
 
       <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center gap-6 px-4 sm:gap-8 sm:px-10 lg:hidden">
         <div className="flex w-full flex-col items-center gap-3 text-center sm:gap-4">
+          <p className="font-anon text-[12px] font-bold uppercase tracking-[0.22em] text-accent">
+            Recognition
+          </p>
           <h2 className="font-audiowide text-[28px] leading-[36px] text-ink sm:text-[40px] sm:leading-[48px]">
             ACHIEVEMENTS
           </h2>
-          <p className="max-w-[34ch] font-baumans text-[16px] leading-[26px] text-ink sm:max-w-none sm:text-[20px] sm:leading-[28px]">
-            Trust is the foundation of every great project.
+          <p className="max-w-[34ch] font-baumans text-[16px] leading-[26px] text-muted sm:max-w-none sm:text-[20px] sm:leading-[28px]">
+            Milestones from software, innovation, competitions, and community.
           </p>
         </div>
 

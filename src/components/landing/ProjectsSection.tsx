@@ -56,11 +56,13 @@ function ProjectCard({
         filter: isDimmed ? "saturate(0.7) brightness(0.85)" : "none",
       }}
       onMouseEnter={onEnter}
+      onMouseOver={onEnter}
     >
       <Link
         href={`/projects/${project.slug}`}
         className="absolute inset-0 z-30 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-white"
         aria-label={`View ${project.title}`}
+        onMouseEnter={onEnter}
         onFocus={onEnter}
       />
 
@@ -208,6 +210,68 @@ function ProjectCard({
   );
 }
 
+function MobileProjectCard({
+  project,
+  index,
+}: {
+  project: Project;
+  index: number;
+}) {
+  const number = String(index + 1).padStart(2, "0");
+  const tags = project.tags.slice(0, 3);
+
+  return (
+    <div>
+      <Link
+        href={`/projects/${project.slug}`}
+        className="group relative block h-[240px] overflow-hidden rounded-lg bg-card shadow-[0_18px_40px_-24px_rgba(0,0,0,0.85)] sm:h-[280px]"
+      >
+        <Image
+          src={project.image}
+          alt={project.title}
+          fill
+          sizes="(max-width: 768px) 100vw, 50vw"
+          className="object-cover"
+        />
+
+        {/* Accent sweep */}
+        <span
+          className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-[3px] origin-left bg-accent"
+          aria-hidden
+        />
+
+        <div className="absolute inset-0 z-[1] bg-gradient-to-t from-black/78 via-black/28 to-black/10" />
+
+        <span
+          className="pointer-events-none absolute left-3 top-2 z-[3] font-audiowide text-[28px] leading-none text-white/20"
+          aria-hidden
+        >
+          {number}
+        </span>
+
+        <div className="absolute bottom-4 left-4 right-4 z-[3]">
+          <p className="font-anon text-[10px] font-bold uppercase tracking-[0.14em] text-white/60">
+            {project.category}
+          </p>
+          <h3 className="mt-1 line-clamp-2 font-audiowide text-[15px] leading-snug text-white sm:text-[16px]">
+            {project.title}
+          </h3>
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full bg-white/15 px-2 py-0.5 font-anon text-[10px] text-white/80"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      </Link>
+    </div>
+  );
+}
+
 function ElasticGrid({ projects }: { projects: Project[] }) {
   const [activeCard, setActiveCard] = useState<number | null>(null);
   const gridRef = useRef<HTMLDivElement>(null);
@@ -302,7 +366,7 @@ export function ProjectsSection({ projects }: { projects: Project[] }) {
   const headerInView = useInView(headerRef, { once: true, amount: 0.4 });
 
   return (
-    <section id="projects" className="relative overflow-hidden bg-bg py-16 sm:py-20 lg:py-0">
+    <section id="projects" className="relative isolate z-10 overflow-hidden bg-bg pt-8 pb-14 sm:pt-10 sm:pb-16 lg:py-0">
       {/* Desktop */}
       <div className="relative hidden w-full flex-col items-center lg:flex">
         {/* Header */}
@@ -311,16 +375,19 @@ export function ProjectsSection({ projects }: { projects: Project[] }) {
           initial={{ opacity: 0, y: 30 }}
           animate={headerInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="flex w-full max-w-[1120px] flex-col items-center gap-4 px-10 pt-[100px] pb-10 text-center text-ink"
+          className="flex w-full max-w-[1120px] flex-col items-center gap-4 px-10 pt-16 pb-10 text-center text-ink"
         >
-          <h2 className="font-audiowide text-[48px] leading-[72px]">RECENT PROJECTS</h2>
-          <p className="font-baumans text-[24px] leading-[36px]">
-            A collection of projects where thoughtful design meets practical development - built to solve real problems, perform smoothly, and create better digital experiences.
+          <p className="font-anon text-[12px] font-bold uppercase tracking-[0.22em] text-accent">
+            Portfolio
+          </p>
+          <h2 className="font-audiowide text-[48px] leading-[72px]">SELECTED WORK</h2>
+          <p className="max-w-[720px] font-baumans text-[24px] leading-[36px] text-muted">
+            Production apps, client work, and technical builds — full-stack, AI-minded, and practical.
           </p>
         </motion.div>
 
         {/* Elastic Accordion Grid — full viewport width */}
-        <div className="w-full">
+        <div className="relative z-10 w-full">
           <ElasticGrid projects={displayProjects} />
         </div>
 
@@ -346,70 +413,25 @@ export function ProjectsSection({ projects }: { projects: Project[] }) {
 
       {/* Mobile / Tablet */}
       <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-8 px-6 sm:px-10 lg:hidden">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-col items-center gap-4 text-center text-ink"
-        >
-          <h2 className="font-audiowide text-[32px] leading-[44px] sm:text-[40px] sm:leading-[56px]">
-            RECENT PROJECTS
-          </h2>
-          <p className="font-baumans text-[18px] leading-[28px] sm:text-[20px] sm:leading-[32px]">
-            A collection of projects where thoughtful design meets practical development.
+        <div className="flex flex-col items-center gap-4 text-center text-ink">
+          <p className="font-anon text-[12px] font-bold uppercase tracking-[0.22em] text-accent">
+            Portfolio
           </p>
-        </motion.div>
+          <h2 className="font-audiowide text-[32px] leading-[44px] sm:text-[40px] sm:leading-[56px]">
+            SELECTED WORK
+          </h2>
+          <p className="font-baumans text-[18px] leading-[28px] text-muted sm:text-[20px] sm:leading-[32px]">
+            Production apps, client work, and technical builds — full-stack, AI-minded, and practical.
+          </p>
+        </div>
 
         <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
           {mobileProjects.map((project, i) => (
-            <Link
-              key={project.slug}
-              href={`/projects/${project.slug}`}
-              className="group relative h-[240px] overflow-hidden rounded-lg bg-card sm:h-[280px]"
-            >
-              <Image
-                src={project.image}
-                alt={project.title}
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
-              <span
-                className="absolute left-3 top-2 font-audiowide text-[28px] leading-none text-white/20"
-                aria-hidden
-              >
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <div className="absolute bottom-4 left-4 right-4">
-                <p className="font-anon text-[10px] font-bold uppercase tracking-[0.14em] text-white/60">
-                  {project.category}
-                </p>
-                <h3 className="mt-1 line-clamp-2 font-audiowide text-[15px] leading-snug text-white sm:text-[16px]">
-                  {project.title}
-                </h3>
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {project.tags.slice(0, 3).map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full bg-white/15 px-2 py-0.5 font-anon text-[10px] text-white/80"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </Link>
+            <MobileProjectCard key={project.slug} project={project} index={i} />
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-        >
+        <div>
           <Link
             href="/projects"
             className="flex items-center gap-2 rounded-full bg-accent py-3 pl-5 pr-2 transition-transform hover:scale-105"
@@ -419,7 +441,7 @@ export function ProjectsSection({ projects }: { projects: Project[] }) {
               <ArrowDownRight className="h-4 w-4 text-on-accent" />
             </span>
           </Link>
-        </motion.div>
+        </div>
       </div>
 
     </section>

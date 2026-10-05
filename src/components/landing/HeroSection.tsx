@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  *
  * Portavia-inspired hero: flanking display type + centered portrait card.
+ * Keep the first viewport as one composition — brand + role + short line.
  */
 
 "use client";
@@ -12,12 +13,14 @@ import Image from "next/image";
 export function HeroSection() {
   return (
     <section
-      aria-label="Hero — Ratul Saha Roy, Full Stack Web Developer"
+      aria-label="Hero — Ratul Saha Roy, Software Developer"
       className="relative z-[1] flex min-h-svh w-full items-center justify-center overflow-x-clip bg-bg"
     >
       <h1 className="sr-only">
-        Ratul Saha Roy — Full Stack Web Developer (MERN) | React, Node.js, MongoDB, Express, TypeScript Portfolio
+        Ratul Saha Roy — Software Developer | Full-Stack, AI/ML & Research
       </h1>
+
+      {/* Desktop — Portavia flanking type */}
       <div className="relative mx-auto hidden w-full max-w-[1200px] items-center justify-center gap-3 px-10 pt-28 pb-16 lg:flex xl:gap-6">
         <div className="flex min-w-0 flex-1 flex-col items-end justify-center pr-2 text-right">
           <p className="hero-enter-below hero-enter--badge mb-3 font-anon text-[13px] font-bold uppercase tracking-[0.22em] text-muted">
@@ -27,9 +30,7 @@ export function HeroSection() {
             aria-hidden="true"
             className="hero-enter-above hero-enter--headline font-audiowide text-[clamp(3.5rem,6.5vw,5.75rem)] leading-[0.92] tracking-tight text-ink"
           >
-            Full
-            <br />
-            Stack
+            Software
           </span>
         </div>
 
@@ -43,6 +44,7 @@ export function HeroSection() {
                 priority
                 fetchPriority="high"
                 sizes="300px"
+                quality={100}
                 className="object-cover object-top"
               />
             </div>
@@ -60,11 +62,23 @@ export function HeroSection() {
             Developer
           </p>
           <p className="hero-enter-below hero-enter--copy mt-5 max-w-[280px] font-baumans text-[17px] leading-[1.55] text-muted xl:text-[18px]">
-            A collection of projects where thoughtful design meets practical development.
+            Full-stack apps,{" "}
+            <span className="text-ink">AI &amp; ML</span>, and research-driven
+            problems — turned into practical, working solutions.
           </p>
+          <a
+            href="#projects"
+            className="hero-enter-below hero-enter--stat-1 mt-6 inline-flex items-center gap-2 font-anon text-[13px] font-bold uppercase tracking-[0.16em] text-accent transition-opacity hover:opacity-80"
+          >
+            View selected work
+            <span aria-hidden className="text-base leading-none">
+              →
+            </span>
+          </a>
         </div>
       </div>
 
+      {/* Mobile */}
       <div className="flex w-full flex-col items-center px-6 pb-20 pt-28 text-center lg:hidden">
         <p className="hero-enter-below hero-enter--badge font-anon text-[12px] font-bold uppercase tracking-[0.2em] text-muted">
           Ratul Saha Roy
@@ -73,7 +87,7 @@ export function HeroSection() {
           aria-hidden="true"
           className="hero-enter-above hero-enter--headline mt-3 font-audiowide text-[clamp(2rem,10vw,3.5rem)] leading-[0.95] text-ink"
         >
-          Full Stack
+          Software
         </span>
 
         <div className="relative my-8">
@@ -86,6 +100,7 @@ export function HeroSection() {
                 priority
                 fetchPriority="high"
                 sizes="(max-width: 640px) 214px, 260px"
+                quality={100}
                 className="object-cover object-top"
               />
             </div>
@@ -102,23 +117,24 @@ export function HeroSection() {
           Developer
         </p>
         <p className="hero-enter-below hero-enter--copy mx-auto mt-5 max-w-[360px] font-baumans text-[17px] leading-[1.55] text-muted sm:text-[18px]">
-          A collection of projects where thoughtful design meets practical development.
+          Full-stack apps, AI &amp; ML, and research-driven problems — turned into
+          practical, working solutions.
         </p>
 
         <a
-          href="#contact"
+          href="#projects"
           className="hero-enter-below hero-enter--stat-1 mt-10 inline-block rounded-full bg-accent px-6 py-3.5 font-anon text-[14px] font-bold text-on-accent transition-opacity hover:opacity-85"
         >
-          Contact
+          View My Work
         </a>
       </div>
 
       <div className="sr-only">
         <p>
           Ratul Saha Roy is a Junior Software Developer at Kode By Kraft and a CSE
-          student at Metropolitan University, Sylhet, Bangladesh. Full Stack MERN
-          developer (MongoDB, Express.js, React, Node.js, TypeScript, Tailwind CSS).
-          Contact: ratulroy8863@gmail.com | +8801795908863
+          student at Metropolitan University, Sylhet, Bangladesh. Software
+          developer working across full-stack development, AI/ML, research, and
+          data-driven solutions. Contact: ratulroy8863@gmail.com | +8801795908863
         </p>
       </div>
     </section>

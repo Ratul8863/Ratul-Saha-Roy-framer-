@@ -39,7 +39,7 @@ export function projectSeoKeywords(project: Project): string[] {
     `${project.title} developer`,
     `${project.title} web developer`,
     `${project.title} case study`,
-    `built by ${siteName}`,
+    `developed by ${siteName}`,
     host,
     ...project.tags,
     "portfolio",
@@ -87,7 +87,7 @@ export function projectJsonLd(project: Project) {
           {
             "@type": "ListItem",
             position: 1,
-            name: "Home",
+            name: "Ratul Saha Roy",
             item: base,
           },
           {
@@ -117,7 +117,7 @@ export function projectsItemListJsonLd() {
     "@context": "https://schema.org",
     "@type": "ItemList",
     "@id": `${base}/#projects`,
-    name: `Web projects built by ${siteName}`,
+    name: `Web projects developed by ${siteName}`,
     description: `Portfolio case studies and live websites developed by ${siteName}, including Assubah, As-Subah Outreach, and other full-stack products.`,
     numberOfItems: PROJECTS.length,
     itemListElement: PROJECTS.map((project, index) => ({
