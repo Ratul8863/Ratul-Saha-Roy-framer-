@@ -24,11 +24,15 @@ import {
   Braces,
   Link2,
   Layers,
+  Trophy,
+  Medal,
 } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 import type { Project } from "../data/projects";
 import { PROJECTS } from "../data/projects";
+import type { Achievement, AchievementType } from "../data/achievements";
+import { ACHIEVEMENTS } from "../data/achievements";
 
 const RESUME_HREF = "/doc/RATUL%20SAHA%20ROY_New_FS.pdf";
 const LINKEDIN_HREF = "https://www.linkedin.com/in/ratulroy8863";
@@ -188,6 +192,160 @@ const About = () => {
               </motion.div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const ACHIEVEMENT_TYPE_LABELS: Record<AchievementType, string> = {
+  award: "Award",
+  certification: "Certification",
+  milestone: "Milestone",
+  education: "Education",
+};
+
+function AchievementIcon({ type }: { type: AchievementType }) {
+  const className = "w-5 h-5 sm:w-6 sm:h-6 text-black/40";
+  switch (type) {
+    case "education":
+      return <GraduationCap className={className} />;
+    case "award":
+      return <Medal className={className} />;
+    case "certification":
+      return <Award className={className} />;
+    default:
+      return <Trophy className={className} />;
+  }
+}
+
+function AchievementCard({
+  achievement,
+  index,
+}: {
+  achievement: Achievement;
+  index: number;
+}) {
+  const hasImage = Boolean(achievement.image);
+
+  const body = (
+    <div
+      className={`group overflow-hidden rounded-2xl border border-black/5 bg-white transition-all duration-500 sm:rounded-3xl ${
+        achievement.link ? "hover:shadow-2xl" : ""
+      }`}
+    >
+      {hasImage ? (
+        <div className="relative aspect-[16/10] overflow-hidden bg-muted">
+          <Image
+            src={achievement.image!}
+            alt={achievement.imageAlt ?? achievement.title}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
+          <span className="absolute left-4 top-4 rounded-full bg-white/90 px-2.5 py-1 text-[9px] font-bold uppercase tracking-widest text-accent backdrop-blur-sm sm:left-5 sm:top-5 sm:px-3 sm:text-[10px]">
+            {ACHIEVEMENT_TYPE_LABELS[achievement.type]}
+          </span>
+        </div>
+      ) : null}
+
+      <div className="space-y-4 p-5 sm:space-y-5 sm:p-6 lg:p-8">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex min-w-0 items-start gap-3 sm:gap-4">
+            {!hasImage && (
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-muted sm:h-12 sm:w-12">
+                <AchievementIcon type={achievement.type} />
+              </div>
+            )}
+            <div className="min-w-0">
+              <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-accent sm:text-xs">
+                {hasImage
+                  ? achievement.date
+                  : `${ACHIEVEMENT_TYPE_LABELS[achievement.type]} · ${achievement.date}`}
+              </p>
+              <h3 className="font-display text-lg leading-tight sm:text-xl lg:text-2xl">
+                {achievement.title}
+              </h3>
+              <p className="mt-1 text-sm text-black/60">{achievement.issuer}</p>
+            </div>
+          </div>
+          {achievement.link && (
+            <span className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-black/10 transition-all group-hover:bg-black group-hover:text-white sm:h-11 sm:w-11">
+              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45 sm:h-5 sm:w-5" />
+            </span>
+          )}
+        </div>
+
+        {achievement.description && (
+          <p className="text-sm font-light leading-relaxed text-black/60">
+            {achievement.description}
+          </p>
+        )}
+      </div>
+    </div>
+  );
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.08 }}
+      viewport={{ once: true, margin: "-40px" }}
+    >
+      {achievement.link ? (
+        <a
+          href={achievement.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block"
+        >
+          {body}
+        </a>
+      ) : (
+        body
+      )}
+    </motion.div>
+  );
+}
+
+const Achievements = () => {
+  return (
+    <section
+      id="achievements"
+      className="section-divider bg-white px-5 py-16 sm:px-8 sm:py-24 lg:px-10 lg:py-32 xl:px-12"
+    >
+      <div className="max-w-6xl mx-auto w-full">
+        <div className="mb-12 flex flex-col gap-6 sm:mb-16 sm:gap-8 lg:mb-20 xl:flex-row xl:items-end xl:justify-between">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            className="min-w-0"
+          >
+            <h2 className="whitespace-nowrap text-[clamp(2rem,min(8vw,12dvh),5.5rem)] leading-none [text-wrap:normal] lg:text-[clamp(2.25rem,min(7vw,11dvh),5.75rem)]">
+              Achievements
+            </h2>
+          </motion.div>
+          <motion.p
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            className="max-w-md text-left font-light text-black/50 text-sm sm:text-base leading-relaxed xl:text-right xl:shrink-0"
+          >
+            Milestones, education, and highlights from my journey as a developer
+            — from shipped products to ongoing growth.
+          </motion.p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          {ACHIEVEMENTS.map((achievement, i) => (
+            <AchievementCard
+              key={`${achievement.title}-${achievement.date}`}
+              achievement={achievement}
+              index={i}
+            />
+          ))}
         </div>
       </div>
     </section>
@@ -794,6 +952,7 @@ export default function HomeBelowFold() {
   return (
     <>
       <About />
+      <Achievements />
       <Services />
       <Projects />
       <TechStack />

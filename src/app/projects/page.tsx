@@ -1,24 +1,35 @@
 import type { Metadata } from "next";
 import ProjectsPage from "@/views/ProjectsPage";
+import { projectsItemListJsonLd } from "@/lib/project-seo";
 import { getSiteUrl, siteName } from "@/lib/site";
 
 const siteUrl = getSiteUrl();
 const pageUrl = `${siteUrl}/projects`;
 
 export const metadata: Metadata = {
-  title: "Project archive",
-  description: `All portfolio projects and case studies by ${siteName} — MERN builds, live sites, and experiments.`,
+  title: `Projects & Case Studies by ${siteName}`,
+  description: `All portfolio projects by ${siteName} — Assubah (assubah.com), As-Subah Outreach, MK Heating, AJ Cleaning London, EcoScrap, MUGAS, and more live sites & MERN builds.`,
+  keywords: [
+    `${siteName} projects`,
+    `${siteName} portfolio`,
+    "Assubah developer",
+    "As-Subah Academy",
+    "As-Subah Outreach",
+    "MK Heating website",
+    "web developer case studies",
+    "MERN projects Bangladesh",
+  ],
   alternates: { canonical: pageUrl },
   openGraph: {
     url: pageUrl,
-    title: `Project archive · ${siteName}`,
-    description: `Full list of shipped work and case studies by ${siteName}.`,
+    title: `Projects & Case Studies by ${siteName}`,
+    description: `Shipped work by ${siteName}: Assubah, As-Subah Outreach, client sites, and full-stack products.`,
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: `Project archive · ${siteName}`,
-    description: `Full list of shipped work and case studies by ${siteName}.`,
+    title: `Projects & Case Studies by ${siteName}`,
+    description: `Shipped work by ${siteName}: Assubah, As-Subah Outreach, client sites, and full-stack products.`,
   },
   robots: {
     index: true,
@@ -33,5 +44,15 @@ export const metadata: Metadata = {
 
 /** SSG: static grid; 3D tilt cards remain client-only in the view. */
 export default function Page() {
-  return <ProjectsPage />;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(projectsItemListJsonLd()),
+        }}
+      />
+      <ProjectsPage />
+    </>
+  );
 }

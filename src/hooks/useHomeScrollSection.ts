@@ -3,7 +3,14 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const SECTION_IDS = ["home", "about", "services", "projects", "contact"] as const;
+const SECTION_IDS = [
+  "home",
+  "about",
+  "achievements",
+  "services",
+  "projects",
+  "contact",
+] as const;
 
 /**
  * Which homepage anchor section is currently “active” while scrolling.

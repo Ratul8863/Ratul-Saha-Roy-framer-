@@ -8,6 +8,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import { Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useLenis } from "@/lib/lenis";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
@@ -21,6 +22,7 @@ export type AppNavLink = { href: string; label: string; cta?: boolean };
 export const APP_NAV_LINKS: AppNavLink[] = [
   { href: "/#home", label: "Home" },
   { href: "/#about", label: "About" },
+  { href: "/#achievements", label: "Achievements" },
   { href: "/#services", label: "Services" },
   { href: "/#projects", label: "Projects" },
   { href: "/#contact", label: "Contact", cta: true },
@@ -48,6 +50,8 @@ function isNavActive(
       return h === "#home";
     case "About":
       return h === "#about";
+    case "Achievements":
+      return h === "#achievements";
     case "Services":
       return h === "#services";
     case "Projects":
@@ -78,6 +82,7 @@ function useMobileCenterLabel(
   const sectionByHash: Record<string, string> = {
     "#home": "Home",
     "#about": "About",
+    "#achievements": "Achievements",
     "#services": "Services",
     "#projects": "Projects",
     "#contact": "Contact",
@@ -93,6 +98,7 @@ export function Navbar() {
   const pathname = usePathname();
   const hash = useHash();
   const scrollSection = useHomeScrollSection();
+  const lenis = useLenis();
   const navHash =
     pathname === "/" || pathname === "" ? scrollSection : hash;
   const mobileCenter = useMobileCenterLabel(scrollSection);
@@ -102,13 +108,15 @@ export function Navbar() {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setMobileOpen(false);
     };
+    lenis?.stop();
     document.body.style.overflow = "hidden";
     window.addEventListener("keydown", onKey);
     return () => {
+      lenis?.start();
       document.body.style.overflow = "";
       window.removeEventListener("keydown", onKey);
     };
-  }, [mobileOpen]);
+  }, [mobileOpen, lenis]);
 
   return (
     <motion.nav

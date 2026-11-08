@@ -6,7 +6,7 @@ const withAnalyzer = bundleAnalyzer({ enabled: process.env.ANALYZE === "true" })
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   experimental: {
-    optimizePackageImports: ["lucide-react", "motion"],
+    optimizePackageImports: ["lucide-react"],
   },
   compress: true,
   poweredByHeader: false,
@@ -68,6 +68,9 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [];
+  },
+  async rewrites() {
+    return [{ source: "/favicon.ico", destination: "/icon/32" }];
   },
 };
 
