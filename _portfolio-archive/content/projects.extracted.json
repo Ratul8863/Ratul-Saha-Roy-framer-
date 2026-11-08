@@ -1,0 +1,156 @@
+[
+  {
+    "slug": "the-peptide-journey",
+    "title": "The Peptide Journey",
+    "description": "A production-oriented e-commerce platform featuring guest checkout, inventory reservation, authentication, payment integration, and a custom storefront experience.",
+    "link": "https://peptide.up.railway.app/giveaway",
+    "image": "/peptide-journey.png",
+    "category": "Full-Stack E-Commerce",
+    "role": "Solo / full-stack",
+    "year": "2026",
+    "overview0": "A production-ready peptide commerce platform built with Next.js 16, TypeScript, and MongoDB. Includes guest checkout, atomic inventory reservations, provider-agnostic payments with verified webhooks, and an admin suite ΓÇö all without a separate backend server."
+  },
+  {
+    "slug": "mk-heating",
+    "title": "MK Heating",
+    "description": "A conversion-focused heating and plumbing website for an East London business, featuring local SEO pages, service information, booking CTAs, Google reviews, and a responsive branded interface.",
+    "link": "https://www.boilerserviceeastlondon.co.uk/",
+    "image": "/mk-heating.png",
+    "category": "Client Website",
+    "role": "Full-stack frontend / UI implementation",
+    "year": "2026",
+    "overview0": "MK Heating is a premium website redesign for an East London heating and plumbing company. The project replaces a cluttered, spam-contaminated legacy site with a clean, conversion-focused experience ΓÇö built for local SEO, fast mobile booking, and a clear brand presence."
+  },
+  {
+    "slug": "aj-cleaning-london",
+    "title": "AJ Cleaning London",
+    "description": "A 39-page responsive marketing website built from a complete Figma redesign, featuring a shared design system, mega navigation, service and location pages, and an interactive Matter.js-powered CTA.",
+    "link": "https://aj-cleaning-london.vercel.app/",
+    "image": "/aj-cleaning-london.png",
+    "category": "Marketing Website",
+    "role": "Frontend design implementation from Figma",
+    "year": "2026",
+    "overview0": "AJ Cleaning London offers specialist steam cleaning for sofas, carpets, mattresses, rugs, curtains and more across Greater London. The website was redesigned end-to-end to match an approved Figma system: cream and teal brand palette, custom display typography, shared header/footer, service pages, area pages, pricing, landlords, FAQ, contact, and legal pages."
+  },
+  {
+    "slug": "groundroots-initiative",
+    "title": "GroundRoots Initiative",
+    "description": "A full-stack platform for a London youth CIC combining a public website, Stripe-powered shop, and Academy Tracker for managing coaching and community activities.",
+    "link": "https://groundroots.org",
+    "image": "/groundroots.png",
+    "category": "Full-Stack Community Platform",
+    "role": "Full Stack ΓÇö Architecture & Implementation",
+    "year": "2026",
+    "overview0": "GroundRoots Initiative (groundroots.org) is the public website and operations stack for a community CIC in Plaistow, East London. It promotes free youth sport and family programmes, takes donations/enquiries, sells merchandise via Stripe, and includes an internal Academy Tracker for coaches (childrenΓÇÖs session data, offline-first sync, EU photo storage)."
+  },
+  {
+    "slug": "ems-logistics-uk",
+    "title": "EMS Logistics UK",
+    "description": "A multi-page corporate platform for a UK logistics company, covering services, partnerships, careers, and quote capture with a responsive interface and motion-led user experience.",
+    "link": "https://www.emslogistics.co.uk",
+    "image": "/ems-logistics.png",
+    "category": "Corporate Web Platform",
+    "role": "Full Stack ΓÇö Architecture & Implementation",
+    "year": "2026",
+    "overview0": "EMS Logistics UK Limited is a corporate marketing website for a UK logistics, freight, and supply-chain operator based in Dartford (Kent), with Cardiff coverage and UKΓÇôEU transport services. The product showcases services, locations, partnerships, careers, and lead-gen quote/career enquiry flows."
+  },
+  {
+    "slug": "siyar",
+    "title": "SIYAR",
+    "description": "Contributed to selected pages of a React and Node.js scholarly publishing platform featuring multilingual interfaces and admin-backed content management.",
+    "link": "https://siyarinstitute.org",
+    "image": "/siyar.png",
+    "category": "Islamic Knowledge Platform",
+    "role": "Frontend / Feature Developer ΓÇö selected pages",
+    "year": "2026",
+    "overview0": "Siyar Institute (siyarinstitute.org) is a multilingual Islamic knowledge / scholarly publishing platform ΓÇö articles, books, videos, events, and an admin CMS ΓÇö built as a React + Express monorepo."
+  },
+  {
+    "slug": "assubah",
+    "title": "As-Subah Academy",
+    "description": "Full-stack Islamic learning platform ΓÇö architecture and implementation for courses, auth, payments, shop, applications, and admin ΓÇö shipped to production at assubah.com.",
+    "link": "https://www.assubah.com/",
+    "image": "/assubah.png",
+    "category": "Islamic learning platform",
+    "role": "Full Stack ΓÇö Architecture & Implementation",
+    "year": "2024",
+    "overview0": "As-Subah Academy is a production Islamic learning platform that combines LMS, memberships, e-commerce, content publishing, and admin operations in one full-stack product."
+  },
+  {
+    "slug": "as-subah-outreach",
+    "title": "As-Subah Outreach",
+    "description": "Donation and fundraising platform for a UK Islamic charity: architecture through production deploy. Next.js UI, Express/MongoDB APIs, Stripe payments, Gift Aid, peer-to-peer fundraisers, and a full admin ops suite across multi-country appeals.",
+    "link": "https://assubahoutreach.com",
+    "image": "/outreach.png",
+    "category": "Charity donation platform",
+    "role": "Full Stack Developer ΓÇö Architecture & Implementation",
+    "year": "2024",
+    "overview0": "As-Subah Outreach is a production UK Islamic charity platform for online donations, peer-to-peer fundraising, Gift Aid, Zakat-compliant giving, and multi-country humanitarian appeals ΓÇö with a public donor experience and a full admin/ops backend."
+  },
+  {
+    "slug": "mugas-platform",
+    "title": "MUGAS - University Astronomy Society Platform",
+    "description": "Comprehensive MERN stack platform for Mawlana Bhashani Science and Technology University Astronomy Society (MUGAS). Features member management, research project tracking, event coordination, blog publishing, and interactive community tools to support astronomical research and education.",
+    "link": "https://mugas.vercel.app/",
+    "image": "/mugas.png",
+    "category": "Web Application",
+    "role": "Full-stack Developer",
+    "year": "2024",
+    "overview0": "MUGAS needed a centralized platform to manage their growing astronomy community, research initiatives, and educational outreach programs. The platform serves as a hub for members, researchers, and the public to engage with astronomical content and activities."
+  },
+  {
+    "slug": "ecoscrap",
+    "title": "EcoScrap",
+    "description": "Comprehensive MERN stack platform for digital scrap collection and recycling, enabling users to sell or donate e-waste while empowering agents and partners. Focused on role-based access, secure transactions, and a responsive UI to promote sustainable waste management through technology.",
+    "link": "https://ecoscrap-solution.vercel.app",
+    "image": "/ecoscrap.png",
+    "category": "Web Application",
+    "role": "Full-stack development",
+    "year": "2024",
+    "overview0": "EcoScrap addresses the need for a digital marketplace in waste recycling, allowing users to request pickups for scrap items, track orders, and manage walletsΓÇöall with role-based permissions for users, agents, and admins."
+  },
+  {
+    "slug": "jubileean-football-fest",
+    "title": "Jubileean Football Fest",
+    "description": "Official site for the annual alumni football tournament at Government Jubilee High School, Sunamganj. Includes live match control and scores (real-time updates), fixtures, teams, players, leaderboards, gallery, news, and an admin CMSΓÇöbuilt with React, Node, MongoDB, and Socket.IO. Deployed on Vercel.",
+    "link": "https://jubileean-football-fest.vercel.app/",
+    "image": "/jubileanfest.png",
+    "category": "Live site",
+    "role": "Full stack ┬╖ real-time features",
+    "year": "2024",
+    "overview0": "Jubileean Football Fest is a tournament hub: fixtures, squads, live scores, media, and admin tooling in one place. Real-time updates mattered so spectators and organizers always see the same state during match days."
+  },
+  {
+    "slug": "hostel-meals",
+    "title": "Hostel Meals",
+    "description": "A hostel meal and food-review platform with role-based access, premium Stripe subscriptions, and SaaS-style admin dashboards for meals, users, payments, and reviews.",
+    "link": "https://hostel-management-by-ratul.web.app/",
+    "image": "/hostel-meals.png",
+    "category": "Full-Stack Platform",
+    "role": "Full Stack",
+    "year": "2024",
+    "overview0": "A web app that streamlines hostel food management through a secure role-based system, allowing users to explore meals and subscribe to premium plans, while admins efficiently manage meal content, users, and payments."
+  },
+  {
+    "slug": "hobbyhub",
+    "title": "HobbyHub",
+    "description": "A community-driven group management app where people discover, join, or create local hobby groups and connect through events, dashboards, and real-time updates.",
+    "link": "https://hobyhub-by-ratul.web.app/",
+    "image": "/hobbyhub.png",
+    "category": "Full-Stack Community App",
+    "role": "Full Stack",
+    "year": "2024",
+    "overview0": "HobbyHub is a community-driven web app where people can discover, join, or create local hobby-based groups (e.g. Fishing, Photography, Running) and connect with like-minded individuals."
+  },
+  {
+    "slug": "product-recommendation",
+    "title": "Product Recommendation System",
+    "description": "An interactive review platform where users share product queries, exchange recommendations, and engage through a real-time activity feed of likes, shares, and suggestions.",
+    "link": "https://product-recommendation-byratul.web.app/",
+    "image": "/product-recommendation.png",
+    "category": "Full-Stack Review Platform",
+    "role": "Full Stack",
+    "year": "2024",
+    "overview0": "A full-featured platform where users can share, explore, and interact with product-related queries and recommendations, with full control over their content and real-time social engagement."
+  }
+]
