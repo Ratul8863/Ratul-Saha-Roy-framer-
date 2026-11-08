@@ -409,8 +409,8 @@ export function HeroStage() {
       >
         <HoverMaskReveal
           ref={maskRef}
-          frontImage="/assets/ratul-hero.png"
-          backImage="/assets/ratul-hero-mask.png"
+          frontImage="/assets/ratul-hero-v3.png"
+          backImage="/assets/ratul-hero-mask-v3.png"
           alt="Portrait of Ratul Saha Roy"
           className="h-full w-full"
           capturePointer={false}
