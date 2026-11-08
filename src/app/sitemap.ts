@@ -1,44 +1,30 @@
 import type { MetadataRoute } from "next";
-import { PROJECTS } from "@/lib/projects";
-import { getSiteUrl } from "@/lib/site";
+import { getPublicAppUrl } from "@/lib/env";
+import { listProjects } from "@/features/projects/services/project-service";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const base = getSiteUrl();
-  const lastModified = new Date();
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = getPublicAppUrl();
+  const projects = await listProjects();
 
-  const staticPages: MetadataRoute.Sitemap = [
-    {
-      url: base,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 1,
-    },
-    {
-      url: `${base}/projects`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${base}/llms.txt`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.5,
-    },
-    {
-      url: `${base}/llms-full.txt`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.5,
-    },
-  ];
-
-  const projectPages: MetadataRoute.Sitemap = PROJECTS.map((p) => ({
-    url: `${base}/projects/${p.slug}`,
-    lastModified,
-    changeFrequency: "monthly" as const,
-    priority: 0.8,
+  const staticRoutes: MetadataRoute.Sitemap = [
+    "",
+    "/projects",
+    "/about",
+    "/services",
+    "/contact",
+  ].map((path) => ({
+    url: `${baseUrl}${path}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly",
+    priority: path === "" ? 1 : 0.7,
   }));
 
-  return [...staticPages, ...projectPages];
+  const projectRoutes: MetadataRoute.Sitemap = projects.map((project) => ({
+    url: `${baseUrl}/projects/${project.slug}`,
+    lastModified: new Date(project.updatedAt),
+    changeFrequency: "monthly",
+    priority: 0.6,
+  }));
+
+  return [...staticRoutes, ...projectRoutes];
 }

@@ -8,6 +8,13 @@ coverage/
 .env*
 !.env.example
 .vercel
+*.tsbuildinfo
 
-.vercel
+# Nested SOURCE backup (also copied outside this repo)
 Suhan-Portfolio/
+
+# Local tooling / scratch
+.cursor/
+.firecrawl/
+.tmp-*/
+.playwright-mcp/
